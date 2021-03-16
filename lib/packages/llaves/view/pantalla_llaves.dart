@@ -25,6 +25,7 @@ class LlavesState extends State<MenuLlaves>{
               DrawerHeader(child: Text("Canal 12")),
               ListTile(
                 title: Text("Lista de Llaves"),
+                selected: true,
               ),
               ListTile(
                 title: Text("Mis Registros"),
@@ -47,9 +48,10 @@ class LlavesStateAdmin extends State<MenuLlaves>{
               DrawerHeader(child: Text("Canal 12")),
               ListTile(
                 title: Text("Lista de Llaves"),
+                selected: true,
               ),
               ListTile(
-                title: Text("Mis Registros"),
+                title: Text("Lista de Registros"),
               ),
               ListTile(
                 title: Text("Nueva Llave"),

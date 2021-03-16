@@ -90,21 +90,27 @@ class _MyHomePageState extends State<MyHomePage> {
                 new TextButton(
                   child: Text("Almacén"),
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => MenuAlmacen(true),));
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => MenuAlmacen(true),));
                   },
                 ),
                 TextButton(
-                    child:Text("Técnica"),
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MenuTecnica(true),))
-                  ,
-                ),
+                  child:Text("Técnica"),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => MenuTecnica(true),));
+                  },
+                )
               ],
             ),
             Row(
               children: [
                 TextButton(
                   child: Text("Llaves"),
-                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MenuLlaves(true),))
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => MenuLlaves(true),));
+                  },
                 ),
                 TextButton(
                     child:Text("Salir")

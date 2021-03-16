@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+
 class MenuAlmacen extends StatefulWidget{
   bool admin;
   MenuAlmacen(this.admin);
@@ -11,8 +12,10 @@ class MenuAlmacen extends StatefulWidget{
     }
     return AlmacenState();
   }
-
 }
+
+//https://material.io/components/navigation-drawer/flutter#modal-navigation-drawer
+
 
 class AlmacenStateAdmin extends State<MenuAlmacen> {
   Widget build(BuildContext context){
@@ -26,9 +29,10 @@ class AlmacenStateAdmin extends State<MenuAlmacen> {
               DrawerHeader(child: Text("Canal 12")),
               ListTile(
                 title: Text("Nuevo Pedido"),
+                selected: true,
               ),
               ListTile(
-                title: Text("Mis Pedidos"),
+                title: Text("Listar Pedidos"),
               ),
               ListTile(
                 title: Text("Buscar Artículo"),
@@ -63,6 +67,7 @@ class AlmacenState extends State<MenuAlmacen> {
             children: <Widget>[
               ListTile(
                 title: Text("Nuevo Pedido"),
+                selected: true,
               ),
               ListTile(
                 title: Text("Mis Pedidos"),

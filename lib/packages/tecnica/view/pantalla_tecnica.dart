@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 class MenuTecnica extends StatefulWidget{
   bool admin;
   MenuTecnica(this.admin);
-
   @override
   State<StatefulWidget> createState() {
     if (admin){
@@ -27,6 +26,7 @@ class TecnicaState extends State<MenuTecnica>{
               DrawerHeader(child: Text("Canal 12")),
               ListTile(
                 title: Text("Lista de Equipos"),
+                selected: true,
               ),
               ListTile(
                 title: Text("Mis Registros"),
@@ -50,12 +50,10 @@ class TecnicaStateAdmin extends State<MenuTecnica>{
               DrawerHeader(child: Text("Canal 12")),
               ListTile(
                 title: Text("Lista de Equipos"),
+                selected: true,
               ),
               ListTile(
-                title: Text("Mis Registros"),
-              ),
-              ListTile(
-                title: Text("Todos los Resgistros"),
+                title: Text("Lista de Registros"),
               ),
               ListTile(
                 title: Text("Nuevo Equipo"),
