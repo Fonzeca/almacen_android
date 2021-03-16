@@ -1,3 +1,6 @@
+import 'package:almacen_android/packages/almacen/view/pantalla_almacen.dart';
+import 'package:almacen_android/packages/tecnica/view/pantalla_tecnica.dart';
+import 'package:almacen_android/packages/llaves/view/pantalla_llaves.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -9,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Sistema Almacén',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -20,9 +23,9 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.deepOrange,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Canal 12'),
     );
   }
 }
@@ -46,18 +49,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
+      body: SizedBox.expand(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
@@ -93,21 +85,35 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
+            Row(
+              children: [
+                new TextButton(
+                  child: Text("Almacén"),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => MenuAlmacen(true),));
+                  },
+                ),
+                TextButton(
+                    child:Text("Técnica"),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MenuTecnica(true),))
+                  ,
+                ),
+              ],
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            Row(
+              children: [
+                TextButton(
+                  child: Text("Llaves"),
+                  onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => MenuLlaves(true),))
+                ),
+                TextButton(
+                    child:Text("Salir")
+                ),
+              ],
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
