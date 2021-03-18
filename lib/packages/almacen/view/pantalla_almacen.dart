@@ -14,8 +14,6 @@ class MenuAlmacen extends StatefulWidget{
   }
 }
 
-//https://material.io/components/navigation-drawer/flutter#modal-navigation-drawer
-
 
 class AlmacenStateAdmin extends State<MenuAlmacen> {
   Widget build(BuildContext context){

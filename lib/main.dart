@@ -1,3 +1,4 @@
+import 'package:almacen_android/drawer.dart';
 import 'package:almacen_android/packages/almacen/view/pantalla_almacen.dart';
 import 'package:almacen_android/packages/tecnica/view/pantalla_tecnica.dart';
 import 'package:almacen_android/packages/llaves/view/pantalla_llaves.dart';
@@ -91,14 +92,17 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("Almacén"),
                   onPressed: (){
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MenuAlmacen(true),));
+                      builder: (context) => MainDrawer(
+                        true,
+                        0
+                      ),));
                   },
                 ),
                 TextButton(
                   child:Text("Técnica"),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MenuTecnica(true),));
+                      builder: (context) => MainDrawer(true,6),));
                   },
                 )
               ],
@@ -109,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Text("Llaves"),
                   onPressed: () {
                     Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MenuLlaves(true),));
+                      builder: (context) => MainDrawer(true,11),));
                   },
                 ),
                 TextButton(
