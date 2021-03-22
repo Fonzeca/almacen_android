@@ -5,10 +5,7 @@ class Articulo extends Equatable{
   final String nombre;
   final EstadoArticulo estado;
   final Proveedor proveedor;
-  final Subcategoria subcategoria;
-  final double costo;
-  final int stockMinimo;
-  final int stock;
+  final String costo,stockMinimo, stock, subcategoria;
   final String qr;
 
 Articulo (this.nombre, this.estado,

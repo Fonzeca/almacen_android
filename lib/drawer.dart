@@ -1,3 +1,5 @@
+import 'package:almacen_android/packages/almacen/data/api_calls.dart';
+import 'package:almacen_android/packages/almacen/model/articulo.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget{
@@ -5,6 +7,9 @@ class MainDrawer extends StatelessWidget{
   bool admin;
   ValueNotifier<int> valueNotifier;
 
+  Servidor _servidor = Servidor();
+
+  List<Articulo> arts;
   List<String> sections =["Nuevo Pedido", "Listar Pedidos", "Listar Artículos", "Listar Proveedores","Nuevo Artículo","Nuevo Proveedor",
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
     "Escanear Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
@@ -66,7 +71,11 @@ class MainDrawer extends StatelessWidget{
               title: Text(sections[2]),
               leading: Icon(Icons.arrow_right_rounded),
               selected: valueNotifier.value == 2,
-              onTap: () => valueNotifier.value=2,
+              onTap: () {valueNotifier.value=2;
+    _servidor.listarArticulos().then((value) => arts=value);
+
+    }
+
             ),
             ListTile(
               title: Text(sections[3]),

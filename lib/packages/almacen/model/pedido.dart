@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 class Pedido extends Equatable{
 
   final EstadoPedido estadoPedido;
-  final Usuario usuario;
+  final String //TODO: Usuario
+  usuario;
   final String fecha;
   final String observaciones;
   List<Articulo> articulosPedidos;
