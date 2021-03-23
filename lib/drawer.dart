@@ -10,6 +10,10 @@ class MainDrawer extends StatelessWidget{
   Servidor _servidor = Servidor();
 
   List<Articulo> arts;
+
+  /**
+   * En la lista de 'sections' se agregaron todas las funcionalidades posibles aunque solo se utilizan algunas, esto es para preveer que se incluyan mas funcionalidades en un futuro.
+   */
   List<String> sections =["Nuevo Pedido", "Listar Pedidos", "Listar Artículos", "Listar Proveedores","Nuevo Artículo","Nuevo Proveedor",
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
     "Escanear Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];

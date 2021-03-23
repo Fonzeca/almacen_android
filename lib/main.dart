@@ -61,16 +61,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget _buildLoginBtn() {
     return Container(
+
       padding: EdgeInsets.symmetric(vertical: 15.0),
       width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
+      child: ElevatedButton(
         onPressed: () => signIn(context, emailText, passwordText),
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
+        style: ElevatedButton.styleFrom(padding: EdgeInsets.all(15.0),primary:Colors.white,elevation: 5,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
         child: Text(
           'Iniciar Sesión',
           style: TextStyle(
@@ -178,6 +174,11 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () => FocusScope.of(context).unfocus(),
             child: Container(
               height: double.infinity,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: ExactAssetImage('assets/images/backgroundImage.jpg')
+                )
+              ),
               child: SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.only(
@@ -193,7 +194,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         'CANAL 12',
                         style: TextStyle(
                             fontFamily: 'NickMayus',
-                            fontSize: 80
+                            fontSize: 60
                         ),
                       ),
                       Text(
@@ -212,7 +213,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             child: Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                  color: Colors.white,
+                                  color: Color.fromRGBO(255, 255, 255, 0.7),
                                   borderRadius: BorderRadius.all(Radius.circular(60)),
                                   boxShadow: [
                                     BoxShadow(
@@ -230,6 +231,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                     _buildEmailTF(),
                                     SizedBox(height: 10.0,),
                                     _buildPasswordTF(),
+                                    SizedBox(height: 20.0,),
                                     _buildLoginBtn(),
                                   ],
                                 ),
@@ -243,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 color: Colors.white,
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                    image: ExactAssetImage('logos/Canal12.png')
+                                    image: ExactAssetImage('assets/logos/canal12.png')
                                 ),
                                 boxShadow: [
                                   BoxShadow(
