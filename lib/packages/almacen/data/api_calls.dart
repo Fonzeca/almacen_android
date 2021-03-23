@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
-import 'package:almacen_android/packages/manager/httpClient.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,16 +15,14 @@ class Servidor {
    */
   Future<List<Pedido>> listarPedidos() async{
     String endpoint = "/ListaPedidos";
-    try{
-      var response = await client.get(ipServer+endpoint);
-      print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
-      var jsonData = json.decode(response.body);
-      List<Pedido> pedidos =[];
-      for(var n in jsonData){
-        pedidos.add(Pedido.fromJson(n));
-      }
-      return pedidos;
+    var response = await client.get(ipServer+endpoint);
+    print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
+    var jsonData = json.decode(response.body);
+    List<Pedido> pedidos =[];
+    for(var n in jsonData){
+      pedidos.add(Pedido.fromJson(n));
     }
+    return pedidos;
   }
   //TODO: _
   Future<void> crearPedido(Pedido pedido) async{
@@ -41,8 +37,8 @@ class Servidor {
     String endpoint = "/ListaArticulos";
     try{
 
-    var response = await client.post(ipServer+endpoint);
-    print("listarArticulos/ Status: " +response.statusCode.toString()+ "Body: " + response.body);
+      var response = await client.post(ipServer+endpoint);
+      print("listarArticulos/ Status: " +response.statusCode.toString()+ "Body: " + response.body);
       var jsonData = json.decode(response.body);
       List<Articulo> articulos= [];
       for(var n in jsonData){
@@ -55,29 +51,35 @@ class Servidor {
       client.close();
     }
   }
-  Future<void> crearArticulo(Articulo articulo) async{
-    String endpoint = "/NuevoArticulo";
-    String params = "?inputProveedor="+articulo.proveedor.provNombre+
-    "&inputNombre="+articulo.nombre+
-    "&inputSMinimo="+articulo.stockMinimo+
-    "&inputStock="+articulo.stock+
-    "&costo="+ articulo.costo+
-    "&categoria="+ articulo.subcategoria;
+  Future<Articulo> getArticuloByNombre(String nombreArticulo) async{
+    String endpoint = '/Articulo';
+    String params = '?nombreArticulo='+nombreArticulo;
 
     var response = await client.post(ipServer+endpoint+params);
-    print("crearArticulo /Status: "+response.statusCode.toString()+" Body: "+response.body);
-    EasyLoading.show();
-    if(response.statusCode==200){
-      EasyLoading.dismiss();
-      EasyLoading.showSuccess("Artículo creado con éxito!");
-
-    }else {
-      EasyLoading.dismiss();
-      EasyLoading.showError("Ocurrió un error al cargar el artículo.");
-    }
-
-
+    print("getArticuloByNombre/ Status: "+response.statusCode.toString()+" Body: "+response.body);
+    var n = json.decode(response.body);
+    Articulo articulo = new Articulo.fromJson(n);
+    return articulo;
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   //TODO: sacarlo para mantener la modularidad, no debería estar dentro de almacen.
   void login(String emailText, String passwordText) async{

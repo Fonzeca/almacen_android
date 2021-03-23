@@ -16,16 +16,22 @@ class MainDrawer extends StatelessWidget{
   String appTitle = 'Bienvenido';
 
   MainDrawer (admin,value){
-   this.admin=admin;
-   valueNotifier = ValueNotifier(value);
+    this.admin=admin;
+    valueNotifier = ValueNotifier(value);
   }
+
+  /**
+   * Se crea el drawer en sí, valueNotifier.value determina cual opción fue seleccionada.
+   * Se utilizan los valores en decenas para permitir agregar funcionalidades en caso de ser necesario.
+   * Almacen abarca de los valores 0-9, Tecnica de 10-19 y Llaves de 20-29.
+   */
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
-    if(valueNotifier.value<6){
+    if(valueNotifier.value<10){
       appTitle="Almacén";
-    }else if(valueNotifier.value<11){
+    }else if(valueNotifier.value<20){
       appTitle="Técnica";
     }else appTitle="Llaves";
 
@@ -45,6 +51,7 @@ class MainDrawer extends StatelessWidget{
                 style: textTheme.headline6,
               ),
             ),
+
             Divider(
               height: 1,
               thickness: 1,
@@ -55,46 +62,31 @@ class MainDrawer extends StatelessWidget{
                 'Almacén',
               ),
             ),
+            //        Nuevo Pedido
             ListTile(
               title: Text(sections[0]),
               leading: Icon(Icons.arrow_right_rounded),
               selected: valueNotifier.value ==0,
               onTap: () => valueNotifier.value=0,
             ),
+            //        Listar Pedido
             ListTile(
               title: Text(sections[1]),
               leading: Icon(Icons.arrow_right_rounded),
               selected: valueNotifier.value == 1,
               onTap: () => valueNotifier.value=1,
             ),
+            //        Listar Artículos
             ListTile(
-              title: Text(sections[2]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value == 2,
-              onTap: () {valueNotifier.value=2;
-    _servidor.listarArticulos().then((value) => arts=value);
+                title: Text(sections[2]),
+                leading: Icon(Icons.arrow_right_rounded),
+                selected: valueNotifier.value == 2,
+                onTap: () {valueNotifier.value=2;
+                _servidor.listarArticulos().then((value) => arts=value);
 
-    }
+                }
+            ),
 
-            ),
-            ListTile(
-              title: Text(sections[3]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==3,
-              onTap: () => valueNotifier.value=3,
-            ),
-            ListTile(
-              title: Text(sections[4]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==4,
-              onTap: () => valueNotifier.value=4,
-            ),
-            ListTile(
-              title: Text(sections[5]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==5,
-              onTap: () => valueNotifier.value=5,
-            ),
             Divider(
               height: 1,
               thickness: 1,
@@ -105,32 +97,21 @@ class MainDrawer extends StatelessWidget{
                 'Técnica',
               ),
             ),
+            //          Listar Equipos
             ListTile(
               title: Text(sections[6]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==6,
-              onTap: () => valueNotifier.value=6,
-            ),   ListTile(
-              title: Text(sections[7]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==7,
-              onTap: () => valueNotifier.value=7,
-            ),   ListTile(
-              title: Text(sections[8]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==8,
-              onTap: () => valueNotifier.value=8,
-            ),   ListTile(
-              title: Text(sections[9]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==9,
-              onTap: () => valueNotifier.value=9,
-            ),   ListTile(
-              title: Text(sections[10]),
               leading: Icon(Icons.arrow_right_rounded),
               selected: valueNotifier.value ==10,
               onTap: () => valueNotifier.value=10,
             ),
+            //          Listar Registros
+            ListTile(
+              title: Text(sections[7]),
+              leading: Icon(Icons.arrow_right_rounded),
+              selected: valueNotifier.value ==11,
+              onTap: () => valueNotifier.value=11,
+            ),
+
             Divider(
               height: 1,
               thickness: 1,
@@ -140,26 +121,20 @@ class MainDrawer extends StatelessWidget{
               child: Text(
                 'Llaves',
               ),
-            ),   ListTile(
+            ),
+            //          Escanear Llave
+            ListTile(
               title: Text(sections[11]),
               leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==11,
-              onTap: () => valueNotifier.value=11,
-            ),   ListTile(
+              selected: valueNotifier.value ==20,
+              onTap: () => valueNotifier.value=20,
+            ),
+            //          Listar Llaves
+            ListTile(
               title: Text(sections[12]),
               leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==12,
-              onTap: () => valueNotifier.value=12,
-            ),   ListTile(
-              title: Text(sections[13]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==13,
-              onTap: () => valueNotifier.value=13,
-            ),   ListTile(
-              title: Text(sections[14]),
-              leading: Icon(Icons.arrow_right_rounded),
-              selected: valueNotifier.value ==14,
-              onTap: () => valueNotifier.value=14,
+              selected: valueNotifier.value ==21,
+              onTap: () => valueNotifier.value=21,
             ),
           ],
         ),

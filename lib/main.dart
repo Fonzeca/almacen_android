@@ -1,8 +1,5 @@
 import 'package:almacen_android/drawer.dart';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
-import 'package:almacen_android/packages/almacen/view/pantalla_almacen.dart';
-import 'package:almacen_android/packages/tecnica/view/pantalla_tecnica.dart';
-import 'package:almacen_android/packages/llaves/view/pantalla_llaves.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -18,15 +15,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sistema Almacén',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.deepOrange,
       ),
       home: MyHomePage(title: 'Canal 12'),
@@ -52,80 +40,10 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
-
-class _MainMenuPageState extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context) {
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text('Bienvenido'),
-      ),
-      body: SizedBox.expand(
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              children: [
-                new TextButton(
-                  child: Text("Almacén"),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MainDrawer(
-                          true,
-                          0
-                      ),));
-                  },
-                ),
-                TextButton(
-                  child:Text("Técnica"),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MainDrawer(true,6),));
-                  },
-                )
-              ],
-            ),
-            Row(
-              children: [
-                TextButton(
-                  child: Text("Llaves"),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MainDrawer(true,11),));
-                  },
-                ),
-                TextButton(
-                    child:Text("Salir")
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-  }
-}
-
+/**
+ * La primera pantalla que nos devuelve la aplicación es un login que pide usuario y contraseña.
+ * En caso de validarse, se llega a la pantalla principal en la que nos deja elegir entre almacen, tecnica y llaves.
+ */
 class _MyHomePageState extends State<MyHomePage> {
 
   final kHintTextStyle = TextStyle(
@@ -141,6 +59,32 @@ class _MyHomePageState extends State<MyHomePage> {
       fontSize: 12
   );
 
+  Widget _buildLoginBtn() {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 15.0),
+      width: double.infinity,
+      child: RaisedButton(
+        elevation: 5.0,
+        onPressed: () => signIn(context, emailText, passwordText),
+        padding: EdgeInsets.all(15.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        color: Colors.white,
+        child: Text(
+          'Iniciar Sesión',
+          style: TextStyle(
+            color: Theme.of(context).accentColor,
+            letterSpacing: 1.5,
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'OpenSans',
+          ),
+        ),
+      ),
+    );
+  }
+
   final kBoxDecorationStyle = BoxDecoration(
     color: Colors.deepOrange,
     borderRadius: BorderRadius.circular(10.0),
@@ -152,10 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ],
   );
-
   String emailText = "";
-  String passwordText = "";
 
+  String passwordText = "";
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,31 +167,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ],
-    );
-  }
-  Widget _buildLoginBtn() {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 15.0),
-      width: double.infinity,
-      child: RaisedButton(
-        elevation: 5.0,
-        onPressed: () => signIn(context, emailText, passwordText),
-        padding: EdgeInsets.all(15.0),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30.0),
-        ),
-        color: Colors.white,
-        child: Text(
-          'Iniciar Sesión',
-          style: TextStyle(
-            color: Theme.of(context).accentColor,
-            letterSpacing: 1.5,
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            fontFamily: 'OpenSans',
-          ),
-        ),
-      ),
     );
   }
   @override
@@ -349,6 +267,9 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  /**
+   * Método que valida tanto usuario como contraseña con la api.
+   */
   signIn(BuildContext context, String emailText, String passwordText) async{
 
     if(emailText!=''&&passwordText!=''){
@@ -358,11 +279,70 @@ class _MyHomePageState extends State<MyHomePage> {
     }else{
       EasyLoading.showError("El usuario y la contraseña no deben ser nulos!");
     }
-
-
-
   }
+}
 
 
+/**
+ * Menú principal de la aplicación, se selecciona el módulo y se pasa un boolean 'admin' y el número de valueNotifier, en un principio se pasan las primeras opciones: 0, 10 y 20.
+ */
+//TODO: pasar el estado de admin correcto dependiendo del usuario.
+class _MainMenuPageState extends StatelessWidget{
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bienvenido'),
+      ),
+      body: SizedBox.expand(
+        child: Column(
+          // Column is also a layout widget. It takes a list of children and
+          // arranges them vertically. By default, it sizes itself to fit its
+          // children horizontally, and tries to be as tall as its parent.
+          //
+          // Column has various properties to control how it sizes itself and
+          // how it positions its children. Here we use mainAxisAlignment to
+          // center the children vertically; the main axis here is the vertical
+          // axis because Columns are vertical (the cross axis would be
+          // horizontal).
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Row(
+              children: [
+                new TextButton(
+                  child: Text("Almacén"),
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => MainDrawer(
+                          true,
+                          0
+                      ),));
+                  },
+                ),
+                TextButton(
+                  child:Text("Técnica"),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => MainDrawer(true,10),));
+                  },
+                )
+              ],
+            ),
+            Row(
+              children: [
+                TextButton(
+                  child: Text("Llaves"),
+                  onPressed: () {
+                    Navigator.push(context, MaterialPageRoute(
+                      builder: (context) => MainDrawer(true,20),));
+                  },
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
 }

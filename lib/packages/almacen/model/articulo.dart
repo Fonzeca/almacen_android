@@ -8,22 +8,22 @@ class Articulo extends Equatable{
   final String costo,stockMinimo, stock, subcategoria;
   final String qr;
 
-Articulo (this.nombre, this.estado,
-    this.proveedor,this.subcategoria,
-    this.costo,this.stock,this.stockMinimo,
-    this.qr);
+  Articulo (this.nombre, this.estado,
+      this.proveedor,this.subcategoria,
+      this.costo,this.stock,this.stockMinimo,
+      this.qr);
 
-Articulo.fromJson(Map<String, dynamic> json):
-  nombre= json['nombre'],
-  estado= json['estadoarticulo'],
-  proveedor= json['proveedor'],
-  subcategoria= json['subcategoria'],
-  costo=json['costo'],
-  stockMinimo=json['stockMinimo'],
-  stock=json['stock'],
-  qr=json['codigoQr'];
+  Articulo.fromJson(Map<String, dynamic> json):
+        nombre= json['nombre'],
+        estado= json['estadoarticulo'],
+        proveedor= json['proveedor'],
+        subcategoria= json['subcategoria'],
+        costo=json['costo'],
+        stockMinimo=json['stockMinimo'],
+        stock=json['stock'],
+        qr=json['codigoQr'];
 
-@override
+  @override
   List<Object> get props => [nombre,subcategoria,costo,estado,stock,stockMinimo,proveedor,qr];
 
 }
@@ -34,8 +34,8 @@ class EstadoArticulo extends Equatable{
 
   EstadoArticulo(this.nombreEstado,this.articulos);
   EstadoArticulo.fromJson(Map<String, dynamic> json):
-      nombreEstado=json['nombreEstado'],
-  articulos=json['articulos'];
+        nombreEstado=json['nombreEstado'],
+        articulos=json['articulos'];
 
   @override
   List<Object> get props => [nombreEstado];
