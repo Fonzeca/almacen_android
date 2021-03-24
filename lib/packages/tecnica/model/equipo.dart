@@ -4,8 +4,7 @@ import 'modelTecnica.dart';
 class Equipo extends Equatable {
   final Lugar lugar;
   final Tipo tipo;
-  final Usuario usuario;
-  final String nombre, serial, modelo, observaciones,
+  final String nombre, serial, modelo, observaciones,usuario,
   accesorios, estado;
   List<Registro> registros;
 
@@ -14,7 +13,7 @@ class Equipo extends Equatable {
   Equipo.fromJson(Map<String, dynamic> json):
   lugar=json['lugar'],
   tipo=json['tipo'],
-  usuario=json['usuario'],
+  usuario=json['usuario.getNombreUsuario'],
   nombre=json['nombre'],
   serial=json['serial'],
   modelo=json['modelo'],

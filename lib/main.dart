@@ -279,7 +279,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Servidor _servidor = Servidor();
       _servidor.login(emailText,passwordText);
     }else{
-      EasyLoading.showError("El usuario y la contraseña no deben ser nulos!");
+      EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
     }
   }
 }

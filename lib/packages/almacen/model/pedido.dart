@@ -8,7 +8,7 @@ class Pedido extends Equatable{
   usuario;
   final String fecha;
   final String observaciones;
-  List<Articulo> articulosPedidos;
+  List<ArticulosPedido> articulosPedidos;
 
   Pedido(this.usuario,this.estadoPedido,this.articulosPedidos,this.observaciones, this.fecha);
   Pedido.fromJson(Map<String, dynamic> json):
@@ -36,4 +36,21 @@ class EstadoPedido extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [nombreEstado];
+}
+
+class ArticulosPedido extends Equatable{
+  final Articulo articulo;
+  final Pedido pedido;
+  final int cantidad;
+
+  ArticulosPedido(this.pedido,this.articulo,this.cantidad);
+
+  ArticulosPedido.fromJson(Map<String, dynamic> json):
+    articulo=json['articulo'],
+    pedido = json['pedido'],
+    cantidad = json['cantidad'];
+
+  @override
+  List<Object> get props => [pedido
+  ,articulo,cantidad];
 }
