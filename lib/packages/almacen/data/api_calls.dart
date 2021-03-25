@@ -45,7 +45,7 @@ class Servidor {
    */
 
   Future<List<Articulo>> listarArticulos() async{
-    String endpoint = "/ListaArticulos";
+    String endpoint = "/ListaArticulosAndroid";
     try{
 
       var response = await client.post(ipServer+endpoint);
@@ -120,7 +120,7 @@ class Servidor {
 
 
 
-  
+
 
   /**
    * Api calls Registros
@@ -142,7 +142,7 @@ class Servidor {
 
     var url = ipServer+endpoint+params;
     EasyLoading.showToast(url);
-    //TODO: que mierda es hmlhttprequest error?
+    //TODO: que mierda es xmlhttprequest error?
 
     var response = await http.post(url);
     print('Response status: ${response.statusCode}');

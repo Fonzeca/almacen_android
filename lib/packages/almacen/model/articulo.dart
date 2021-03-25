@@ -3,9 +3,10 @@ import 'package:equatable/equatable.dart';
 
 class Articulo extends Equatable{
   final String nombre;
-  final EstadoArticulo estado;
+  final String estado,stockMinimo, subcategoria;
+  final int stock;
   final Proveedor proveedor;
-  final String costo,stockMinimo, stock, subcategoria;
+  final String costo;
   final String qr;
 
   Articulo (this.nombre, this.estado,
@@ -15,9 +16,9 @@ class Articulo extends Equatable{
 
   Articulo.fromJson(Map<String, dynamic> json):
         nombre= json['nombre'],
-        estado= json['estadoarticulo'],
+        estado= "",
         proveedor= json['proveedor'],
-        subcategoria= json['subcategoria'],
+        subcategoria= "",
         costo=json['costo'],
         stockMinimo=json['stockMinimo'],
         stock=json['stock'],
