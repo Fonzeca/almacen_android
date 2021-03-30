@@ -15,6 +15,7 @@ class Articulo extends Equatable{
       this.qr);
 
   Articulo.fromJson(Map<String, dynamic> json):
+      //TODO: tanto estado como subcategoria vuelven nulos desde el json xq no se mapean los objetos Subcategoria y EstadoArticulo. Tratar como String?
         nombre= json['nombre'],
         estado= "",
         proveedor= json['proveedor'],
