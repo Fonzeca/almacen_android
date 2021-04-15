@@ -111,6 +111,8 @@ class _MyHomePageState extends State<MyHomePage> {
           child: TextField(
             onChanged: (text) => emailText = text,
             keyboardType: TextInputType.emailAddress,
+            cursorColor: Colors.white,
+            
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
@@ -174,11 +176,6 @@ class _MyHomePageState extends State<MyHomePage> {
             onTap: () => FocusScope.of(context).unfocus(),
             child: Container(
               height: double.infinity,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: ExactAssetImage('assets/images/backgroundImage.jpg')
-                )
-              ),
               child: SingleChildScrollView(
                 child: Container(
                   padding: EdgeInsets.only(
@@ -275,9 +272,12 @@ class _MyHomePageState extends State<MyHomePage> {
   signIn(BuildContext context, String emailText, String passwordText) async{
 
     if(emailText!=''&&passwordText!=''){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> _MainMenuPageState()),);
       Servidor _servidor = Servidor();
-      _servidor.login(emailText,passwordText);
+      bool logeado;
+      logeado= await _servidor.login(emailText,passwordText);
+      if(logeado) {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> _MainMenuPageState()),);
+      }else EasyLoading.showError("Usuario o contraseña incorrectos.");
     }else{
       EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
     }

@@ -1,6 +1,6 @@
-import 'package:almacen_android/packages/almacen/data/api_calls.dart';
-import 'package:almacen_android/packages/almacen/model/articulo.dart';
 import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
+import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
+import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget{
@@ -159,9 +159,13 @@ class MainDrawer extends StatelessWidget{
               return ListaPedidos();
             case 2:
             case 10:
+              return ListaEquipos();
             case 11:
+              return ListaRegistros();
             case 20:
+              return ScanLlaves();
             case 21:
+              return ListaLlaves();
           }
           return Container();
         },

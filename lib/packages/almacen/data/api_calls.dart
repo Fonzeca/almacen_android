@@ -5,7 +5,9 @@ import 'package:http/http.dart' as http;
 
 class Servidor {
 
-  final String ipServer = "http://almacen.eldoce.com.ar/";
+  final String ipServer =
+      // "http://vps-1791261-x.dattaweb.com:4455/Almacen-0.0.1-SNAPSHOT" ;
+      "http://almacen.eldoce.com.ar";
   var client = http.Client();
 
 
@@ -14,7 +16,8 @@ class Servidor {
    */
   Future<List<Pedido>> listarPedidos() async{
     String endpoint = "/ListaPedidos";
-    var response = await client.get(ipServer+endpoint);
+    String params = "?and=yes";
+    var response = await client.get(ipServer+endpoint+params);
     print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
     var jsonData = json.decode(response.body);
     List<Pedido> pedidos =[];
@@ -135,7 +138,7 @@ class Servidor {
 
 
   //TODO: sacarlo para mantener la modularidad, no debería estar dentro de almacen.
-  void login(String emailText, String passwordText) async{
+  Future<bool> login(String emailText, String passwordText) async{
     String endpoint = "/IniciarSesion";
     String params = "?username="+emailText+"&pass="+passwordText;
 
@@ -147,9 +150,12 @@ class Servidor {
     var response = await http.post(url);
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
-
-
     print ('Iniciar Sesión/ Status:' +response.statusCode.toString()+ "Body: " + response.body);
+    if(response.statusCode==200){
+      return true;
+    }else return false;
+
+
 
   }
 
