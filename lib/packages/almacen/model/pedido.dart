@@ -19,7 +19,6 @@ class Pedido extends Equatable{
   articulosPedidos=json['articulosPPedido'];
 
   @override
-  // TODO: implement props
   List<Object> get props => [fecha, estadoPedido,usuario,articulosPedidos,observaciones];
 }
 

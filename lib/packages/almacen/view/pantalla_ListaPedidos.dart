@@ -8,7 +8,6 @@ class ListaPedidos extends StatelessWidget{
     Servidor _servidor = Servidor();
     List<Pedido> _pedidos;
     _servidor.listarPedidos().then((value) => _pedidos=value);
-
     return ListView(
         children: <Widget>[
           Center(

@@ -138,12 +138,6 @@ class MainDrawer extends StatelessWidget{
                   onTap: () => _cerrarDrawer(context, 20),
                 ),
                 //          Listar Llaves
-                ListTile(
-                  title: Text(sections[12]),
-                  leading: Icon(Icons.arrow_right_rounded),
-                  selected: valueNotifier.value ==21,
-                  onTap: () => _cerrarDrawer(context, 21),
-                ),
               ],
             );
           },
@@ -164,8 +158,6 @@ class MainDrawer extends StatelessWidget{
               return ListaRegistros();
             case 20:
               return ScanLlaves();
-            case 21:
-              return ListaLlaves();
           }
           return Container();
         },
