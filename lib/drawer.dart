@@ -82,15 +82,6 @@ class MainDrawer extends StatelessWidget{
                   onTap: () => _cerrarDrawer(context, 1),
                 ),
                 //        Listar Artículos
-                ListTile(
-                    title: Text(sections[2]),
-                    leading: Icon(Icons.arrow_right_rounded),
-                    selected: valueNotifier.value == 2,
-                    onTap: () {
-                      _cerrarDrawer(context,2);
-
-                    }
-                ),
 
                 Divider(
                   height: 1,
@@ -148,7 +139,6 @@ class MainDrawer extends StatelessWidget{
               return NuevoPedido();
             case 1:
               return ListaPedidos();
-            case 2:
             case 10:
               return ListaEquipos();
             case 11:
