@@ -1,6 +1,6 @@
-import 'package:almacen_android/packages/almacen/data/api_calls.dart';
-import 'package:almacen_android/packages/almacen/model/articulo.dart';
 import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
+import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
+import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
 import 'package:flutter/material.dart';
 
 class MainDrawer extends StatelessWidget{
@@ -135,12 +135,6 @@ class MainDrawer extends StatelessWidget{
                   onTap: () => _cerrarDrawer(context, 20),
                 ),
                 //          Listar Llaves
-                ListTile(
-                  title: Text(sections[12]),
-                  leading: Icon(Icons.arrow_right_rounded),
-                  selected: valueNotifier.value ==21,
-                  onTap: () => _cerrarDrawer(context, 21),
-                ),
               ],
             );
           },
@@ -156,9 +150,11 @@ class MainDrawer extends StatelessWidget{
               return ListaPedidos();
             case 2:
             case 10:
+              return ListaEquipos();
             case 11:
+              return ListaRegistros();
             case 20:
-            case 21:
+              return ScanLlaves();
           }
           return Container();
         },
