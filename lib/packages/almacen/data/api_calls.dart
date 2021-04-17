@@ -1,5 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
+import 'package:almacen_android/packages/almacen/model/user.dart';
+import 'package:almacen_android/packages/common/MindiaHttpClient.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
@@ -8,7 +11,7 @@ class Servidor {
   final String ipServer =
       "http://vps-1791261-x.dattaweb.com:4455/Almacen-0.0.1-SNAPSHOT" ;
       // "http://almacen.eldoce.com.ar";
-  var client = http.Client();
+  var client = MindiaHttpClient(http.Client());
 
 
   /**
@@ -17,6 +20,7 @@ class Servidor {
   Future<List<Pedido>> listarPedidos() async{
     String endpoint = "/ListaPedidos";
     String params = "?and=yes";
+
     var response = await client.get(ipServer+endpoint+params);
     print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
     var jsonData = json.decode(response.body);
@@ -129,24 +133,23 @@ class Servidor {
    * Api calls Registros
    */
 
-
-
-
-
-
-
-
-
   //TODO: sacarlo para mantener la modularidad, no debería estar dentro de almacen.
-  Future<bool> login(String emailText, String passwordText) async{
+  Future<bool> login(String emailText, String passwordText) async {
     String endpoint = "/IniciarSesion";
-    String params = "?username="+emailText+"&pass="+passwordText;
+    String params = "?username=" + emailText + "&pass=" + passwordText +
+        "&and=yes";
 
 
-    var url = ipServer+endpoint+params;
+    var url = ipServer + endpoint + params;
     EasyLoading.showToast(url);
 
-    var response = await http.post(url);
+    http.Response response = await http.post(url);
+
+    var n = json.decode(response.body);
+    User user = new User.fromJson(n);
+
+    MindiaHttpClient.JSESSIONID = user.jsessionid;
+
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
     print ('Iniciar Sesión/ Status:' +response.statusCode.toString()+ "Body: " + response.body);
