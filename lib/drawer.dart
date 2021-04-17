@@ -15,9 +15,9 @@ class MainDrawer extends StatelessWidget{
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
     "Escanear Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
 
-  MainDrawer (bool admin,int value){
+  MainDrawer (bool admin){
     this.admin=admin;
-    valueNotifier = ValueNotifier(value);
+    valueNotifier = ValueNotifier(0);
   }
 
   /// Se crea el drawer en sí, valueNotifier.value determina cual opción fue seleccionada.

@@ -276,75 +276,10 @@ class _MyHomePageState extends State<MyHomePage> {
       bool logeado;
       logeado= await _servidor.login(emailText,passwordText);
       if(logeado) {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> _MainMenuPageState()),);
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainDrawer(true)),);
       }else EasyLoading.showError("Usuario o contraseña incorrectos.");
     }else{
       EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
     }
-  }
-}
-
-
-/**
- * Menú principal de la aplicación, se selecciona el módulo y se pasa un boolean 'admin' y el número de valueNotifier, en un principio se pasan las primeras opciones: 0, 10 y 20.
- */
-//TODO: pasar el estado de admin correcto dependiendo del usuario.
-class _MainMenuPageState extends StatelessWidget{
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Bienvenido'),
-      ),
-      body: SizedBox.expand(
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              children: [
-                new TextButton(
-                  child: Text("Almacén"),
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MainDrawer(
-                          true,
-                          0
-                      ),));
-                  },
-                ),
-                TextButton(
-                  child:Text("Técnica"),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MainDrawer(true,10),));
-                  },
-                )
-              ],
-            ),
-            Row(
-              children: [
-                TextButton(
-                  child: Text("Llaves"),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(
-                      builder: (context) => MainDrawer(true,20),));
-                  },
-                ),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
   }
 }

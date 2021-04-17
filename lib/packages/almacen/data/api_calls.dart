@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 class Servidor {
 
   final String ipServer =
-      // "http://vps-1791261-x.dattaweb.com:4455/Almacen-0.0.1-SNAPSHOT" ;
-      "http://almacen.eldoce.com.ar";
+      "http://vps-1791261-x.dattaweb.com:4455/Almacen-0.0.1-SNAPSHOT" ;
+      // "http://almacen.eldoce.com.ar";
   var client = http.Client();
 
 
@@ -145,7 +145,6 @@ class Servidor {
 
     var url = ipServer+endpoint+params;
     EasyLoading.showToast(url);
-    //TODO: que mierda es xmlhttprequest error?
 
     var response = await http.post(url);
     print('Response status: ${response.statusCode}');
