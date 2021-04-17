@@ -9,9 +9,8 @@ class MainDrawer extends StatelessWidget{
   ValueNotifier<int> valueNotifier;
 
 
-  /**
-   * En la lista de 'sections' se agregaron todas las funcionalidades posibles aunque solo se utilizan algunas, esto es para preveer que se incluyan mas funcionalidades en un futuro.
-   */
+  /// En la lista de 'sections' se agregaron todas las funcionalidades posibles aunque solo se utilizan algunas, esto es para preveer que se incluyan mas funcionalidades en un futuro.
+
   List<String> sections =["Nuevo Pedido", "Listar Pedidos", "Listar Artículos", "Listar Proveedores","Nuevo Artículo","Nuevo Proveedor",
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
     "Escanear Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
@@ -21,11 +20,9 @@ class MainDrawer extends StatelessWidget{
     valueNotifier = ValueNotifier(value);
   }
 
-  /**
-   * Se crea el drawer en sí, valueNotifier.value determina cual opción fue seleccionada.
-   * Se utilizan los valores en decenas para permitir agregar funcionalidades en caso de ser necesario.
-   * Almacen abarca de los valores 0-9, Tecnica de 10-19 y Llaves de 20-29.
-   */
+  /// Se crea el drawer en sí, valueNotifier.value determina cual opción fue seleccionada.
+  /// Se utilizan los valores en decenas para permitir agregar funcionalidades en caso de ser necesario.
+  /// Almacen abarca de los valores 0-9, Tecnica de 10-19 y Llaves de 20-29.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
