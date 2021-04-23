@@ -11,6 +11,7 @@ class Pedido extends Equatable{
   List<ArticulosPedido> articulosPedidos;
 
   Pedido(this.usuario,this.estadoPedido,this.articulosPedidos,this.observaciones, this.fecha);
+
   Pedido.fromJson(Map<String, dynamic> json):
       estadoPedido=json['estadopedido'],
   usuario=json['usuario'],

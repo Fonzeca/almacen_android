@@ -4,6 +4,7 @@ import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
 import 'package:almacen_android/packages/almacen/model/user.dart';
 import 'package:almacen_android/packages/common/MindiaHttpClient.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:http/browser_client.dart';
 import 'package:http/http.dart' as http;
 
 class Servidor {
@@ -11,18 +12,18 @@ class Servidor {
   final String ipServer =
       "http://vps-1791261-x.dattaweb.com:4455/Almacen-0.0.1-SNAPSHOT" ;
       // "http://almacen.eldoce.com.ar";
-  var client = MindiaHttpClient(http.Client());
+  var client = MindiaHttpClient(BrowserClient()..withCredentials=false);
 
 
-  /**
-   * Api calls Pedidos.
-   */
+  /// Api calls Pedidos.
   Future<List<Pedido>> listarPedidos() async{
     String endpoint = "/ListaPedidos";
     String params = "?and=yes";
 
     var response = await client.get(ipServer+endpoint+params);
+
     print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
+
     var jsonData = json.decode(response.body);
     List<Pedido> pedidos =[];
     for(var n in jsonData){

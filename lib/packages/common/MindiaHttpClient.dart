@@ -8,7 +8,7 @@ class MindiaHttpClient extends http.BaseClient {
 
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     if(JSESSIONID.isNotEmpty){
-      request.headers['cookie'] = "JSESSIONID=" + JSESSIONID;
+      request.headers['JSESSIONID'] = "" + JSESSIONID;
     }
     print(request.headers);
     return _inner.send(request);
