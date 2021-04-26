@@ -20,8 +20,8 @@ class LlaveEspecifica extends StatelessWidget{
           child: Column(
           mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              // Text(llave.identificacion,textAlign: TextAlign.center,style: TextStyle(fontSize: 24),),
-              Text("inserte aquí la identificacion de la llave"),
+              Text(llave.identificacion.toString(),textAlign: TextAlign.center,style: TextStyle(fontSize: 24),),
+              // Text("inserte aquí la identificacion de la llave"),
               Divider(height: 0.5,color: Colors.orange,),
               Row(
                 children: [
@@ -31,25 +31,23 @@ class LlaveEspecifica extends StatelessWidget{
               ),
               Row(
                 children: [
-                  // Text(llave.copia),
-                  Text("inserte n copia"),
-                  // Text(llave.nombre),
-                  Text("aca name"),
+                  Text(llave.copia),
+                  // Text("inserte n copia"),
+                  Text(llave.nombre),
+                  // Text("aca name"),
                 ],
               ),
               SizedBox(height: 10.0,),
               Row(
                 children: [
                   Text("Ubicación",style: TextStyle(color: Colors.grey),),
-                  Text("Descripción",style: TextStyle(color:Colors.grey),)
                 ],
               ),
               Row(
                 children: [
-                  // Text(llave.ubicacion),
-                  Text("ubiqueishon"),
-                  Text("lorem"),
-                  // Text(llave.descripcion),
+                  Text(llave.ubicacion.nombre),
+                  // Text("ubiqueishon"),
+                  // Text("lorem"),
                 ],
               ),
               Center(
@@ -87,17 +85,19 @@ Widget _buildButtons() {
     width: double.infinity,
     child: Row(
       children: [
-        ElevatedButton(onPressed: ()=> registrarEntrada(),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(primary:Colors.green),
+            onPressed: ()=> registrarEntrada(),
             child: Text("E",style: TextStyle(
               fontSize: 18.0,
               fontWeight: FontWeight.bold,
-              backgroundColor: Colors.green
             ),)),
-        ElevatedButton(onPressed: ()=> registrarSalida(),
+        ElevatedButton(
+            style: ElevatedButton.styleFrom(primary:Colors.red),
+            onPressed: ()=> registrarSalida(),
             child: Text("S", style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18.0,
-              backgroundColor: Colors.red
             ),))
       ],
     ),

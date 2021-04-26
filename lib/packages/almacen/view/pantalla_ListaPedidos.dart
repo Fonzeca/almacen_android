@@ -6,8 +6,10 @@ class ListaPedidos extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     Servidor _servidor = Servidor();
-    List<Pedido> _pedidos;
-    _servidor.listarPedidos().then((value) => _pedidos=value);
+    // List<Pedido> _pedidos;
+    // _servidor.listarPedidos().then((value) => _pedidos=value);
+    List<String> _pedidos= ["Pedido 1", "Pedido 2", "Pedido 3"];
+
     return ListView(
         children: <Widget>[
           Center(
@@ -24,15 +26,29 @@ class ListaPedidos extends StatelessWidget{
   }
 
 }
-
-List<DataRow> _createRow (List<Pedido>pedidos){
-  for(Pedido p in pedidos){
-
-    DataRow(cells: [
-      DataCell(Text(p.fecha)),
-      DataCell(Text(p.usuario)),
-      DataCell(Text(p.estadoPedido.nombreEstado)),
+/**
+ * TODO: volver a pedir lista de Pedido
+ */
+List<DataRow> _createRow (List<String>pedidos){
+  List<DataRow> rows= List<DataRow>();
+  // for(Pedido p in pedidos){
+  //
+  //   DataRow(cells: [
+  //     DataCell(Text(p.fecha)),
+  //     DataCell(Text(p.usuario)),
+  //     DataCell(Text(p.estadoPedido.nombreEstado)),
+  //     DataCell(Text('botones xd'))
+  //   ]);
+  for(String a in pedidos){
+    rows.add(
+    DataRow(cells:[
+      DataCell(Text('26/04/2021')),
+      DataCell(Text('desa')),
+      DataCell(Text(a)),
       DataCell(Text('botones xd'))
-    ]);
+    ])
+
+    );
   }
+  return rows;
 }
