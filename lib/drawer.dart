@@ -1,7 +1,9 @@
 import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
+import 'package:almacen_android/packages/llaves/data/api_calls.dart';
 import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
 import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MainDrawer extends StatelessWidget{
 
@@ -144,8 +146,11 @@ class MainDrawer extends StatelessWidget{
             case 11:
               return ListaRegistros();
             case 20:
-              // return ScanLlaves();
-              return LlaveEspecifica();
+            // return ScanLlaves();
+              String idLlaveDetectado="1";
+              return LlaveEspecifica(id: idLlaveDetectado,);
+
+
           }
           return Container();
         },

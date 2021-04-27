@@ -92,9 +92,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ],
   );
-  String emailText = "";
+  String emailText = "root";
 
-  String passwordText = "";
+  String passwordText = "almacen.C12";
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
