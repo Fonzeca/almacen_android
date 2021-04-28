@@ -1,7 +1,9 @@
 import 'package:almacen_android/drawer.dart';
+import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() {
@@ -12,13 +14,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Sistema Almacén',
-      theme: ThemeData(
-        primarySwatch: Colors.deepOrange,
+    return MultiBlocProvider(
+      child: MaterialApp(
+        title: 'Sistema Almacén',
+        theme: ThemeData(
+          primarySwatch: Colors.deepOrange,
+        ),
+        home: MyHomePage(title: 'Canal 12'),
+        builder: EasyLoading.init(),
       ),
-      home: MyHomePage(title: 'Canal 12'),
-      builder: EasyLoading.init(),
+      providers: [
+        BlocProvider(create: (context) => AlmacenBloc(),)
+      ],
     );
   }
 }

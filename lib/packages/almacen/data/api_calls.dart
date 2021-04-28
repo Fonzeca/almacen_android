@@ -20,11 +20,11 @@ class Servidor {
     String endpoint = "/ListaPedidos";
     String params = "?and=yes";
 
-    var response = await client.get(ipServer+endpoint+params);
+    // var response = await client.get(ipServer+endpoint+params);
 
-    print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
+    // print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
 
-    var jsonData = json.decode(response.body);
+    var jsonData = json.decode("[{\"estadopedido\": {\"nombreEstado\": \"test\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones24\"},{\"estadopedido\": {\"nombreEstado\": \"test\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones25\"}]");
     List<Pedido> pedidos =[];
     for(var n in jsonData){
       pedidos.add(Pedido.fromJson(n));
@@ -35,10 +35,10 @@ class Servidor {
   Future<void> crearPedido(Pedido pedido) async{
     String endpoint = "/AgregarPedido";
     String cantidad,articulos;
-    for(ArticulosPedido a in pedido.articulosPedidos){
-      cantidad += a.cantidad.toString()+" - ";
-      articulos += a.articulo.nombre+" - ";
-    }
+    // for(ArticulosPedido a in pedido.articulosPedidos){
+    //   cantidad += a.cantidad.toString()+" - ";
+    //   articulos += a.articulo.nombre+" - ";
+    // }
     String params = "?UserId="+pedido.usuario+"&textAreaObservaciones="+pedido.observaciones+"&inputArt="+articulos+"&inputCantidad"+cantidad;
     var response = await client.get(ipServer+endpoint+params);
     print("crearPedido/ Status: "+response.statusCode.toString()+" Body: "+response.body);
@@ -158,8 +158,20 @@ class Servidor {
       return true;
     }else return false;
 
+  }
+  Future<List<String>> listarUsuarios() async{
+    String endpoint = "/ListarUsuarios";
+    String params = "?and=yes";
+    var url = ipServer + endpoint + params;
 
+    List<String> usuarios;
+    http.Response response = await http.get(url);
+    print('Listar Usuarios/ Status: '+response.statusCode.toString()+ 'Body: '+ response.body);
 
+    for(var c in json.decode(response.body)){
+      usuarios.add(c);
+    }
+    return usuarios;
   }
 
 

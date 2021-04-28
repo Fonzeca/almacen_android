@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:almacen_android/packages/almacen/data/api_calls.dart';
+import 'package:almacen_android/packages/almacen/model/pedido.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -7,12 +9,19 @@ part 'bloc_almacen_event.dart';
 part 'bloc_almacen_state.dart';
 
 class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
-  AlmacenBloc() : super(AlmacenInitial());
+  AlmacenBloc() : super(AlmacenState());
 
   @override
   Stream<AlmacenState> mapEventToState(
     AlmacenEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if(event is AlmacenEventBuscarPedidos){
+      yield state.copyWith(carga: true);
+
+      Servidor _servidor = Servidor();
+
+      List<Pedido> pedidos =await _servidor.listarPedidos();
+      yield state.copyWith(pedidos: pedidos,carga: false);
+    }
   }
 }

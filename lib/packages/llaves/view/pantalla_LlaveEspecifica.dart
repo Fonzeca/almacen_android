@@ -42,50 +42,53 @@ class LlaveEspecifica extends StatelessWidget{
             padding: EdgeInsets.all(25.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
+
               children: <Widget>[
                 Text(llave.identificacion,textAlign: TextAlign.center,style: TextStyle(fontSize: 24),),
                 // Text("inserte aquí la identificacion de la llave"),
+                SizedBox(height: 10.0,),
                 Divider(height: 0.5,color: Colors.orange,),
-                Row(
-                  children: [
-                    Text("Número de copia",style: TextStyle(color: Colors.grey),),
-                    Text("Nombre",style: TextStyle(color: Colors.grey),),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(llave.copia),
-                    // Text("inserte n copia"),
-                    Text(llave.nombre),
-                    // Text("aca name"),
-                  ],
-                ),
                 SizedBox(height: 10.0,),
                 Row(
                   children: [
-                    Text("Ubicación",style: TextStyle(color: Colors.grey),),
+                    Expanded(child:
+                    Text("Número de copia",style: TextStyle(color: Colors.grey),),
+                    ),
+                    Expanded(child:
+                    Text("Nombre",style: TextStyle(color: Colors.grey),),
+                    )
                   ],
                 ),
                 Row(
                   children: [
-                    Text(llave.ubicacion.nombre),
+                    Expanded(child:
+                    Text(llave.copia),
+                    ),
+                    Expanded(
+                      child:
+                      Text(llave.nombre),
+                    )
                   ],
+                ),
+                SizedBox(height: 20.0,),
+                Row(
+                  children: [
+                    Expanded(child: Text("Ubicación",style: TextStyle(color: Colors.grey),)),
+                    Expanded(child: Text("Observaciones", style: TextStyle(color: Colors.grey),))
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(child: Text(llave.ubicacion.nombre)),
+                    Expanded(child: Text(llave.observaciones),)
+                  ],
+                ),
+                SizedBox(height: 20.0,),
+                Center(
+                  child: Text("Estado",style: TextStyle(color:Colors.grey, fontSize: 16),),
                 ),
                 Center(
-                  child: Text("Estado",style: TextStyle(color:Colors.grey),),
-                ),
-                Center(
-                  child: Text(llave.estado,style: TextStyle(fontSize: 14),),
-                ),
-                Row(
-                  children: [
-                    Text("Observaciones", style: TextStyle(color: Colors.grey),),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Text(llave.observaciones),
-                  ],
+                  child: Text(llave.estado,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
                 ),
                 SizedBox(height: 20.0,),
                 _buildButtons(),
@@ -104,29 +107,37 @@ Widget _buildButtons() {
 
     padding: EdgeInsets.symmetric(vertical: 15.0),
     width: double.infinity,
-    child: Row(
-      children: [
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(primary:Colors.green),
-            onPressed: ()=> registrarEntrada(),
-            child: Text("E",style: TextStyle(
-              fontSize: 18.0,
-              fontWeight: FontWeight.bold,
-            ),)),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(primary:Colors.red),
-            onPressed: ()=> registrarSalida(),
-            child: Text("S", style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18.0,
-            ),))
-      ],
-    ),
+      child: Row(
+        children: [
+          Expanded(
+            child: ElevatedButton(
+                style: 
+                ElevatedButton.styleFrom(primary:Colors.green),
+                onPressed: ()=> registrarEntrada(),
+                child: Text("E",style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),)),
+          ),
+          SizedBox(width:20.0),
+          Expanded(
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(primary:Colors.red),
+                onPressed: ()=> registrarSalida(),
+                child: Text("S", style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                ),)),
+          )
+        ],
+      ),
   );
 }
 
 registrarSalida() {
+  EasyLoading.showToast("Salida de la llave.");
 }
 
 registrarEntrada() {
+  EasyLoading.showToast("Entrada de la llave.");
 }
