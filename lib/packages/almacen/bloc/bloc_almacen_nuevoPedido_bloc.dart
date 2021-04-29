@@ -18,7 +18,9 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent,NuevoPedidoState>{
       NuevoPedidoEvent event,
       ) async*{
     if (event is NuevoPedidoEventClear){
-      state.articulosAPedir.clear();
+      if(state.articulosAPedir==null){
+        state.articulosAPedir=new List();
+      }else state.articulosAPedir.clear();
       state.observaciones="";
     }
     if (event is NuevoPedidoEventAddArt){
