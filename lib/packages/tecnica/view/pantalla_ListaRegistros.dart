@@ -24,7 +24,7 @@ class ListaRegistros extends StatelessWidget{
     for(String a in registros){
       rows.add(DataRow(cells: [
         DataCell(Text('26/04/21')),
-        DataCell(Text('entrance or exit ue')),
+        DataCell(Text('entrada o salida')),
         DataCell(Text('user')),
         DataCell(Text('equipo 1'))]));
     }

@@ -33,7 +33,7 @@ class ListaEquipos extends StatelessWidget{
         DataCell(Text('place')),
         DataCell(Text('model')),
         DataCell(Text('state')),
-        DataCell(Text('botones xd'))]));
+        DataCell(Text('botones '))]));
     }
     return rows;
   }
