@@ -45,7 +45,6 @@ class LlaveEspecifica extends StatelessWidget{
 
               children: <Widget>[
                 Text(llave.identificacion,textAlign: TextAlign.center,style: TextStyle(fontSize: 24),),
-                // Text("inserte aquí la identificacion de la llave"),
                 SizedBox(height: 10.0,),
                 Divider(height: 0.5,color: Colors.orange,),
                 SizedBox(height: 10.0,),
