@@ -10,40 +10,19 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class NuevoPedido extends StatelessWidget{
   final bool admn;
-  List<Articulo> articulos;
-  List<Artxcant> articulosEnlistados;
   //TODO: esto lo puse como string pero capaz cambia a Usuario, maybe perhaps
-  List<String> usuarios;
-  Servidor _servidor = Servidor();
-
-  String dropdownValue;
 
   NuevoPedido({Key key, @required this.admn}):super(key: key);
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventClear());
+    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize());
     return BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
         builder: (context,state){
-
-          if(admn && usuarios == null){
+          if (state.listaArticulos == null){
             EasyLoading.show();
-            _servidor.listarUsuarios().then((value){
-              usuarios=value;
-              dropdownValue=usuarios.first;
-              BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSetUser(dropdownValue));
-
-            });
-          }
-
-          if (articulos == null){
-            if(!EasyLoading.isShow)EasyLoading.show();
-            _servidor.listarArticulos().then((value) {
-              articulos = value;
-
-              EasyLoading.dismiss();
-            });
             return Container();
           }else{
+            EasyLoading.dismiss();
             return Container(
               height: double.infinity,
               child: SingleChildScrollView(
@@ -57,7 +36,7 @@ class NuevoPedido extends StatelessWidget{
                       SizedBox(height: 10.0,),
                       Divider(height: 0.5,color: Colors.orange,),
                       SizedBox(height: 10.0,),
-                      _crearVista(context, admn),
+                      _crearVista(context, admn, state),
                     ],
                   ),
                 ),
@@ -68,18 +47,17 @@ class NuevoPedido extends StatelessWidget{
     );
   }
 
-  Widget _crearVista (BuildContext context, bool adm){
+  Widget _crearVista (BuildContext context, bool adm, NuevoPedidoState state){
     if(adm){
       return Column(
         children: [
           Text("Usuario",style: TextStyle(color: Colors.grey)),
           DropdownButton<String>(
-            value: dropdownValue,
-            items: usuarios.map<DropdownMenuItem<String>>((String value){
+            value: state.nombreUsuario,
+            items: state.listaUsuarios.map<DropdownMenuItem<String>>((String value){
               return DropdownMenuItem<String>(value : value,child: Text(value),);
             }).toList(),
             onChanged: (String newValue){
-              dropdownValue= newValue;
               BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSetUser(newValue));
             },
             style: TextStyle(fontSize: 16),
@@ -113,7 +91,6 @@ class NuevoPedido extends StatelessWidget{
 
   void _agregarArt (BuildContext context, String nombre, String cant){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombre, cant));
-
   }
 }
 

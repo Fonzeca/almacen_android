@@ -4,15 +4,20 @@ class NuevoPedidoState extends Equatable{
   List<Artxcant> articulosAPedir;
   String nombreUsuario, observaciones;
 
-  NuevoPedidoState([String nombreUsuario, List<Artxcant> articulosAPedir, String observaciones]);
+  List<Articulo> listaArticulos;
+  List<String> listaUsuarios;
+
+  NuevoPedidoState([String nombreUsuario, List<Artxcant> articulosAPedir, String observaciones, List<String> listaUsuarios, List<Articulo> listaArticulos]);
 
   @override
-  List<Object> get props => [articulosAPedir, nombreUsuario, observaciones];
+  List<Object> get props => [articulosAPedir, nombreUsuario, observaciones, listaArticulos, listaUsuarios];
 
-  NuevoPedidoState copyWith(
-  {String nombreUsuario, List<Artxcant> articulosAPedir, String observaciones}){
-    return NuevoPedidoState(nombreUsuario?? this.nombreUsuario,
+  NuevoPedidoState copyWith({String nombreUsuario, List<Artxcant> articulosAPedir, String observaciones, List<String> listaUsuarios, List<Articulo> listaArticulos}){
+    return NuevoPedidoState(
+        nombreUsuario?? this.nombreUsuario,
         articulosAPedir??this.articulosAPedir,
-        observaciones?? this.observaciones);
+        observaciones?? this.observaciones,
+        listaUsuarios ?? this.listaUsuarios,
+        listaArticulos ?? this.listaArticulos);
   }
 }
