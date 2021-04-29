@@ -8,6 +8,10 @@ abstract class NuevoPedidoEvent extends Equatable{
 
 class NuevoPedidoEventClear extends NuevoPedidoEvent{
 }
+
+class NuevoPedidoInitialize extends NuevoPedidoEvent{
+
+}
 class NuevoPedidoEventGetArts extends NuevoPedidoEvent{
 
 }

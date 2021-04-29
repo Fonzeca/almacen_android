@@ -46,11 +46,18 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent,NuevoPedidoState>{
     if (event is NuevoPedidoEventSavePedido){
 //TODO: Terminar cuando el back sepa que va a recibir un array xD
       await _servidor.crearPedido(state.observaciones, state.nombreUsuario, state.articulosAPedir);
-
     }
     if (event is NuevoPedidoEventSetUser){
-      NuevoPedidoEventSetUser eventSetUser = event as NuevoPedidoEventSetUser;
+      NuevoPedidoEventSetUser eventSetUser = event;
+
       yield state.copyWith(nombreUsuario: eventSetUser.username);
+    }
+    if(event is NuevoPedidoInitialize){
+
+      List<String> lstusuarios = await _servidor.listarUsuarios();
+      List<Articulo> articulos =  await _servidor.listarArticulos();
+      //TODO: que pasa si la lista esta vacia o null?
+      yield state.copyWith(listaUsuarios: lstusuarios, nombreUsuario: lstusuarios[0], listaArticulos: articulos);
     }
   }
 }
