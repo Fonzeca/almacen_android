@@ -138,7 +138,8 @@ class MainDrawer extends StatelessWidget{
         builder: (context, value, child) {
           switch(value){
             case 0:
-              return NuevoPedido();
+              //TODO: pasar valor real de admn.
+              return NuevoPedido(admn: true,);
             case 1:
               return ListaPedidos();
             case 10:

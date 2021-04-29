@@ -119,20 +119,6 @@ class Servidor {
     return categorias;
   }
 
-  /**
-   * Api calls Equipos
-   */
-
-
-
-
-
-
-
-
-  /**
-   * Api calls Registros
-   */
 
   //TODO: sacarlo para mantener la modularidad, no debería estar dentro de almacen.
   Future<bool> login(String emailText, String passwordText) async {
@@ -160,15 +146,15 @@ class Servidor {
 
   }
   Future<List<String>> listarUsuarios() async{
-    String endpoint = "/ListarUsuarios";
+    String endpoint = "/ListaUsuarios";
     String params = "?and=yes";
     var url = ipServer + endpoint + params;
 
-    List<String> usuarios;
+    List<String> usuarios=List();
     http.Response response = await http.get(url);
     print('Listar Usuarios/ Status: '+response.statusCode.toString()+ 'Body: '+ response.body);
 
-    for(var c in json.decode(response.body)){
+    for(String c in json.decode(response.body)){
       usuarios.add(c);
     }
     return usuarios;

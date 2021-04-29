@@ -20,8 +20,13 @@ NuevoPedido({Key key, @required this.admn}):super(key: key);
   }
 
   Widget initializer() {
-    if (articulos == null){
+    if(admn && usuarios == null){
       EasyLoading.show();
+      _servidor.listarUsuarios().then((value)=>usuarios=value);
+    }
+
+    if (articulos == null){
+      if(!EasyLoading.isShow)EasyLoading.show();
       _servidor.listarArticulos().then((value) {
         articulos = value;
         valueNotifier.value=1;
@@ -35,6 +40,10 @@ NuevoPedido({Key key, @required this.admn}):super(key: key);
          child: Container(
            padding: EdgeInsets.all(25.0),
            child: Column(
+             children: [
+               Text("Nuevo Pedido"),
+               _crearVista(admn),
+             ],
 
            ),
          ),
@@ -43,4 +52,23 @@ NuevoPedido({Key key, @required this.admn}):super(key: key);
     }
   }
   
+}
+
+Widget _crearVista (bool adm){
+  if(adm){
+    return Container(
+        child: ListView(
+          scrollDirection: Axis.vertical,
+          shrinkWrap: true,
+          children: [
+            Text("user 1"),
+            Text("user 2"),
+          ],
+        ),
+    );
+  }else{
+    return Container(
+      child: Text("no sos admin"),
+    );
+  }
 }
