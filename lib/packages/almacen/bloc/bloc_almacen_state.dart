@@ -13,3 +13,4 @@ class AlmacenState extends Equatable{
     return AlmacenState(carga ?? this.carga, pedidos ?? this.pedidos);
   }
 }
+

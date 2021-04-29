@@ -1,5 +1,6 @@
 import 'package:almacen_android/drawer.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
+import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
         builder: EasyLoading.init(),
       ),
       providers: [
-        BlocProvider(create: (context) => AlmacenBloc(),)
+        BlocProvider(create: (context) => AlmacenBloc(),),
+        BlocProvider(create: (context) => NuevoPedidoBloc(),)
       ],
     );
   }

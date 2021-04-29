@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
+import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
 import 'package:almacen_android/packages/almacen/model/user.dart';
 import 'package:almacen_android/packages/common/MindiaHttpClient.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -32,14 +33,14 @@ class Servidor {
     return pedidos;
   }
   //TODO: _
-  Future<void> crearPedido(Pedido pedido) async{
+  Future<void> crearPedido(String observaciones, String user, List<Artxcant> articulos) async{
     String endpoint = "/AgregarPedido";
     String cantidad,articulos;
     // for(ArticulosPedido a in pedido.articulosPedidos){
     //   cantidad += a.cantidad.toString()+" - ";
     //   articulos += a.articulo.nombre+" - ";
     // }
-    String params = "?UserId="+pedido.usuario+"&textAreaObservaciones="+pedido.observaciones+"&inputArt="+articulos+"&inputCantidad"+cantidad;
+    String params = "?User="+user+"&textAreaObservaciones="+observaciones+"&inputArtxCant="+articulos;
     var response = await client.get(ipServer+endpoint+params);
     print("crearPedido/ Status: "+response.statusCode.toString()+" Body: "+response.body);
     if(response.statusCode==200){
