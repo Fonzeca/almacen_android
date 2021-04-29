@@ -21,20 +21,27 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent,NuevoPedidoState>{
       if(state.articulosAPedir==null){
         state.articulosAPedir=new List();
       }else state.articulosAPedir.clear();
-      state.observaciones="";
+
+
+      yield state.copyWith(observaciones: "");
     }
     if (event is NuevoPedidoEventAddArt){
       NuevoPedidoEventAddArt eventAddArt = event as NuevoPedidoEventAddArt;
       Artxcant artxcant = new Artxcant(eventAddArt.nombreArt,eventAddArt.cantidad);
-      state.articulosAPedir.add(artxcant);
+      List<Artxcant> nuevaLista = state.articulosAPedir;
+      nuevaLista.add(artxcant);
+      yield state.copyWith(articulosAPedir: nuevaLista);
     }
     if(event is NuevoPedidoEventDeleteArt){
       NuevoPedidoEventDeleteArt eventDeleteArt= event as NuevoPedidoEventDeleteArt;
-      for(int i = 0; i<state.articulosAPedir.length;i++){
-        if(state.articulosAPedir[i].nombreArt == eventDeleteArt.nombreArt){
-          state.articulosAPedir.removeAt(i);
+      List<Artxcant> artsApedir= state.articulosAPedir;
+      for(int i = 0; i<artsApedir.length;i++){
+        if(artsApedir[i].nombreArt == eventDeleteArt.nombreArt){
+
+          artsApedir.removeAt(i);
         }
       }
+      yield state.copyWith(articulosAPedir: artsApedir);
     }
     if (event is NuevoPedidoEventSavePedido){
 //TODO: Terminar cuando el back sepa que va a recibir un array xD
@@ -43,7 +50,7 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent,NuevoPedidoState>{
     }
     if (event is NuevoPedidoEventSetUser){
       NuevoPedidoEventSetUser eventSetUser = event as NuevoPedidoEventSetUser;
-      state.nombreUsuario= eventSetUser.username;
+      yield state.copyWith(nombreUsuario: eventSetUser.username);
     }
   }
 }
