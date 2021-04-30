@@ -9,24 +9,23 @@ part 'bloc_almacen_nuevoPedido_event.dart';
 part 'bloc_almacen_nuevoPedido_state.dart';
 
 
-class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent,NuevoPedidoState>{
+class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
   NuevoPedidoBloc() : super (NuevoPedidoState());
   Servidor _servidor = Servidor();
 
   @override
   Stream<NuevoPedidoState> mapEventToState(NuevoPedidoEvent event,) async*{
     if (event is NuevoPedidoEventClear){
-      if(state.articulosAPedir == null){
-        state.articulosAPedir = [];
-      }else {
-        state.articulosAPedir.clear();
-      }
       yield state.copyWith(observaciones: "");
     }else if (event is NuevoPedidoEventAddArt){
       NuevoPedidoEventAddArt eventAddArt = event;
 
       Artxcant artxcant = new Artxcant(eventAddArt.nombreArt, eventAddArt.cantidad);
       List<Artxcant> nuevaLista = state.articulosAPedir;
+      if(nuevaLista == null){
+        nuevaLista = [];
+      }
+
       nuevaLista.add(artxcant);
 
       yield state.copyWith(articulosAPedir: nuevaLista);

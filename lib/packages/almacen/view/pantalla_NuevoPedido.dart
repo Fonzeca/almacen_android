@@ -10,7 +10,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class NuevoPedido extends StatelessWidget{
   final bool admn;
-  //TODO: esto lo puse como string pero capaz cambia a Usuario, maybe perhaps
+
+  String nombreArticulo;
+  String cantidad;
 
   NuevoPedido({Key key, @required this.admn}):super(key: key);
   @override
@@ -18,10 +20,7 @@ class NuevoPedido extends StatelessWidget{
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize());
     return BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
         builder: (context,state){
-          if (state.listaArticulos == null){
-            EasyLoading.show();
-            return Container();
-          }else{
+          if(state.listaArticulos != null && state.listaUsuarios != null){
             EasyLoading.dismiss();
             return Container(
               height: double.infinity,
@@ -42,6 +41,9 @@ class NuevoPedido extends StatelessWidget{
                 ),
               ),
             );
+          }else{
+            EasyLoading.show();
+            return Container();
           }
         }
     );
@@ -63,24 +65,9 @@ class NuevoPedido extends StatelessWidget{
             style: TextStyle(fontSize: 16),
           ),
           SizedBox(height: 10.0,),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Expanded(
-                child: TextField(
-                  decoration: const InputDecoration(hintText: "Artículo"),
-                )
-              ),
-              Expanded(
-                child: TextField(
-                  decoration: const InputDecoration(hintText: "Cantidad"),
-                  keyboardType: TextInputType.number,
-                  maxLength: 3,
-                ),
-              ),
-              IconButton(icon: const Icon(Icons.add),
-                onPressed: () { _agregarArt(context,"art","2"); },)
-            ],
+          Container(
+            height: 400,
+            child: _listaArticulos(context, state)
           ),
           SizedBox(height: 10.0),
           TextField(maxLength: 140, maxLines: 4,decoration: const InputDecoration(
@@ -99,8 +86,74 @@ class NuevoPedido extends StatelessWidget{
     }
   }
 
+  Widget _listaArticulos(BuildContext context, NuevoPedidoState state){
+    if(state.articulosAPedir != null){
+      return ListView.builder(
+        itemCount: state.articulosAPedir.length + 1,
+        itemBuilder: (context, index) {
+          if(index == state.articulosAPedir.length){
+            return _rowNuevoArticulo(context);
+          }else{
+            return _rowArticulo(context, state.articulosAPedir[index]);
+          }
+        },
+      );
+    }else{
+      return _rowNuevoArticulo(context);
+    }
+
+  }
+
+  Widget _rowNuevoArticulo(BuildContext context){
+    return
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+              child: TextField(
+                onChanged: (value) => nombreArticulo = value,
+                decoration: const InputDecoration(hintText: "Artículo"),
+              )
+          ),
+          Expanded(
+            child: TextField(
+              onChanged: (value) => cantidad = value,
+              decoration: const InputDecoration(hintText: "Cantidad"),
+              keyboardType: TextInputType.number,
+              maxLength: 3,
+            ),
+          ),
+          IconButton(icon: const Icon(Icons.add),
+            onPressed: () { _agregarArt(context, nombreArticulo, cantidad); },
+          )
+        ],
+      );
+  }
+
+  Widget _rowArticulo(BuildContext context, Artxcant articulo){
+    return
+      Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+              child: Text(articulo.nombreArt)
+          ),
+          Expanded(
+              child: Text(articulo.cantidad)
+          ),
+          IconButton(icon: const Icon(Icons.remove),
+            onPressed: () { _agregarArt(context, nombreArticulo, cantidad); },
+          )
+        ],
+      );
+  }
+
   void _agregarArt (BuildContext context, String nombre, String cant){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombre, cant));
+  }
+
+  void _quitarArt (BuildContext context, String nombre, String cant){
+    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventDeleteArt(nombre));
   }
 }
 
