@@ -7,7 +7,7 @@ class NuevoPedidoState extends Equatable{
   List<Articulo> listaArticulos;
   List<String> listaUsuarios;
 
-  NuevoPedidoState([String nombreUsuario, List<Artxcant> articulosAPedir, String observaciones, List<String> listaUsuarios, List<Articulo> listaArticulos]);
+  NuevoPedidoState([this.nombreUsuario, this.articulosAPedir, this.observaciones, this.listaUsuarios, this.listaArticulos]);
 
   @override
   List<Object> get props => [articulosAPedir, nombreUsuario, observaciones, listaArticulos, listaUsuarios];

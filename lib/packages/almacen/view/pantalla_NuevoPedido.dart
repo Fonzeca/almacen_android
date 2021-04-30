@@ -64,10 +64,20 @@ class NuevoPedido extends StatelessWidget{
           ),
           SizedBox(height: 10.0,),
           Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              TextField(decoration: const InputDecoration(hintText: "Artículo"),),
-              TextField(decoration: const InputDecoration(hintText: "Cantidad"),
-              keyboardType: TextInputType.number,maxLength: 3,),
+              Expanded(
+                child: TextField(
+                  decoration: const InputDecoration(hintText: "Artículo"),
+                )
+              ),
+              Expanded(
+                child: TextField(
+                  decoration: const InputDecoration(hintText: "Cantidad"),
+                  keyboardType: TextInputType.number,
+                  maxLength: 3,
+                ),
+              ),
               IconButton(icon: const Icon(Icons.add),
                 onPressed: () { _agregarArt(context,"art","2"); },)
             ],

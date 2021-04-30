@@ -53,7 +53,7 @@ class Servidor {
   Future<List<Articulo>> listarArticulos() async{
     String endpoint = "/articulos";
 
-    var response = await MindiaHttpClient.instance().post(ipServer+endpoint);
+    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
     var jsonData = json.decode(response.body);
     List<Articulo> articulos= [];
     for(var n in jsonData){
@@ -108,8 +108,7 @@ class Servidor {
 
   Future<List<String>> listarUsuarios() async{
     String endpoint = "/users";
-    String params = "?and=yes";
-    var url = ipServer + endpoint + params;
+    var url = ipServer + endpoint;
 
     List<String> usuarios=[];
     http.Response response = await MindiaHttpClient.instance().get(url);

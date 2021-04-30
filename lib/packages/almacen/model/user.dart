@@ -7,9 +7,9 @@ class User extends Equatable{
 
 
   User.fromJson(Map<String, dynamic> json):
-        nombre= json['nombre'],
-        username=json['username'],
-        apellido=json['apellido'];
+        nombre = json['nombre'],
+        username = json['nombreUsuario'],
+        apellido = json['apellido'];
 
   @override
   List<Object> get props => [nombre,username,apellido];
