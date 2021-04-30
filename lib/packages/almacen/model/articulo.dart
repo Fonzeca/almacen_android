@@ -3,31 +3,21 @@ import 'package:equatable/equatable.dart';
 
 class Articulo extends Equatable{
   final String nombre;
-  final String estado,stockMinimo, subcategoria;
+  final String estado, subcategoria;
   final int stock;
-  final Proveedor proveedor;
-  final String costo;
   final String qr;
 
-  Articulo (this.nombre, this.estado,
-      this.proveedor,this.subcategoria,
-      this.costo,this.stock,this.stockMinimo,
-      this.qr);
+  Articulo (this.nombre, this.estado, this.subcategoria, this.stock, this.qr);
 
   Articulo.fromJson(Map<String, dynamic> json):
-      //TODO: tanto estado como subcategoria vuelven nulos desde el json xq no se mapean los objetos Subcategoria y EstadoArticulo. Tratar como String?
-        nombre= json['nombre'],
-        estado= "",
-        proveedor= json['proveedor'],
-        subcategoria= "",
-        costo=json['costo'],
-        stockMinimo=json['stockMinimo'],
-        stock=json['stock'],
-        qr=json['codigoQr'];
+        nombre = json['nombre'],
+        estado = json['estado'],
+        subcategoria = json['subcategoria'],
+        stock = json['stock'],
+        qr = json['codigoQr'];
 
   @override
-  List<Object> get props => [nombre,subcategoria,costo,estado,stock,stockMinimo,proveedor,qr];
-
+  List<Object> get props => [nombre, subcategoria, estado, stock, qr];
 }
 
 class EstadoArticulo extends Equatable{
@@ -36,8 +26,8 @@ class EstadoArticulo extends Equatable{
 
   EstadoArticulo(this.nombreEstado,this.articulos);
   EstadoArticulo.fromJson(Map<String, dynamic> json):
-        nombreEstado=json['nombreEstado'],
-        articulos=json['articulos'];
+        nombreEstado = json['nombreEstado'],
+        articulos = json['articulos'];
 
   @override
   List<Object> get props => [nombreEstado];

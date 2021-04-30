@@ -14,26 +14,25 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent,NuevoPedidoState>{
   Servidor _servidor = Servidor();
 
   @override
-  Stream<NuevoPedidoState> mapEventToState(
-      NuevoPedidoEvent event,
-      ) async*{
+  Stream<NuevoPedidoState> mapEventToState(NuevoPedidoEvent event,) async*{
     if (event is NuevoPedidoEventClear){
-      if(state.articulosAPedir==null){
-        state.articulosAPedir=new List();
-      }else state.articulosAPedir.clear();
-
-
+      if(state.articulosAPedir == null){
+        state.articulosAPedir = [];
+      }else {
+        state.articulosAPedir.clear();
+      }
       yield state.copyWith(observaciones: "");
-    }
-    if (event is NuevoPedidoEventAddArt){
-      NuevoPedidoEventAddArt eventAddArt = event as NuevoPedidoEventAddArt;
-      Artxcant artxcant = new Artxcant(eventAddArt.nombreArt,eventAddArt.cantidad);
+    }else if (event is NuevoPedidoEventAddArt){
+      NuevoPedidoEventAddArt eventAddArt = event;
+
+      Artxcant artxcant = new Artxcant(eventAddArt.nombreArt, eventAddArt.cantidad);
       List<Artxcant> nuevaLista = state.articulosAPedir;
       nuevaLista.add(artxcant);
+
       yield state.copyWith(articulosAPedir: nuevaLista);
     }
     if(event is NuevoPedidoEventDeleteArt){
-      NuevoPedidoEventDeleteArt eventDeleteArt= event as NuevoPedidoEventDeleteArt;
+      NuevoPedidoEventDeleteArt eventDeleteArt= event;
       List<Artxcant> artsApedir= state.articulosAPedir;
       for(int i = 0; i<artsApedir.length;i++){
         if(artsApedir[i].nombreArt == eventDeleteArt.nombreArt){

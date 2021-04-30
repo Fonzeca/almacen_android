@@ -2,6 +2,7 @@ import 'package:almacen_android/drawer.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
+import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -281,7 +282,7 @@ class _MyHomePageState extends State<MyHomePage> {
   signIn(BuildContext context, String emailText, String passwordText) async{
 
     if(emailText!=''&&passwordText!=''){
-      Servidor _servidor = Servidor();
+      CommonApiCalls _servidor = CommonApiCalls();
       bool logeado;
       logeado= await _servidor.login(emailText,passwordText);
       if(logeado) {
