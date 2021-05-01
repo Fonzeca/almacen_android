@@ -115,6 +115,7 @@ class NuevoPedido extends StatelessWidget{
                 decoration: const InputDecoration(hintText: "Artículo"),
               )
           ),
+          SizedBox(width: 25.0),
           Expanded(
             child: TextField(
               onChanged: (value) => cantidad = value,
@@ -138,11 +139,12 @@ class NuevoPedido extends StatelessWidget{
           Expanded(
               child: Text(articulo.nombreArt)
           ),
+          SizedBox(width: 25.0),
           Expanded(
               child: Text(articulo.cantidad)
           ),
           IconButton(icon: const Icon(Icons.remove),
-            onPressed: () { _agregarArt(context, nombreArticulo, cantidad); },
+            onPressed: () { _quitarArt(context, nombreArticulo); },
           )
         ],
       );
@@ -152,7 +154,7 @@ class NuevoPedido extends StatelessWidget{
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombre, cant));
   }
 
-  void _quitarArt (BuildContext context, String nombre, String cant){
+  void _quitarArt (BuildContext context, String nombre){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventDeleteArt(nombre));
   }
 }
