@@ -66,8 +66,8 @@ class NuevoPedido extends StatelessWidget{
           ),
           SizedBox(height: 10.0,),
           Container(
-            height: 400,
-            child: _listaArticulos(context, state)
+              height: 400,
+              child: _listaArticulos(context, state)
           ),
           SizedBox(height: 10.0),
           TextField(maxLength: 140, maxLines: 4,decoration: const InputDecoration(
@@ -125,7 +125,11 @@ class NuevoPedido extends StatelessWidget{
             ),
           ),
           IconButton(icon: const Icon(Icons.add),
-            onPressed: () { _agregarArt(context, nombreArticulo, cantidad); },
+              onPressed: () {
+                if(nombreArticulo!=null&&cantidad!=null){
+                  _agregarArt(context, nombreArticulo, cantidad); }
+                else EasyLoading.showToast("Por favor ingrese un artículo y cantidad válidos.");
+              }
           )
         ],
       );
