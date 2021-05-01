@@ -23,7 +23,10 @@ class Servidor {
 
     // var response = await MindiaHttpClient.instance().get(ipServer+endpoint+params);
 
-    var jsonData = json.decode("[{\"estadopedido\": {\"nombreEstado\": \"test\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones24\"},{\"estadopedido\": {\"nombreEstado\": \"test\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones25\"}]");
+    // print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
+
+    var jsonData = json.decode("[{\"estadopedido\": {\"nombreEstado\": \"test\", \"estadoPedidoId\": \"1\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones24\"},{\"estadopedido\": {\"nombreEstado\": \"test\", \"estadoPedidoId\": \"2\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones25\"}]");
+    print ("ListarPedidos/ "+jsonData.toString());
     List<Pedido> pedidos =[];
     for(var n in jsonData){
       pedidos.add(Pedido.fromJson(n));
@@ -33,13 +36,18 @@ class Servidor {
   //TODO: _
   Future<void> crearPedido(String observaciones, String user, List<Artxcant> articulos) async{
     String endpoint = "/AgregarPedido";
-    String cantidad,articulos;
+    String cant="", arts="";
     // for(ArticulosPedido a in pedido.articulosPedidos){
     //   cantidad += a.cantidad.toString()+" - ";
     //   articulos += a.articulo.nombre+" - ";
     // }
-    String params = "?User="+user+"&textAreaObservaciones="+observaciones+"&inputArtxCant="+articulos;
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint+params);
+    for(Artxcant a in articulos){
+      cant += a.cantidad.toString()+" - ";
+      arts += a.nombreArt.toString()+" - ";
+    }
+    String params = "?User="+user+"&textAreaObservaciones="+observaciones+"&inputArt="+arts+"&inputCantidad"+cant;
+    var response = await client.get(ipServer+endpoint+params);
+    print("crearPedido/ Status: "+response.statusCode.toString()+" Body: "+response.body);
     if(response.statusCode==200){
       EasyLoading.showSuccess("Pedido creado con éxito!");
 
