@@ -46,7 +46,7 @@ class Servidor {
       arts += a.nombreArt.toString()+" - ";
     }
     String params = "?User="+user+"&textAreaObservaciones="+observaciones+"&inputArt="+arts+"&inputCantidad"+cant;
-    var response = await client.get(ipServer+endpoint+params);
+    var response = await MindiaHttpClient.instance().get(ipServer+endpoint+params);
     print("crearPedido/ Status: "+response.statusCode.toString()+" Body: "+response.body);
     if(response.statusCode==200){
       EasyLoading.showSuccess("Pedido creado con éxito!");
