@@ -10,18 +10,18 @@ part 'bloc_almacen_state.dart';
 
 class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
   AlmacenBloc() : super(AlmacenState());
+  Servidor _servidor = Servidor();
 
   @override
-  Stream<AlmacenState> mapEventToState(
-    AlmacenEvent event,
-  ) async* {
+  Stream<AlmacenState> mapEventToState(AlmacenEvent event,) async* {
     if(event is AlmacenEventBuscarPedidos){
-      yield state.copyWith(carga: true);
-
-      Servidor _servidor = Servidor();
-
       List<Pedido> pedidos =await _servidor.listarPedidos();
       yield state.copyWith(pedidos: pedidos,carga: false);
+
+    }
+    if(event is AlmacenEventInitialize){
+      yield state.copyWith(carga: true);
+
     }
   }
 }

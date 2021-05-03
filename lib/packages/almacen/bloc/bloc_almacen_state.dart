@@ -1,11 +1,12 @@
 part of 'bloc_almacen_bloc.dart';
 
 class AlmacenState extends Equatable{
-  @override
-  List<Pedido> pedidos;
-  bool carga;
+  final List<Pedido> pedidos;
+  final bool carga;
 
-  AlmacenState([bool carga, List<Pedido> pedidos]);
+  AlmacenState([this.carga, this.pedidos]);
+
+  @override
   List<Object> get props => [pedidos,carga];
 
   AlmacenState copyWith(

@@ -27,6 +27,7 @@ class Servidor {
 
     List<Pedido> pedidos =[];
     for(var n in jsonData){
+      print(n);
       pedidos.add(Pedido.fromJson(n));
     }
     return pedidos;

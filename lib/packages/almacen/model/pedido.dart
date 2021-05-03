@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class Pedido extends Equatable{
 
-  final EstadoPedido estadoPedido;
+  final String estadoPedido;
   final String //TODO: Usuario
   usuario;
   final String fecha;
@@ -12,7 +12,7 @@ class Pedido extends Equatable{
   Pedido(this.usuario,this.estadoPedido,this.observaciones, this.fecha);
 
   Pedido.fromJson(Map<String, dynamic> json):
-        estadoPedido=json['estadopedido'],
+        estadoPedido=json['estadoPedido'],
         usuario=json['usuario'],
         fecha=json['fecha'],
         observaciones=json['observaciones'];
@@ -21,17 +21,6 @@ class Pedido extends Equatable{
   List<Object> get props => [fecha, estadoPedido,usuario,observaciones];
 }
 
-class EstadoPedido extends Equatable{
-  final String nombreEstado;
-
-  EstadoPedido(this.nombreEstado);
-
-  EstadoPedido.fromJson(Map<String, dynamic> json):
-        nombreEstado=json['nombreEstado'];
-
-  @override
-  List<Object> get props => [nombreEstado];
-}
 
 class ArticulosPedido extends Equatable{
   final Articulo articulo;

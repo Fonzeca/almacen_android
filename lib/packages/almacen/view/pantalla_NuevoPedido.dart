@@ -1,7 +1,5 @@
 
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
-import 'package:almacen_android/packages/almacen/data/api_calls.dart';
-import 'package:almacen_android/packages/almacen/model/articulo.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -36,6 +34,23 @@ class NuevoPedido extends StatelessWidget{
                       Divider(height: 0.5,color: Colors.orange,),
                       SizedBox(height: 10.0,),
                       _crearVista(context, admn, state),
+                      FloatingActionButton.extended(
+                        onPressed: () => {},
+                        icon: const Icon(Icons.save_alt),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                        backgroundColor: Theme.of(context).accentColor,
+                        elevation: 5,
+
+                        label: const Text('Aceptar',
+                          style: TextStyle(
+                            color: Colors.white,
+                            letterSpacing: 1.5,
+                            fontSize: 18.0,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'OpenSans',
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -66,7 +81,7 @@ class NuevoPedido extends StatelessWidget{
           ),
           SizedBox(height: 10.0,),
           Container(
-              height: 400,
+              height: 200,
               child: _listaArticulos(context, state)
           ),
           SizedBox(height: 10.0),
@@ -80,11 +95,25 @@ class NuevoPedido extends StatelessWidget{
       );
     }
     else{
-      return Container(
-        child: Text("no sos admin"),
+      return Column(
+        children: [
+          Container(
+              height: 200,
+              child: _listaArticulos(context, state)
+          ),
+          SizedBox(height: 10.0),
+          TextField(maxLength: 140, maxLines: 4,decoration: const InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 10.0),
+            hintStyle: TextStyle(color: Colors.grey),
+            hintText: "Observaciones",
+          ),
+          )
+        ],
       );
     }
   }
+
+
 
   Widget _listaArticulos(BuildContext context, NuevoPedidoState state){
     if(state.articulosAPedir != null){
@@ -113,6 +142,7 @@ class NuevoPedido extends StatelessWidget{
               child: TextField(
                 onChanged: (value) => nombreArticulo = value,
                 decoration: const InputDecoration(hintText: "Artículo"),
+                autofocus: true,
               )
           ),
           SizedBox(width: 25.0),

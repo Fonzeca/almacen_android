@@ -7,7 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 class ListaPedidos extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
+    BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventInitialize());
     return BlocListener<AlmacenBloc,AlmacenState>(
       listener: (context, state) {
         switch(state.carga){
@@ -21,7 +21,11 @@ class ListaPedidos extends StatelessWidget{
       },
       child: BlocBuilder<AlmacenBloc,AlmacenState>(
         builder: (context, state) {
-          if (!state.carga && state.pedidos !=null){
+          if (state.pedidos ==null){
+            BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
+
+            return Container();
+          }else
             return ListView(
                 children: <Widget>[
                   Center(
@@ -35,8 +39,6 @@ class ListaPedidos extends StatelessWidget{
                   ], rows: _createRow(state.pedidos))
 
                 ]);
-
-          }else return Container();
         },
       ),
     );
@@ -44,16 +46,16 @@ class ListaPedidos extends StatelessWidget{
 
 }
 List<DataRow> _createRow (List<Pedido>pedidos){
-  List<DataRow> rows= List<DataRow>();
+  List<DataRow> rows= new List<DataRow>();
   for(Pedido p in pedidos){
 
-    DataRow(cells: [
+    rows.add(DataRow(cells: [
+
       DataCell(Text(p.fecha)),
       DataCell(Text(p.usuario)),
-      DataCell(Text(p.estadoPedido.nombreEstado)),
+      DataCell(Text(p.estadoPedido)),
       DataCell(Text('botones xd'))
-    ]);
-
+    ]));
   }
   return rows;
 }
