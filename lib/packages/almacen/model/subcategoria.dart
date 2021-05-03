@@ -4,16 +4,12 @@ import 'package:equatable/equatable.dart';
 class Subcategoria extends Equatable{
 
   final String nombre;
-  final Categoria categoria;
-  List<Articulo> articulos;
 
-  Subcategoria(this.nombre,this.categoria,this.articulos);
+  Subcategoria(this.nombre);
 
   Subcategoria.fromJson(Map<String, dynamic> json):
-    nombre=json['subNombre'],
-    categoria=json['categoria'],
-    articulos=json['articulos'];
+    nombre=json['subNombre'];
 
   @override
-  List<Object> get props => [nombre,categoria,articulos];
+  List<Object> get props => [nombre];
 }

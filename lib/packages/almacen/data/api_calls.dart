@@ -18,15 +18,12 @@ class Servidor {
 
   /// Api calls Pedidos.
   Future<List<Pedido>> listarPedidos() async{
-    String endpoint = "/ListaPedidos";
-    String params = "?and=yes";
+    String endpoint = "/pedido";
 
-    // var response = await MindiaHttpClient.instance().get(ipServer+endpoint+params);
+    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
 
-    // print("ListarPedidos/ Status: "+response.statusCode.toString()+"Body: "+response.body);
+    var jsonData = json.decode(response.body);
 
-    var jsonData = json.decode("[{\"estadopedido\": {\"nombreEstado\": \"test\", \"estadoPedidoId\": \"1\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones24\"},{\"estadopedido\": {\"nombreEstado\": \"test\", \"estadoPedidoId\": \"2\"},\"usuario\": \"user\",\"fecha\": \"24/04\",\"observaciones\": \"observaciones25\"}]");
-    print ("ListarPedidos/ "+jsonData.toString());
     List<Pedido> pedidos =[];
     for(var n in jsonData){
       pedidos.add(Pedido.fromJson(n));
@@ -54,12 +51,10 @@ class Servidor {
     }else EasyLoading.showError("Algo salió mal :(\n Por favor vuelva a intentarlo.");
   }
 
-  /**
-   * Api calls Articulos.
-   */
+  /// Api calls Articulos.
 
   Future<List<Articulo>> listarArticulos() async{
-    String endpoint = "/articulos";
+    String endpoint = "/articulo";
 
     var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
     var jsonData = json.decode(response.body);
@@ -70,46 +65,23 @@ class Servidor {
     return articulos;
   }
   Future<Articulo> getArticuloByNombre(String nombreArticulo) async{
-    String endpoint = '/Articulo';
-    String params = '?nombreArticulo='+nombreArticulo;
+    String endpoint = '/articulo/' + nombreArticulo;
 
-    var response = await MindiaHttpClient.instance().post(ipServer+endpoint+params);
+    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
     var n = json.decode(response.body);
     Articulo articulo = new Articulo.fromJson(n);
     return articulo;
   }
 
-  /**
-   * Api calls Categorías y Subcategorías
-   */
+  /// Api calls Categorías y Subcategorías
 
   Future<List<Categoria>> listarCategorias() async{
-    String endpoint = '/ListaCategorias';
+    String endpoint = '/categorias';
     List<Categoria> categorias;
 
     var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
     for(var c in json.decode(response.body)){
       categorias.add(Categoria.fromJson(c));
-    }
-    return categorias;
-  }
-  Future<List<Subcategoria>> listarSubcategorias() async{
-    String endpoint = '/ListaSubcategoriasCompleta';
-    List<Subcategoria> subcategorias;
-
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
-    for(var c in json.decode(response.body)){
-      subcategorias.add(Subcategoria.fromJson(c));
-    }
-    return subcategorias;
-  }
-  Future<List<Subcategoria>> listarSubcategoriasByCategoria(String categoria) async{
-    String endpoint = '/ListaSubcategorias',params="?inputCat="+categoria;
-    List<Subcategoria> categorias;
-
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint+params);
-    for(var c in json.decode(response.body)){
-      categorias.add(Subcategoria.fromJson(c));
     }
     return categorias;
   }
