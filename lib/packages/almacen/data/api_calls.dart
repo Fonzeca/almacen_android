@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
+import 'package:almacen_android/packages/almacen/model/pojo/nuevo_pedido.dart';
 import 'package:almacen_android/packages/almacen/model/token.dart';
 import 'package:almacen_android/packages/almacen/model/user.dart';
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
@@ -32,19 +33,18 @@ class Servidor {
   }
   //TODO: _
   Future<void> crearPedido(String observaciones, String user, List<Artxcant> articulos) async{
-    String endpoint = "/AgregarPedido";
+    String endpoint = "/pedido";
     String cant="", arts="";
-    // for(ArticulosPedido a in pedido.articulosPedidos){
-    //   cantidad += a.cantidad.toString()+" - ";
-    //   articulos += a.articulo.nombre+" - ";
-    // }
+
     for(Artxcant a in articulos){
       cant += a.cantidad.toString()+" - ";
       arts += a.nombreArt.toString()+" - ";
     }
+    NuevoPedido createPedidoRequest= new NuevoPedido(observaciones,user,arts,cant);
     String params = "?User="+user+"&textAreaObservaciones="+observaciones+"&inputArt="+arts+"&inputCantidad"+cant;
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint+params);
+    var response = await MindiaHttpClient.instance().post(ipServer+endpoint,body: jsonEncode(createPedidoRequest));
     print("crearPedido/ Status: "+response.statusCode.toString()+" Body: "+response.body);
+
     if(response.statusCode==200){
       EasyLoading.showSuccess("Pedido creado con éxito!");
 
@@ -85,6 +85,8 @@ class Servidor {
     }
     return categorias;
   }
+
+  ///Api calls Usuarios TODO: extraer fuera del modulo almacen?
 
   Future<List<String>> listarUsuarios() async{
     String endpoint = "/users";
