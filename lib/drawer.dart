@@ -19,7 +19,7 @@ class MainDrawer extends StatelessWidget{
 
   MainDrawer (bool admin){
     this.admin=admin;
-    valueNotifier = ValueNotifier(0);
+    valueNotifier = ValueNotifier(1);
   }
 
   /// Se crea el drawer en sí, valueNotifier.value determina cual opción fue seleccionada.

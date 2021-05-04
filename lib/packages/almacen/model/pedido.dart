@@ -3,15 +3,17 @@ import 'package:equatable/equatable.dart';
 
 class Pedido extends Equatable{
 
+  final String id;
   final String estadoPedido;
   final String //TODO: Usuario
   usuario;
   final String fecha;
   final String observaciones;
 
-  Pedido(this.usuario,this.estadoPedido,this.observaciones, this.fecha);
+  Pedido(this.id,this.usuario,this.estadoPedido,this.observaciones, this.fecha);
 
   Pedido.fromJson(Map<String, dynamic> json):
+        id="json['id']",
         estadoPedido=json['estadoPedido'],
         usuario=json['usuario'],
         fecha=json['fecha'],
