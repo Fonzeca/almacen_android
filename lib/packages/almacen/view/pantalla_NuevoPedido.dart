@@ -178,7 +178,7 @@ class NuevoPedido extends StatelessWidget{
               child: Text(articulo.cantidad)
           ),
           IconButton(icon: const Icon(Icons.remove),
-            onPressed: () { _quitarArt(context, nombreArticulo); },
+            onPressed: () { _quitarArt(context, articulo.nombreArt); },
           )
         ],
       );
