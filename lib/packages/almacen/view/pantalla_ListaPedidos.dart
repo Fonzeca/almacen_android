@@ -1,5 +1,3 @@
-import 'dart:js';
-
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/model/pedido.dart';
 import 'package:flutter/material.dart';
