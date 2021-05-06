@@ -10,7 +10,8 @@ class NuevoPedidoEventClear extends NuevoPedidoEvent{
 }
 
 class NuevoPedidoInitialize extends NuevoPedidoEvent{
-
+  final bool adm;
+  NuevoPedidoInitialize(this.adm);
 }
 class NuevoPedidoEventGetArts extends NuevoPedidoEvent{
 

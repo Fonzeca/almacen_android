@@ -5,22 +5,24 @@ class ListaRegistros extends StatelessWidget{
   Widget build(BuildContext context) {
     List<String> _registros=["registro 1","registro 2", "registro 3"];
     return
-      ListView(
-          children: <Widget>[
-            Center(
-              child: Text("Lista de Registros", style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
-            ),
-            DataTable(columns: [
-              DataColumn(label: Text("Fecha")),
-              DataColumn(label: Text("Entrada / Salida")),
-              DataColumn(label: Text("Usuario")),
-              DataColumn(label: Text("Equipo")),
-            ], rows: _createRow(_registros))
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.vertical,
+                padding: const EdgeInsets.all(8.0),
+                child: DataTable(columns: [
+                  DataColumn(label: Text("Fecha")),
+                  DataColumn(label: Text("Entrada / Salida")),
+                  DataColumn(label: Text("Usuario")),
+                  DataColumn(label: Text("Equipo")),
+                ], rows: _createRow(_registros)),
+              ),
+            )
 
-          ]);
+    ;
   }
   List<DataRow> _createRow (List<String>registros){
-    List<DataRow> rows= List<DataRow>();
+    List<DataRow> rows= [];
     for(String a in registros){
       rows.add(DataRow(cells: [
         DataCell(Text('26/04/21')),

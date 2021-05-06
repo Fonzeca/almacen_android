@@ -2,6 +2,7 @@ import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
 import 'package:almacen_android/packages/llaves/data/api_calls.dart';
 import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
 import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -9,6 +10,7 @@ class MainDrawer extends StatelessWidget{
 
   bool admin;
   ValueNotifier<int> valueNotifier;
+  String appTitle;
 
 
   /// En la lista de 'sections' se agregaron todas las funcionalidades posibles aunque solo se utilizan algunas, esto es para preveer que se incluyan mas funcionalidades en un futuro.
@@ -34,12 +36,6 @@ class MainDrawer extends StatelessWidget{
       appBar: AppBar(
         title: ValueListenableBuilder(
           builder: (BuildContext context, value, Widget child) {
-            String appTitle;
-            if(value < 10){
-              appTitle="Almacén";
-            }else if(value < 20){
-              appTitle="Técnica";
-            }else appTitle="Llaves";
             return Text(appTitle);
           },
           valueListenable: valueNotifier,
@@ -138,19 +134,23 @@ class MainDrawer extends StatelessWidget{
         builder: (context, value, child) {
           switch(value){
             case 0:
+              appTitle="Nuevo Pedido";
               //TODO: pasar valor real de admn.
-              return NuevoPedido(admn: false,);
+              return NuevoPedido(admn: true,);
             case 1:
+              appTitle="Lista de Pedidos";
               return ListaPedidos();
             case 10:
+              appTitle="Lista de Equipos";
               return ListaEquipos();
             case 11:
+              appTitle="Lista de Registros";
               return ListaRegistros();
             case 20:
+              appTitle="Llaves";
             return ScanLlaves();
               // String idLlaveDetectado="1";
               // return LlaveEspecifica(id: idLlaveDetectado,);
-
 
           }
           return Container();

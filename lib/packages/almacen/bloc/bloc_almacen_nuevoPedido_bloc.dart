@@ -51,11 +51,19 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
       yield state.copyWith(nombreUsuario: eventSetUser.username);
     }
     if(event is NuevoPedidoInitialize){
+      NuevoPedidoInitialize nuevoPedidoInitialize=event as NuevoPedidoInitialize;
+      if(nuevoPedidoInitialize.adm){
+        List<String> lstusuarios = await _servidor.listarUsuarios();
+        List<Articulo> articulos =  await _servidor.listarArticulos();
+        //TODO: que pasa si la lista esta vacia o null?
+        yield state.copyWith(listaUsuarios: lstusuarios, nombreUsuario: lstusuarios[0], listaArticulos: articulos);
 
-      List<String> lstusuarios = await _servidor.listarUsuarios();
-      List<Articulo> articulos =  await _servidor.listarArticulos();
-      //TODO: que pasa si la lista esta vacia o null?
-      yield state.copyWith(listaUsuarios: lstusuarios, nombreUsuario: lstusuarios[0], listaArticulos: articulos);
+      }else{
+        List<Articulo> articulos =  await _servidor.listarArticulos();
+        //TODO: Agregar tanto acá como arriba el usuario actual.
+        yield state.copyWith(listaArticulos: articulos);
+
+      }
     }
   }
 }

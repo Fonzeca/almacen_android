@@ -60,7 +60,7 @@ class Servidor {
     var jsonData = json.decode(response.body);
     List<Articulo> articulos= [];
     for(var n in jsonData){
-      articulos.add( Articulo.fromJson(n));
+      articulos.add(Articulo.fromJson(n));
     }
     return articulos;
   }
