@@ -278,7 +278,7 @@ class _MyHomePageState extends State<MyHomePage> {
     if(emailText!=''&&passwordText!=''){
       CommonApiCalls _servidor = CommonApiCalls();
       bool logeado;
-      logeado= await _servidor.login(emailText,passwordText);
+      logeado = await _servidor.login(emailText,passwordText);
       if(logeado) {
         Navigator.push(context, MaterialPageRoute(builder: (context)=> MainDrawer(true)),);
       }else EasyLoading.showError("Usuario o contraseña incorrectos.");

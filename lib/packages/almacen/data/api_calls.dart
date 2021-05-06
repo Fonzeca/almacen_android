@@ -64,6 +64,7 @@ class Servidor {
     }
     return articulos;
   }
+
   Future<Articulo> getArticuloByNombre(String nombreArticulo) async{
     String endpoint = '/articulo/' + nombreArticulo;
 
@@ -71,6 +72,20 @@ class Servidor {
     var n = json.decode(response.body);
     Articulo articulo = new Articulo.fromJson(n);
     return articulo;
+  }
+
+  Future<List<Articulo>> getArticulosLikeNombre(String nombreArticulo) async{
+    String endpoint = '/articulo/like/' + nombreArticulo;
+
+    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
+    var jsonData = json.decode(response.body);
+
+    List<Articulo> articulos= [];
+    for(var n in jsonData){
+      articulos.add(Articulo.fromJson(n));
+    }
+
+    return articulos;
   }
 
   /// Api calls Categorías y Subcategorías
