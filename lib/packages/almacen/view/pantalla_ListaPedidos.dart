@@ -5,6 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ListaPedidos extends StatelessWidget{
+  bool admn;
+
+  ListaPedidos ({Key key, @required this.admn}):super(key: key);
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventInitialize());
@@ -19,53 +23,73 @@ class ListaPedidos extends StatelessWidget{
             break;
         }
       },
-      child: BlocBuilder<AlmacenBloc,AlmacenState>(
+      child:
+      BlocBuilder<AlmacenBloc,AlmacenState>(
         builder: (context, state) {
           if (state.pedidos ==null){
             BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
 
             return Container();
           }else
-            return ListView(
-              children: <Widget>[
-                Center(
-                  child: Text("Lista de Pedidos", style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold)),
-                ),
+            return
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: state.pedidos==null? 1 : state.pedidos.length + 1,
                   itemBuilder: (context, index) {
-                    if(index==0){
-                      return Card(
-                        child:Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child:Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
-                          ],
-                        ),
-                        )
-                      );
+                    if(admn){
+                      if(index==0){
+                        return Card(
+                            child:Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:
+
+                                [
+                                  Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            )
+                        );
+                      }
+                      index -=1;
+                      return _createRow(state.pedidos[index],context,index,admn);
+                    }else{
+                      if(index==0){
+                        return Card(
+                            child:Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child:Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children:
+
+                                [
+                                  Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            )
+                        );
+                      }
+                      index -=1;
+                      return _createRow(state.pedidos[index],context,index,admn);
                     }
-                    index -=1;
-                    return _createRow(state.pedidos[index],context,index);
-                  },)
-              ],
-            );
+                  },
+                )
+              ;
         },
       ),
     );
   }
 
 }
-Widget _createRow (Pedido p,BuildContext context,int index){
+Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
 
   return GestureDetector(
     onTap: (){
-      EasyLoading.showToast("Este es el detalle del pedido"+p.id+", y entregar?");
+      EasyLoading.showToast("Este es el detalle del pedido "+p.id+", y entregar?");
     },
     child: Dismissible(
 
@@ -96,14 +120,19 @@ Widget _createRow (Pedido p,BuildContext context,int index){
           _eliminarPedido(context,p.id);
         },background: Container(color: Colors.red,),
         child: Card(
-          color: index.isEven ? Colors.white : Colors.orange,
+          color: index.isEven ? Colors.white : Colors.black12,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 4.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: adm ?
+              [
                 Text(p.fecha),
                 Text(p.usuario),
+                Text(p.estadoPedido),
+              ]:
+              [
+                Text(p.fecha),
                 Text(p.estadoPedido),
               ],
 

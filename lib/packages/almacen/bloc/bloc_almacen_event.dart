@@ -7,10 +7,9 @@ abstract class AlmacenEvent extends Equatable {
 }
 
 class AlmacenEventBuscarPedidos extends AlmacenEvent{
-
 }
-class AlmacenEventInitialize extends AlmacenEvent{
 
+class AlmacenEventInitialize extends AlmacenEvent{
 }
 
 

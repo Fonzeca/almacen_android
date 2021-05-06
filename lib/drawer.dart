@@ -139,7 +139,7 @@ class MainDrawer extends StatelessWidget{
               return NuevoPedido(admn: true,);
             case 1:
               appTitle="Lista de Pedidos";
-              return ListaPedidos();
+              return ListaPedidos(admn: false,);
             case 10:
               appTitle="Lista de Equipos";
               return ListaEquipos();
