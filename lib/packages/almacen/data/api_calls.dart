@@ -7,7 +7,6 @@ import 'package:almacen_android/packages/almacen/model/token.dart';
 import 'package:almacen_android/packages/almacen/model/user.dart';
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:http/browser_client.dart';
 import 'package:http/http.dart' as http;
 
 class Servidor {

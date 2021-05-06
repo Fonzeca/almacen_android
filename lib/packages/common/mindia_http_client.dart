@@ -1,5 +1,5 @@
-import 'package:http/browser_client.dart';
 import 'package:http/http.dart' as http;
+
 
 class MindiaHttpClient extends http.BaseClient {
   static MindiaHttpClient _mindiaHttpClient;
@@ -19,7 +19,7 @@ class MindiaHttpClient extends http.BaseClient {
 
   static MindiaHttpClient instance(){
     if(_mindiaHttpClient == null){
-      _mindiaHttpClient = MindiaHttpClient(BrowserClient());
+      _mindiaHttpClient = MindiaHttpClient(http.Client());
     }
     return _mindiaHttpClient;
   }

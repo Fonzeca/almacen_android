@@ -147,9 +147,9 @@ class MainDrawer extends StatelessWidget{
             case 11:
               return ListaRegistros();
             case 20:
-            // return ScanLlaves();
-              String idLlaveDetectado="1";
-              return LlaveEspecifica(id: idLlaveDetectado,);
+            return ScanLlaves();
+              // String idLlaveDetectado="1";
+              // return LlaveEspecifica(id: idLlaveDetectado,);
 
 
           }
