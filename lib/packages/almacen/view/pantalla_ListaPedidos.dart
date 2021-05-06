@@ -36,16 +36,22 @@ class ListaPedidos extends StatelessWidget{
                   itemCount: state.pedidos==null? 1 : state.pedidos.length + 1,
                   itemBuilder: (context, index) {
                     if(index==0){
-                      return Row(
-                        children: [
-                          Text("Fecha",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
-                          Text("Estado",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
-                        ],
+                      return Card(
+                        child:Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child:Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+                            Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                          ],
+                        ),
+                        )
                       );
                     }
                     index -=1;
-                    return _createRow(state.pedidos[index],context);
+                    return _createRow(state.pedidos[index],context,index);
                   },)
               ],
             );
@@ -55,11 +61,11 @@ class ListaPedidos extends StatelessWidget{
   }
 
 }
-Widget _createRow (Pedido p,BuildContext context){
+Widget _createRow (Pedido p,BuildContext context,int index){
 
   return GestureDetector(
     onTap: (){
-      EasyLoading.showToast("Este es el detalle del pedido, y entregar?");
+      EasyLoading.showToast("Este es el detalle del pedido"+p.id+", y entregar?");
     },
     child: Dismissible(
 
@@ -72,11 +78,11 @@ Widget _createRow (Pedido p,BuildContext context){
                 title: const Text("Atención!"),
                 content: const Text("¿Eliminar el pedido?"),
                 actions: <Widget>[
-                  FlatButton(
+                  TextButton(
                       onPressed: () => Navigator.of(context).pop(true),
                       child: const Text("Eliminar")
                   ),
-                  FlatButton(
+                  TextButton(
                     onPressed: () => Navigator.of(context).pop(false),
                     child: const Text("Cancelar"),
                   ),
@@ -89,13 +95,20 @@ Widget _createRow (Pedido p,BuildContext context){
         onDismissed: (DismissDirection direction){
           _eliminarPedido(context,p.id);
         },background: Container(color: Colors.red,),
-        child: Row(
-          children: [
-            Text(p.fecha),
-            Text(p.usuario),
-            Text(p.estadoPedido),
-          ],
+        child: Card(
+          color: index.isEven ? Colors.white : Colors.orange,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 4.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(p.fecha),
+                Text(p.usuario),
+                Text(p.estadoPedido),
+              ],
 
+            ),
+          ),
         )),
   );
 }

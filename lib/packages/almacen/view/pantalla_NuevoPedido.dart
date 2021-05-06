@@ -15,7 +15,7 @@ class NuevoPedido extends StatelessWidget{
   NuevoPedido({Key key, @required this.admn}):super(key: key);
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize());
+    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize(admn));
     return BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
         builder: (context,state){
           if(state.listaArticulos != null && state.listaUsuarios != null){
@@ -72,7 +72,7 @@ class NuevoPedido extends StatelessWidget{
           DropdownButton<String>(
             value: state.nombreUsuario,
             items: state.listaUsuarios.map<DropdownMenuItem<String>>((String value){
-              return DropdownMenuItem<String>(value : value,child: Text(value),);
+              return DropdownMenuItem<String>(value : value,child: Text(value,style: TextStyle(color: Colors.black),),);
             }).toList(),
             onChanged: (String newValue){
               BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSetUser(newValue));

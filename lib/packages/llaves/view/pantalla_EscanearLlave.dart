@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class ScanLlaves extends StatelessWidget{
   @override
@@ -33,7 +33,7 @@ class ScanLlaves extends StatelessWidget{
 
   Future<void> _scannear (BuildContext context) async{
     await Permission.camera.request();
-    String resultado= await scanner.scan();
+    String resultado= await FlutterBarcodeScanner.scanBarcode("#ff0000", "Cancelar", true, ScanMode.QR);
     if(resultado != null){
       BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveCambiarQr(resultado));
     }else EasyLoading.showToast("No se encontraron resultados");
