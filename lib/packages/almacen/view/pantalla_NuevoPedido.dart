@@ -1,16 +1,21 @@
 
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
+import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class NuevoPedido extends StatelessWidget{
   final bool admn;
 
   String nombreArticulo;
   String cantidad;
+
+  final TextEditingController _typeAheadController = TextEditingController();
+
 
   NuevoPedido({Key key, @required this.admn}):super(key: key);
   @override
@@ -113,8 +118,6 @@ class NuevoPedido extends StatelessWidget{
     }
   }
 
-
-
   Widget _listaArticulos(BuildContext context, NuevoPedidoState state){
     if(state.articulosAPedir != null){
       return ListView.builder(
@@ -139,11 +142,31 @@ class NuevoPedido extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              child: TextField(
-                onChanged: (value) => nombreArticulo = value,
-                decoration: const InputDecoration(hintText: "Artículo"),
-                autofocus: true,
-              )
+              child: TypeAheadField(
+                textFieldConfiguration: TextFieldConfiguration(
+                  autofocus: true,
+                  decoration: InputDecoration(
+                    hintText: "Artículo",
+                  ),
+                  controller: _typeAheadController,
+                ),
+                suggestionsCallback: (pattern) async{
+                  if(pattern.length < 3){
+                    return [];
+                  }
+                  return Servidor().getArticulosLikeNombre(pattern);
+                },
+                itemBuilder: (context, itemData) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(itemData.nombre),
+                  );
+                },
+                onSuggestionSelected: (suggestion) {
+                  _typeAheadController.text = suggestion.nombre;
+                  nombreArticulo = suggestion.nombre;
+                },
+              ),
           ),
           SizedBox(width: 25.0),
           Expanded(
@@ -156,8 +179,10 @@ class NuevoPedido extends StatelessWidget{
           ),
           IconButton(icon: const Icon(Icons.add),
               onPressed: () {
-                if(nombreArticulo!=null&&cantidad!=null){
-                  _agregarArt(context, nombreArticulo, cantidad); }
+                if(nombreArticulo != null && cantidad != null){
+                  _agregarArt(context, nombreArticulo, cantidad);
+                  _typeAheadController.text = "";
+                }
                 else EasyLoading.showToast("Por favor ingrese un artículo y cantidad válidos.");
               }
           )
