@@ -185,9 +185,9 @@ class NuevoPedido extends StatelessWidget{
                   _agregarArt(context, nombreArticulo, cantidad);
                   _typeAheadController.text = "";
                   nombreArticulo = "";
-                  cantidad = null;
+                }else {
+                  EasyLoading.showToast("Por favor ingrese un artículo y cantidad válidos.");
                 }
-                else EasyLoading.showToast("Por favor ingrese un artículo y cantidad válidos.");
               }
           )
         ],
