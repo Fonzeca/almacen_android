@@ -30,7 +30,7 @@ class ListaEquipos extends StatelessWidget{
     ;
   }
   List<DataRow> _createRow (List<String>equipos){
-    List<DataRow> rows= List<DataRow>();
+    List<DataRow> rows= [];
     for(String a in equipos){
       rows.add(DataRow(cells: [
         DataCell(Text(a)),

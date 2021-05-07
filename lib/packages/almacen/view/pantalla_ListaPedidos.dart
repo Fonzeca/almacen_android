@@ -24,7 +24,7 @@ class ListaPedidos extends StatelessWidget{
             break;
         }
         if(state.detalleView!=null){
-          
+          crearModal(context,state.detalleView);
         }
       },
       child:
@@ -89,7 +89,7 @@ class ListaPedidos extends StatelessWidget{
 Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
   return GestureDetector(
     onTap: (){
-      EasyLoading.showToast("tapped "+p.id);
+      EasyLoading.show();
       BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventGetDetalle(p.id));
 
 
@@ -146,21 +146,14 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
 
 
 }
-Future<void> getDetalle(BuildContext context,String id) async{
-  BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventGetDetalle(id));
-}
-void crearModal(BuildContext context, String id) {
-  EasyLoading.show();
-  PedidoDetalleView detalleView;
-  getDetalle(context, id).then((value) {
-    detalleView=AlmacenState().detalleView;
-    EasyLoading.dismiss();
-  });
+void crearModal(BuildContext context, PedidoDetalleView detalle) {
+  PedidoDetalleView detalleView = detalle;
+  EasyLoading.dismiss();
   showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
         return Container(height: 200,
-          color: Colors.amber,
+          color: Colors.white,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -168,9 +161,18 @@ void crearModal(BuildContext context, String id) {
               children: <Widget>[
                 Text('Pedido Número ' +
                     detalleView.pedidoId.toString()),
-                Text('Usuario: ' + detalleView.usuario),
-                Text('Estado: ' + detalleView.estadopedido),
+                SizedBox(height: 10.0,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Usuario: ' + detalleView.usuario),
+                    SizedBox(width: 20.0,),
+                    Text('Estado: ' + detalleView.estadopedido),
+                  ],
+                ),
+                Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
                 ListView.builder(
+                  shrinkWrap: true,
                     itemCount: detalleView.articulosPedidos.length,
                     itemBuilder: (context, index) {
                       return ListTile(title: Text(
@@ -179,9 +181,18 @@ void crearModal(BuildContext context, String id) {
                               detalleView.articulosPedidos[index]
                                   .nombre),);
                     }),
-                ElevatedButton(
-                  child: const Text('Cerrar'),
-                  onPressed: () => Navigator.pop(context),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(onPressed: ()=> _entregarPedido(context, detalleView.pedidoId.toString()),
+                      label: const Text('Entregar'), icon: const Icon(Icons.check_circle_outline_sharp),
+                      style: ElevatedButton.styleFrom(primary: Colors.green),),
+                    SizedBox(width: 40.0,),
+                    ElevatedButton(
+                      child: const Text('Cerrar'),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
                 )
               ],
             ),
@@ -193,9 +204,11 @@ void crearModal(BuildContext context, String id) {
 
 
 
-void _entregarPedido (String id) {
+void _entregarPedido (BuildContext context, String id) {
   EasyLoading.showToast("Pedido número "+id+" entregado.");
+  //TODO: llamar api entregar y eliminar respectivamente.
+  Navigator.pop(context);
 }
-Future<void> _eliminarPedido (BuildContext context, String id){
+void _eliminarPedido (BuildContext context, String id){
   EasyLoading.showToast("Se eliminó el pedido número "+id+", kappa");
 }

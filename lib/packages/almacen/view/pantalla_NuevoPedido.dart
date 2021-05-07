@@ -78,6 +78,7 @@ class NuevoPedido extends StatelessWidget{
             },
             style: TextStyle(fontSize: 16),
           ),
+          Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
           SizedBox(height: 10.0,),
           Container(
               height: 200,

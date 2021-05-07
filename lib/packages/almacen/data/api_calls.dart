@@ -53,11 +53,14 @@ class Servidor {
     String params = "?id="+id.toString();
     String url = ipServer+endpoint+params;
 
-    print(url);
     var response = await MindiaHttpClient.instance().get(url);
     print("getPedidoEspecifico/ Status: "+response.statusCode.toString()+" Body: "+response.body);
     var n = json.decode(response.body);
+
+
+
     PedidoDetalleView pedidoDetalleView= new PedidoDetalleView.fromJson(n);
+
     return pedidoDetalleView;
   }
   /// Api calls Articulos.
