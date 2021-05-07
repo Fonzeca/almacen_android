@@ -150,6 +150,7 @@ class NuevoPedido extends StatelessWidget{
                   ),
                   controller: _typeAheadController,
                 ),
+
                 suggestionsCallback: (pattern) async{
                   if(pattern.length < 3){
                     return [];
@@ -179,10 +180,12 @@ class NuevoPedido extends StatelessWidget{
           ),
           IconButton(icon: const Icon(Icons.add),
               onPressed: () {
-                if(nombreArticulo != null && cantidad != null){
+                if(nombreArticulo != null && nombreArticulo.isNotEmpty
+                    && cantidad != null && cantidad.isNotEmpty){
                   _agregarArt(context, nombreArticulo, cantidad);
                   _typeAheadController.text = "";
                   nombreArticulo = "";
+                  cantidad = null;
                 }
                 else EasyLoading.showToast("Por favor ingrese un artículo y cantidad válidos.");
               }
