@@ -1,20 +1,27 @@
+import 'package:almacen_android/packages/tecnica/bloc/bloc_listaEquipos_bloc.dart';
+import 'package:almacen_android/packages/tecnica/model/equipo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ListaEquipos extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    List<String> _equipos=["equipo1","equipo 2", "equipo3"];
-    return
-
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                padding: const EdgeInsets.all(8.0),
-                child: DataTable(
-                  sortColumnIndex: 1,
-                    columns: [
+    List<Equipo> _equipos=[];
+    return BlocBuilder<ListaEquiposBloc,ListaEquiposState>(builder: (context,state){
+      if(_equipos == null){
+        BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquiposEventListarEquipos());
+        _equipos=state.listaEquipos;
+        return Container();
+      }else{
+        return  SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            padding: const EdgeInsets.all(8.0),
+            child: DataTable(
+                sortColumnIndex: 1,
+                columns: [
                   DataColumn(label: Text("Nombre")),
                   DataColumn(label: Text("Tipo")),
                   DataColumn(label: Text("Usuario actual")),
@@ -23,26 +30,24 @@ class ListaEquipos extends StatelessWidget{
                   DataColumn(label: Text("Estado")),
                   DataColumn(label: Text("Acción")),
                 ], rows: _createRow(_equipos)),
-              ),
-            )
-
-
-    ;
+          ),
+        );
+      }
+    });
   }
-  List<DataRow> _createRow (List<String>equipos){
-    List<DataRow> rows= [];
-    for(String a in equipos){
-      rows.add(DataRow(cells: [
-        DataCell(Text(a)),
-        DataCell(Text('type')),
-        DataCell(Text('current user')),
-        DataCell(Text('place')),
-        DataCell(Text('model')),
-        DataCell(Text('state')),
-        DataCell(Text('botones '))]));
-    }
-    return rows;
+}
+
+List<DataRow> _createRow (List<Equipo>equipos){
+  List<DataRow> rows= [];
+  for(Equipo a in equipos){
+    rows.add(DataRow(cells: [
+      DataCell(Text(a.nombre)),
+      DataCell(Text(a.tipo.nombre)),
+      DataCell(Text(a.usuario)),
+      DataCell(Text(a.lugar.nombre)),
+      DataCell(Text(a.modelo)),
+      DataCell(Text(a.estado)),
+      DataCell(Text('botones '))]));
   }
-
-
+  return rows;
 }

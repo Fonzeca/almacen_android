@@ -154,7 +154,7 @@ class MainDrawer extends StatelessWidget{
               return ListaEquipos();
             case 11:
               appTitle="Lista de Registros";
-              return ListaRegistros();
+              return ListaRegistros(admn: admin,);
             case 20:
               appTitle="Llaves";
               return ScanLlaves();

@@ -1,3 +1,4 @@
+import 'package:almacen_android/packages/tecnica/model/registro.dart';
 import 'package:flutter/material.dart';
 
 class ListaRegistros extends StatelessWidget{
@@ -6,7 +7,7 @@ class ListaRegistros extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    List<String> _registros=["registro 1","registro 2", "registro 3"];
+    List<Registro> _registros=[];
     return
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -24,14 +25,14 @@ class ListaRegistros extends StatelessWidget{
 
     ;
   }
-  List<DataRow> _createRow (List<String>registros){
+  List<DataRow> _createRow (List<Registro>registros){
     List<DataRow> rows= [];
-    for(String a in registros){
+    for(Registro a in registros){
       rows.add(DataRow(cells: [
-        DataCell(Text('26/04/21')),
-        DataCell(Text('entrada o salida')),
-        DataCell(Text('user')),
-        DataCell(Text('equipo 1'))]));
+        DataCell(Text(a.fecha)),
+        DataCell(Text(a.entrada?"Entrada":"Salida")),
+        DataCell(Text(a.usuario)),
+        DataCell(Text(a.equipo.nombre))]));
     }
     return rows;
   }
