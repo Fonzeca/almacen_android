@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class ListaRegistros extends StatelessWidget{
+  bool admn;
+  ListaRegistros ({Key key, @required this.admn}):super(key: key);
+
   @override
   Widget build(BuildContext context) {
     List<String> _registros=["registro 1","registro 2", "registro 3"];

@@ -1,9 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/nuevo_pedido.dart';
-import 'package:almacen_android/packages/almacen/model/token.dart';
 import 'package:almacen_android/packages/almacen/model/user.dart';
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -31,7 +29,7 @@ class Servidor {
     }
     return pedidos;
   }
-  //TODO: _
+  //TODO: Test !!
   Future<void> crearPedido(String observaciones, String user, List<Artxcant> articulos) async{
     String endpoint = "/pedido";
     String cant="", arts="";

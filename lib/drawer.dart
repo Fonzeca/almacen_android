@@ -1,10 +1,10 @@
+import 'package:almacen_android/main.dart';
 import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
-import 'package:almacen_android/packages/llaves/data/api_calls.dart';
+import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
 import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MainDrawer extends StatelessWidget{
 
@@ -123,6 +123,16 @@ class MainDrawer extends StatelessWidget{
                   selected: valueNotifier.value ==20,
                   onTap: () => _cerrarDrawer(context, 20),
                 ),
+                Divider(
+                  height: 1,
+                  thickness: 1,
+                ),
+                ListTile(
+                  title: Text("Cerrar Sesión"),
+                  leading: Icon(Icons.logout),
+                  selected: valueNotifier.value==99,
+                  onTap: () => _cerrarDrawer(context,99),
+                )
                 //          Listar Llaves
               ],
             );
@@ -135,11 +145,10 @@ class MainDrawer extends StatelessWidget{
           switch(value){
             case 0:
               appTitle="Nuevo Pedido";
-              //TODO: pasar valor real de admn.
-              return NuevoPedido(admn: true,);
+              return NuevoPedido(admn: admin,);
             case 1:
               appTitle="Lista de Pedidos";
-              return ListaPedidos(admn: false,);
+              return ListaPedidos(admn: admin,);
             case 10:
               appTitle="Lista de Equipos";
               return ListaEquipos();
@@ -148,10 +157,12 @@ class MainDrawer extends StatelessWidget{
               return ListaRegistros();
             case 20:
               appTitle="Llaves";
-            return ScanLlaves();
-              // String idLlaveDetectado="1";
-              // return LlaveEspecifica(id: idLlaveDetectado,);
-
+              return ScanLlaves();
+            case 99:
+              CommonApiCalls commonApiCalls= CommonApiCalls();
+              commonApiCalls.logout().then((value) {
+                return MyApp();
+              });
           }
           return Container();
         },
