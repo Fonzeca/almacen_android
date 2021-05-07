@@ -34,7 +34,7 @@ class ListaPedidos extends StatelessWidget{
             return
                 ListView.builder(
                   shrinkWrap: true,
-                  itemCount: state.pedidos==null? 1 : state.pedidos.length + 1,
+                  itemCount: state.pedidos==null ? 1 : state.pedidos.length + 1,
                   itemBuilder: (context, index) {
                     if(admn){
                       if(index==0){

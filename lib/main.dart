@@ -1,6 +1,7 @@
 import 'package:almacen_android/drawer.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
+import 'package:almacen_android/packages/almacen/model/pojo/loggedUser.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_llaves_scanLlave_bloc.dart';
 import 'package:flutter/material.dart';
@@ -275,12 +276,13 @@ class _MyHomePageState extends State<MyHomePage> {
    */
   signIn(BuildContext context, String emailText, String passwordText) async{
 
-    if(emailText!=''&&passwordText!=''){
+    if(emailText!='' && passwordText!=''){
       CommonApiCalls _servidor = CommonApiCalls();
       bool logeado;
       logeado = await _servidor.login(emailText,passwordText);
       if(logeado) {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainDrawer(true)),);
+        LoggedUser loggedUser = await _servidor.getLoggedUser();
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainDrawer(loggedUser.esAdmin)),);
       }else EasyLoading.showError("Usuario o contraseña incorrectos.");
     }else{
       EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
