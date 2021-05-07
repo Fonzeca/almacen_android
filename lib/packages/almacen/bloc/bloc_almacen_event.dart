@@ -12,4 +12,9 @@ class AlmacenEventBuscarPedidos extends AlmacenEvent{
 class AlmacenEventInitialize extends AlmacenEvent{
 }
 
+class AlmacenEventGetDetalle extends AlmacenEvent{
+  String id;
+  AlmacenEventGetDetalle(this.id);
+}
+
 

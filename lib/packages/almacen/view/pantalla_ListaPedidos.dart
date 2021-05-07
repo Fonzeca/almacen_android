@@ -1,5 +1,6 @@
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/model/pedido.dart';
+import 'package:almacen_android/packages/almacen/model/pojo/almacenPojos.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -22,63 +23,63 @@ class ListaPedidos extends StatelessWidget{
             EasyLoading.dismiss();
             break;
         }
+        if(state.detalleView!=null){
+          
+        }
       },
       child:
       BlocBuilder<AlmacenBloc,AlmacenState>(
         builder: (context, state) {
           if (state.pedidos ==null){
             BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
-
             return Container();
           }else
             return
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.pedidos==null ? 1 : state.pedidos.length + 1,
-                  itemBuilder: (context, index) {
-                    if(admn){
-                      if(index==0){
-                        return Card(
-                            child:Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children:
-
-                                [
-                                  Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            )
-                        );
-                      }
-                      index -=1;
-                      return _createRow(state.pedidos[index],context,index,admn);
-                    }else{
-                      if(index==0){
-                        return Card(
-                            child:Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child:Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children:
-
-                                [
-                                  Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
-                                  Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
-                                ],
-                              ),
-                            )
-                        );
-                      }
-                      index -=1;
-                      return _createRow(state.pedidos[index],context,index,admn);
+              ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.pedidos==null ? 1 : state.pedidos.length + 1,
+                itemBuilder: (context, index) {
+                  if(admn){
+                    if(index==0){
+                      return Card(
+                          child:Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child:Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children:
+                              [
+                                Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
+                                Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+                                Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          )
+                      );
                     }
-                  },
-                )
-              ;
+                    index -=1;
+                    return _createRow(state.pedidos[index],context,index,admn);
+                  }else{
+                    if(index==0){
+                      return Card(
+                          child:Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child:Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children:
+                              [
+                                Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
+                                Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                              ],
+                            ),
+                          )
+                      );
+                    }
+                    index -=1;
+                    return _createRow(state.pedidos[index],context,index,admn);
+                  }
+                },
+              )
+            ;
         },
       ),
     );
@@ -86,13 +87,14 @@ class ListaPedidos extends StatelessWidget{
 
 }
 Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
-
   return GestureDetector(
     onTap: (){
-      EasyLoading.showToast("Este es el detalle del pedido "+p.id+", y entregar?");
+      EasyLoading.showToast("tapped "+p.id);
+      BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventGetDetalle(p.id));
+
+
     },
     child: Dismissible(
-
         key: Key(p.toString()),
         confirmDismiss: (direction) async {
           return await showDialog(
@@ -140,7 +142,56 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
           ),
         )),
   );
+
+
+
 }
+Future<void> getDetalle(BuildContext context,String id) async{
+  BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventGetDetalle(id));
+}
+void crearModal(BuildContext context, String id) {
+  EasyLoading.show();
+  PedidoDetalleView detalleView;
+  getDetalle(context, id).then((value) {
+    detalleView=AlmacenState().detalleView;
+    EasyLoading.dismiss();
+  });
+  showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(height: 200,
+          color: Colors.amber,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text('Pedido Número ' +
+                    detalleView.pedidoId.toString()),
+                Text('Usuario: ' + detalleView.usuario),
+                Text('Estado: ' + detalleView.estadopedido),
+                ListView.builder(
+                    itemCount: detalleView.articulosPedidos.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(title: Text(
+                          detalleView.articulosPedidos[index].cantidad
+                              .toString() + " " +
+                              detalleView.articulosPedidos[index]
+                                  .nombre),);
+                    }),
+                ElevatedButton(
+                  child: const Text('Cerrar'),
+                  onPressed: () => Navigator.pop(context),
+                )
+              ],
+            ),
+          ),);
+      });
+}
+
+
+
+
 
 void _entregarPedido (String id) {
   EasyLoading.showToast("Pedido número "+id+" entregado.");

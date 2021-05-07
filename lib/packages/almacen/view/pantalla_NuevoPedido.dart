@@ -32,12 +32,6 @@ class NuevoPedido extends StatelessWidget{
                   padding: EdgeInsets.all(25.0),
                   child: Column(
                     children: [
-                      Center(
-                          child: Text("Nuevo Pedido",style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold))
-                      ),
-                      SizedBox(height: 10.0,),
-                      Divider(height: 0.5,color: Colors.orange,),
-                      SizedBox(height: 10.0,),
                       _crearVista(context, admn, state),
                       FloatingActionButton.extended(
                         onPressed: () => {},

@@ -13,7 +13,7 @@ class Pedido extends Equatable{
   Pedido(this.id,this.usuario,this.estadoPedido,this.observaciones, this.fecha);
 
   Pedido.fromJson(Map<String, dynamic> json):
-        id="json['id']",
+        id=json['viewId'],
         estadoPedido=json['estadoPedido'],
         usuario=json['usuario'],
         fecha=json['fecha'],

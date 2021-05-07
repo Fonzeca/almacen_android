@@ -1,10 +1,9 @@
 import 'dart:convert';
 import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
-import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
-import 'package:almacen_android/packages/almacen/model/pojo/nuevo_pedido.dart';
 import 'package:almacen_android/packages/almacen/model/user.dart';
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:almacen_android/packages/almacen/model/pojo/almacenPojos.dart';
 import 'package:http/http.dart' as http;
 
 class Servidor {
@@ -49,6 +48,18 @@ class Servidor {
     }else EasyLoading.showError("Algo salió mal :(\n Por favor vuelva a intentarlo.");
   }
 
+  Future<PedidoDetalleView> getDetallePedido(int id) async{
+    String endpoint = "/pedido/detalle";
+    String params = "?id="+id.toString();
+    String url = ipServer+endpoint+params;
+
+    print(url);
+    var response = await MindiaHttpClient.instance().get(url);
+    print("getPedidoEspecifico/ Status: "+response.statusCode.toString()+" Body: "+response.body);
+    var n = json.decode(response.body);
+    PedidoDetalleView pedidoDetalleView= new PedidoDetalleView.fromJson(n);
+    return pedidoDetalleView;
+  }
   /// Api calls Articulos.
 
   Future<List<Articulo>> listarArticulos() async{
