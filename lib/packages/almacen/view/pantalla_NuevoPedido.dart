@@ -181,7 +181,7 @@ class NuevoPedido extends StatelessWidget{
           IconButton(icon: const Icon(Icons.add),
               onPressed: () {
                 if(nombreArticulo != null && nombreArticulo.isNotEmpty
-                    && cantidad != null && cantidad.isNotEmpty){
+                    && cantidad != null && cantidad.isNotEmpty && cantidad != "0"){
                   _agregarArt(context, nombreArticulo, cantidad);
                   _typeAheadController.text = "";
                   nombreArticulo = "";
