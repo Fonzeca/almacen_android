@@ -48,11 +48,11 @@ List<DataRow> _createRow (List<Equipo>equipos){
   for(Equipo a in equipos){
     rows.add(DataRow(cells: [
       DataCell(Text(a.nombre)),
-      DataCell(Text(a.tipo.nombre)),
+      DataCell(Text(a.tipo)),
       DataCell(Text(a.usuario)),
-      DataCell(Text(a.lugar.nombre)),
+      DataCell(Text(a.lugar)),
       DataCell(Text(a.modelo)),
-      DataCell(Text(a.estado)),
+      DataCell(Text(a.enUso?"En uso":"Disponible")),
       DataCell(Text('botones '))]));
   }
   return rows;
