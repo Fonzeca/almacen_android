@@ -83,6 +83,15 @@ class ListaPedidos extends StatelessWidget{
 
 }
 Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
+  Color colorEstado = Colors.black;
+  if(p.estadoPedido == "En Curso"){
+    colorEstado = Colors.black;
+  }else if(p.estadoPedido == "Entregado"){
+    colorEstado = Colors.green;
+  }else if(p.estadoPedido == "En Espera"){
+    colorEstado = Colors.black;
+  }
+
   return GestureDetector(
     onTap: (){
       EasyLoading.show();
@@ -116,7 +125,7 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
           _eliminarPedido(context,p.id);
         },background: Container(color: Colors.red,),
         child: Card(
-          color: index.isEven ? Colors.white : Colors.black12,
+          color: index.isEven ? Colors.white : Colors.white,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 4.0),
             child: Row(
@@ -125,11 +134,11 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
               [
                 Text(p.fecha),
                 Text(p.usuario),
-                Text(p.estadoPedido),
+                Text(p.estadoPedido, style: TextStyle(color: colorEstado),),
               ]:
               [
                 Text(p.fecha),
-                Text(p.estadoPedido),
+                Text(p.estadoPedido, style: TextStyle(color: colorEstado),),
               ],
 
             ),
