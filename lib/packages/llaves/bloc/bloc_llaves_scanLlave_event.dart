@@ -14,3 +14,7 @@ class ScannearLlaveCambiarQr extends ScannearLlaveEvent{
   final String nuevoQr;
   ScannearLlaveCambiarQr (this.nuevoQr);
 }
+class ScannearLlaveBuscarLlave extends ScannearLlaveEvent{
+  String id;
+  ScannearLlaveBuscarLlave(this.id,);
+}
