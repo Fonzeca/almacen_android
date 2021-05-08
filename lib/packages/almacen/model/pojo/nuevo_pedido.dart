@@ -14,6 +14,13 @@ class NuevoPedido extends Equatable{
         nombresArticulos = json['nombresArticulos'],
         cantidadesArticulos = json['cantidadesArticulos'];
 
+  Map<String, dynamic> toJson() => {
+    'observaciones': observaciones,
+    'nombreUsuario': nombreUsuario,
+    'nombresArticulos': nombresArticulos,
+    'cantidadesArticulos': cantidadesArticulos,
+  };
+
   @override
   List<Object> get props => [observaciones, nombreUsuario, nombresArticulos, cantidadesArticulos];
 }

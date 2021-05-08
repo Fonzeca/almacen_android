@@ -8,7 +8,7 @@ class Tipo extends Equatable{
   Tipo(this.nombre,this.equipos);
   Tipo.fromJson(Map<String, dynamic> json):
       nombre=json['nombre'],
-  equipos=json['equipos'];
+      equipos=json['equipos'];
 
   @override
   List<Object> get props => [nombre,equipos];

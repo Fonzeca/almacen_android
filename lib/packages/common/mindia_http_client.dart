@@ -11,6 +11,7 @@ class MindiaHttpClient extends http.BaseClient {
 
   Future<http.StreamedResponse> send(http.BaseRequest request) {
     if(TOKEN.isNotEmpty){
+      request.headers['Content-Type'] = "application/json; charset=utf-8";
       request.headers['Authorization'] = "Bearer " + TOKEN;
     }
     print(request.headers);

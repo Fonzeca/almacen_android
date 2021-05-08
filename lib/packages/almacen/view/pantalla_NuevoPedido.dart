@@ -34,7 +34,7 @@ class NuevoPedido extends StatelessWidget{
                     children: [
                       _crearVista(context, admn, state),
                       FloatingActionButton.extended(
-                        onPressed: () => {},
+                        onPressed: () => _clickNuevoPedido(context),
                         icon: const Icon(Icons.save_alt),
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         backgroundColor: Theme.of(context).accentColor,
@@ -178,8 +178,6 @@ class NuevoPedido extends StatelessWidget{
                 if(nombreArticulo != null && nombreArticulo.isNotEmpty
                     && cantidad != null && cantidad.isNotEmpty && cantidad != "0"){
                   _agregarArt(context, nombreArticulo, cantidad);
-                  _typeAheadController.text = "";
-                  nombreArticulo = "";
                 }else {
                   EasyLoading.showToast("Por favor ingrese un artículo y cantidad válidos.");
                 }
@@ -210,11 +208,22 @@ class NuevoPedido extends StatelessWidget{
 
   void _agregarArt (BuildContext context, String nombre, String cant){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombre, cant));
+    _typeAheadController.text = "";
+    nombreArticulo = "";
+    cantidad = null;
   }
 
   void _quitarArt (BuildContext context, String nombre){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventDeleteArt(nombre));
   }
+
+  void _clickNuevoPedido(BuildContext context){
+    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSavePedido());
+  }
+
+
+
+
 }
 
 

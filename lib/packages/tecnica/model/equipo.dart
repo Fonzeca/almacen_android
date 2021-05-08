@@ -2,27 +2,20 @@ import 'package:equatable/equatable.dart';
 import 'modelTecnica.dart';
 
 class Equipo extends Equatable {
-  final Lugar lugar;
-  final Tipo tipo;
-  final String nombre, serial, modelo, observaciones,usuario,
-  accesorios, estado;
-  List<Registro> registros;
+  final String nombre, serial, modelo, observaciones, usuario, accesorios;
+  final bool enUso;
 
-  Equipo(this.usuario,this.observaciones,this.nombre,this.estado,this.accesorios,this.lugar,this.modelo,this.registros,this.serial,this.tipo);
+  Equipo(this.usuario, this.observaciones, this.nombre, this.enUso, this.accesorios, this.modelo, this.serial);
 
   Equipo.fromJson(Map<String, dynamic> json):
-  lugar=json['lugar'],
-  tipo=json['tipo'],
-  usuario=json['usuario.getNombreUsuario'],
-  nombre=json['nombre'],
-  serial=json['serial'],
-  modelo=json['modelo'],
-  observaciones=json['observaciones'],
-  accesorios=json['accesorios'],
-  estado=json['estado'],
-  registros=json['registros'];
+        usuario = json['usuario'],
+        nombre = json['nombre'],
+        serial = json['serial'],
+        modelo = json['modelo'],
+        observaciones = json['observaciones'],
+        accesorios = json['accesorios'],
+        enUso = json['enUso'];
 
   @override
-  List<Object> get props => [nombre, modelo, tipo,serial,
-  lugar,usuario,estado,accesorios,observaciones,registros];
+  List<Object> get props => [nombre, modelo, serial, usuario, enUso, accesorios, observaciones];
 }

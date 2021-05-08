@@ -28,7 +28,7 @@ class Servidor {
     }
     return pedidos;
   }
-  //TODO: Test !!
+
   Future<void> crearPedido(String observaciones, String user, List<Artxcant> articulos) async{
     String endpoint = "/pedido";
     String cant="", arts="";
@@ -37,12 +37,11 @@ class Servidor {
       cant += a.cantidad.toString()+" - ";
       arts += a.nombreArt.toString()+" - ";
     }
-    NuevoPedido createPedidoRequest= new NuevoPedido(observaciones,user,arts,cant);
-    String params = "?User="+user+"&textAreaObservaciones="+observaciones+"&inputArt="+arts+"&inputCantidad"+cant;
-    var response = await MindiaHttpClient.instance().post(ipServer+endpoint,body: jsonEncode(createPedidoRequest));
-    print("crearPedido/ Status: "+response.statusCode.toString()+" Body: "+response.body);
+    NuevoPedido createPedidoRequest= new NuevoPedido(observaciones, user, arts, cant);
 
-    if(response.statusCode==200){
+    var response = await MindiaHttpClient.instance().post(ipServer+endpoint,body: jsonEncode(createPedidoRequest));
+
+    if(response.statusCode == 200){
       EasyLoading.showSuccess("Pedido creado con éxito!");
 
     }else EasyLoading.showError("Algo salió mal :(\n Por favor vuelva a intentarlo.");
