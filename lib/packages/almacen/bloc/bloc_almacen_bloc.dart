@@ -18,23 +18,22 @@ class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
   Stream<AlmacenState> mapEventToState(AlmacenEvent event,) async* {
     if(event is AlmacenEventBuscarPedidos){
       List<Pedido> pedidos = [];
-      pedidos = await _servidor.listarPedidos();
-      yield state.copyWith(pedidos: pedidos, carga: false);
-    }
 
-
-    if(event is AlmacenEventInitialize){
       yield state.copyWith(carga: true);
 
-    }
+      pedidos = await _servidor.listarPedidos();
 
-    if(event is AlmacenEventGetDetalle){
+      yield state.copyWith(pedidos: pedidos, carga: false);
+    }else if(event is AlmacenEventGetDetalle){
+      yield state.copyWith(carga: true);
       AlmacenEventGetDetalle getDetalle = event as AlmacenEventGetDetalle;
       int id = int.parse(getDetalle.id);
+
       print("Se busca el detalle con id"+id.toString());
+
       PedidoDetalleView detalleView = await _servidor.getDetallePedido(id);
 
-      yield state.copyWith(detalleView: detalleView);
+      yield state.copyWith(detalleView: detalleView, carga: false);
     }
 
 

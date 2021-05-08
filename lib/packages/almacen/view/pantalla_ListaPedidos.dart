@@ -12,32 +12,28 @@ class ListaPedidos extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventInitialize());
+    BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
     return BlocListener<AlmacenBloc,AlmacenState>(
       listener: (context, state) {
-        switch(state.carga){
-          case true:
-            EasyLoading.show();
-            break;
-          case false:
-            EasyLoading.dismiss();
-            break;
+        if (state.carga){
+          EasyLoading.show();
+        }else{
+          EasyLoading.dismiss();
         }
-        if(state.detalleView!=null){
+        if(state.detalleView != null){
           crearModal(context,state.detalleView);
         }
       },
       child:
       BlocBuilder<AlmacenBloc,AlmacenState>(
         builder: (context, state) {
-          if (state.pedidos ==null){
-            BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
+          if (state.pedidos == null){
             return Container();
           }else
             return
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: state.pedidos==null ? 1 : state.pedidos.length + 1,
+                itemCount: state.pedidos == null ? 1 : state.pedidos.length + 1,
                 itemBuilder: (context, index) {
                   if(admn){
                     if(index==0){
