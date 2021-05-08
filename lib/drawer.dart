@@ -161,7 +161,7 @@ class MainDrawer extends StatelessWidget{
             case 99:
               CommonApiCalls commonApiCalls= CommonApiCalls();
               commonApiCalls.logout().then((value) {
-                return MyApp();
+                return Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
               });
           }
           return Container();

@@ -40,7 +40,6 @@ class NuevoPedido extends StatelessWidget{
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                         backgroundColor: Theme.of(context).accentColor,
                         elevation: 5,
-
                         label: const Text('Aceptar',
                           style: TextStyle(
                             color: Colors.white,
@@ -65,50 +64,38 @@ class NuevoPedido extends StatelessWidget{
   }
 
   Widget _crearVista (BuildContext context, bool adm, NuevoPedidoState state){
+    Widget seccionElegirUsuario = null;
+
     if(adm){
-      return Column(
-        children: [
-          Text("Usuario",style: TextStyle(color: Colors.grey)),
-          DropdownButton<String>(
-            value: state.nombreUsuario,
-            items: state.listaUsuarios.map<DropdownMenuItem<String>>((String value){
-              return DropdownMenuItem<String>(value : value,child: Text(value,style: TextStyle(color: Colors.black),),);
-            }).toList(),
-            onChanged: (String newValue){
-              BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSetUser(newValue));
-            },
-            style: TextStyle(fontSize: 16),
-          ),
-          Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
-          SizedBox(height: 10.0,),
-          Container(
-              height: 250,
-              child: _listaArticulos(context, state)
-          ),
-          Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
-          SizedBox(height: 10.0),
-          TextField(
-              maxLength: 140,
-              maxLines: 4,
-              decoration: const InputDecoration(
-                contentPadding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 10.0),
-                hintStyle: TextStyle(color: Colors.grey),
-                hintText: "Observaciones",
-              ),
-              controller: _observacionesController
-          ),
-        ],
-      );
+      seccionElegirUsuario =
+        Column(
+          children: [
+            Text("Usuario",style: TextStyle(color: Colors.grey)),
+            DropdownButton<String>(
+              value: state.nombreUsuario,
+              items: state.listaUsuarios.map<DropdownMenuItem<String>>((String value){
+                return DropdownMenuItem<String>(value : value,child: Text(value,style: TextStyle(color: Colors.black),),);
+              }).toList(),
+              onChanged: (String newValue){
+                BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSetUser(newValue));
+              },
+              style: TextStyle(fontSize: 16),
+            ),
+            Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+            SizedBox(height: 10.0,),
+          ],
+        );
     }
-    else{
-      return Column(
-        children: [
-          Container(
-              height: 200,
-              child: _listaArticulos(context, state)
-          ),
-          SizedBox(height: 10.0),
-          TextField(
+    return Column(
+      children: [
+        seccionElegirUsuario ?? Container(),
+        Container(
+            height: 250,
+            child: _listaArticulos(context, state)
+        ),
+        Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+        SizedBox(height: 10.0),
+        TextField(
             maxLength: 140,
             maxLines: 4,
             decoration: const InputDecoration(
@@ -116,11 +103,10 @@ class NuevoPedido extends StatelessWidget{
               hintStyle: TextStyle(color: Colors.grey),
               hintText: "Observaciones",
             ),
-            controller: _observacionesController,
-          )
-        ],
-      );
-    }
+            controller: _observacionesController
+        ),
+      ],
+    );
   }
 
   Widget _listaArticulos(BuildContext context, NuevoPedidoState state){
@@ -155,7 +141,6 @@ class NuevoPedido extends StatelessWidget{
                   ),
                   controller: _typeAheadController,
                 ),
-
                 suggestionsCallback: (pattern) async{
                   if(pattern.length < 3){
                     return ["NO HAY"];

@@ -41,12 +41,7 @@ class CommonApiCalls {
 
   }
   Future<void> logout() async {
-    String endpoint = "/logout";
-
-    var url = ipServer + endpoint;
-
-    http.Response response = await http.get(url);
-    print("/LogOut Status: "+response.body);
+    MindiaHttpClient.TOKEN = "";
   }
 
 }

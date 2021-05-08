@@ -150,16 +150,19 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
   showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return Container(height: 200,
+        return Container(height: 250,
           color: Colors.white,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
-                Text('Pedido Número ' +
-                    detalleView.pedidoId.toString()),
-                SizedBox(height: 10.0,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text('Pedido Número ' +
+                      detalleView.pedidoId.toString()),
+                ),
+                SizedBox(height: 5.0,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -169,28 +172,41 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
                   ],
                 ),
                 Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
-                ListView.builder(
-                  shrinkWrap: true,
-                    itemCount: detalleView.articulosPedidos.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(title: Text(
-                          detalleView.articulosPedidos[index].cantidad
-                              .toString() + " " +
-                              detalleView.articulosPedidos[index]
-                                  .nombre),);
-                    }),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton.icon(onPressed: ()=> _entregarPedido(context, detalleView.pedidoId.toString()),
-                      label: const Text('Entregar'), icon: const Icon(Icons.check_circle_outline_sharp),
-                      style: ElevatedButton.styleFrom(primary: Colors.green),),
-                    SizedBox(width: 40.0,),
-                    ElevatedButton(
-                      child: const Text('Cerrar'),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ],
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: detalleView.articulosPedidos.length,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          color: (index % 2 == 0) ? Colors.white : Colors.black12,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            child: Text(detalleView.articulosPedidos[index].cantidad
+                                .toString() + " " +
+                                detalleView.articulosPedidos[index].nombre
+                            ),
+                          ),
+                        );
+                      }),
+                  ),
+                ),
+                Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton.icon(onPressed: ()=> _entregarPedido(context, detalleView.pedidoId.toString()),
+                        label: const Text('Entregar'), icon: const Icon(Icons.check_circle_outline_sharp),
+                        style: ElevatedButton.styleFrom(primary: Colors.green),),
+                      SizedBox(width: 40.0,),
+                      ElevatedButton(
+                        child: const Text('Cerrar'),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                    ],
+                  ),
                 )
               ],
             ),

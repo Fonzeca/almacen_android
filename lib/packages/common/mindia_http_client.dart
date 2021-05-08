@@ -14,7 +14,6 @@ class MindiaHttpClient extends http.BaseClient {
       request.headers['Content-Type'] = "application/json; charset=utf-8";
       request.headers['Authorization'] = "Bearer " + TOKEN;
     }
-    print(request.headers);
     return _inner.send(request);
   }
 
