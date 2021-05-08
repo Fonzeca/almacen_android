@@ -91,8 +91,6 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
     onTap: (){
       EasyLoading.show();
       BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventGetDetalle(p.id));
-
-
     },
     child: Dismissible(
         key: Key(p.toString()),

@@ -3,6 +3,7 @@ import 'package:almacen_android/packages/tecnica/model/equipo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ListaEquipos extends StatelessWidget{
   @override
@@ -14,22 +15,27 @@ class ListaEquipos extends StatelessWidget{
         _equipos=state.listaEquipos;
         return Container();
       }else{
-        return  SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
+        return  GestureDetector(
+          onTap: (){
+            EasyLoading.showToast("deatelle?");
+          },
           child: SingleChildScrollView(
-            scrollDirection: Axis.vertical,
-            padding: const EdgeInsets.all(8.0),
-            child: DataTable(
-                sortColumnIndex: 1,
-                columns: [
-                  DataColumn(label: Text("Nombre")),
-                  DataColumn(label: Text("Tipo")),
-                  DataColumn(label: Text("Usuario actual")),
-                  DataColumn(label: Text("Lugar")),
-                  DataColumn(label: Text("Modelo")),
-                  DataColumn(label: Text("Estado")),
-                  DataColumn(label: Text("Acción")),
-                ], rows: _createRow(_equipos)),
+            scrollDirection: Axis.horizontal,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              padding: const EdgeInsets.all(8.0),
+              child: DataTable(
+                  sortColumnIndex: 1,
+                  columns: [
+                    DataColumn(label: Text("Nombre")),
+                    DataColumn(label: Text("Tipo")),
+                    DataColumn(label: Text("Usuario actual")),
+                    DataColumn(label: Text("Lugar")),
+                    DataColumn(label: Text("Modelo")),
+                    DataColumn(label: Text("Estado")),
+                    DataColumn(label: Text("Acción")),
+                  ], rows: _createRow(_equipos)),
+            ),
           ),
         );
       }

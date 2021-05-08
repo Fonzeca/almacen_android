@@ -5,6 +5,7 @@ import 'package:almacen_android/packages/almacen/model/pojo/loggedUser.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_llaves_scanLlave_bloc.dart';
 import 'package:almacen_android/packages/tecnica/bloc/bloc_listaEquipos_bloc.dart';
+import 'package:almacen_android/packages/tecnica/bloc/bloc_listaRegistros_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => NuevoPedidoBloc(),),
         BlocProvider(create: (context)=> ScannearLlaveBloc(),),
         BlocProvider(create: (context)=> ListaEquiposBloc(),),
+        BlocProvider(create: (context)=> ListaRegistrosBloc(),),
       ],
     );
   }
