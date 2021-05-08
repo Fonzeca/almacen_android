@@ -33,4 +33,7 @@ class NuevoPedidoEventSetUser extends NuevoPedidoEvent{
 }
 
 class NuevoPedidoEventSavePedido extends NuevoPedidoEvent{
+  final String observaciones;
+
+  NuevoPedidoEventSavePedido(this.observaciones);
 }

@@ -15,6 +15,7 @@ class NuevoPedido extends StatelessWidget{
   String cantidad;
 
   final TextEditingController _typeAheadController = TextEditingController();
+  final TextEditingController _observacionesController = TextEditingController();
 
 
   NuevoPedido({Key key, @required this.admn}):super(key: key);
@@ -81,15 +82,20 @@ class NuevoPedido extends StatelessWidget{
           Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
           SizedBox(height: 10.0,),
           Container(
-              height: 200,
+              height: 250,
               child: _listaArticulos(context, state)
           ),
+          Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
           SizedBox(height: 10.0),
-          TextField(maxLength: 140, maxLines: 4,decoration: const InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 10.0),
-            hintStyle: TextStyle(color: Colors.grey),
-            hintText: "Observaciones",
-          ),
+          TextField(
+              maxLength: 140,
+              maxLines: 4,
+              decoration: const InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 10.0),
+                hintStyle: TextStyle(color: Colors.grey),
+                hintText: "Observaciones",
+              ),
+              controller: _observacionesController
           ),
         ],
       );
@@ -102,11 +108,15 @@ class NuevoPedido extends StatelessWidget{
               child: _listaArticulos(context, state)
           ),
           SizedBox(height: 10.0),
-          TextField(maxLength: 140, maxLines: 4,decoration: const InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 10.0),
-            hintStyle: TextStyle(color: Colors.grey),
-            hintText: "Observaciones",
-          ),
+          TextField(
+            maxLength: 140,
+            maxLines: 4,
+            decoration: const InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 10.0),
+              hintStyle: TextStyle(color: Colors.grey),
+              hintText: "Observaciones",
+            ),
+            controller: _observacionesController,
           )
         ],
       );
@@ -148,15 +158,26 @@ class NuevoPedido extends StatelessWidget{
 
                 suggestionsCallback: (pattern) async{
                   if(pattern.length < 3){
-                    return [];
+                    return ["NO HAY"];
                   }
                   return Servidor().getArticulosLikeNombre(pattern);
                 },
-                itemBuilder: (context, itemData) {
+                noItemsFoundBuilder: (context) {
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(itemData.nombre),
+                    child: Text("No se encontro", style: TextStyle(fontSize: 20, color: Colors.black26),),
                   );
+                },
+                hideOnError: true,
+                itemBuilder: (context, itemData) {
+                  if(itemData == "NO HAY"){
+                    return Container();
+                  }else{
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(itemData.nombre),
+                    );
+                  }
                 },
                 onSuggestionSelected: (suggestion) {
                   _typeAheadController.text = suggestion.nombre;
@@ -218,7 +239,8 @@ class NuevoPedido extends StatelessWidget{
   }
 
   void _clickNuevoPedido(BuildContext context){
-    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSavePedido());
+    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSavePedido(_observacionesController.text));
+    _observacionesController.text = "";
   }
 
 

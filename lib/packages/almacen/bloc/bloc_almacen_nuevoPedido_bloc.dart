@@ -85,8 +85,15 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
   }
 
   Stream<NuevoPedidoState> onEventSavePedido(NuevoPedidoEventSavePedido event) async*{
-    await _servidor.crearPedido(state.observaciones, state.nombreUsuario, state.articulosAPedir);
-    yield state;
+    await _servidor.crearPedido(event.observaciones, state.nombreUsuario, state.articulosAPedir);
+    LoggedUser userActual = await _apiCalls.getLoggedUser();
+
+    yield state.copyWith(
+      listaArticulos: [],
+      nombreUsuario: userActual.nombreUsuario,
+      articulosAPedir: [],
+      observaciones: ""
+    );
   }
 
   Stream<NuevoPedidoState> onEventSetUser(NuevoPedidoEventSetUser event) async*{
@@ -96,8 +103,7 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
   }
 
   Stream<NuevoPedidoState> onEventInitialize(NuevoPedidoInitialize event) async*{
-    NuevoPedidoInitialize nuevoPedidoInitialize=event as NuevoPedidoInitialize;
-    if(nuevoPedidoInitialize.adm){
+    if(event.adm){
       List<String> lstusuarios = await _servidor.listarUsuarios();
       List<Articulo> articulos =  await _servidor.listarArticulos();
       //TODO: que pasa si la lista esta vacia o null?
@@ -106,8 +112,9 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
 
     }else{
       List<Articulo> articulos =  await _servidor.listarArticulos();
+      LoggedUser userActual = await _apiCalls.getLoggedUser();
       //TODO: Agregar tanto acá como arriba el usuario actual.
-      yield state.copyWith(listaArticulos: articulos);
+      yield state.copyWith(listaArticulos: articulos, nombreUsuario: userActual.nombreUsuario);
 
     }
   }

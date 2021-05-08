@@ -121,10 +121,10 @@ class _MyHomePageState extends State<MyHomePage> {
             onChanged: (text) => emailText = text,
             keyboardType: TextInputType.emailAddress,
             cursorColor: Colors.white,
-            
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
+
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -157,6 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
           child: TextField(
             onChanged: (text) => passwordText = text,
             obscureText: true,
+            cursorColor: Colors.white,
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
