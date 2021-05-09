@@ -9,15 +9,15 @@ class Equipo extends Equatable {
 
   Equipo.fromJson(Map<String, dynamic> json):
       id= json['id'],
+        nombre = json['nombre'],
       tipo= json['tipo'],
         usuario = json['usuario'],
-        nombre = json['nombre'],
+        enUso = json['enUso'],
+        lugar = json['lugar'],
         serial = json['serial'],
         modelo = json['modelo'],
-        observaciones = json['observaciones'],
         accesorios = json['accesorios'],
-        lugar = json['lugar'],
-        enUso = json['enUso'];
+        observaciones = json['observaciones'];
 
   @override
   List<Object> get props => [nombre, modelo, serial, usuario, lugar, tipo, enUso, accesorios, observaciones];

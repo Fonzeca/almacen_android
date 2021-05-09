@@ -3,6 +3,8 @@ import 'package:almacen_android/packages/tecnica/model/equipo.dart';
 import 'package:almacen_android/packages/tecnica/model/registro.dart';
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 
 
 class ServidorTecnica {
@@ -26,6 +28,19 @@ class ServidorTecnica {
       equipos.add(equipo);
     }
     return equipos;
+  }
+
+  Future<Equipo> getDetalleEquipo(String id) async{
+    String endpoint = "/equipo/detalle";
+    String params = "?id="+id;
+    String url = ipServer+endpoint+params;
+    Equipo equipo;
+
+    var response = await MindiaHttpClient.instance().get(url);
+    print("/detalleEquipo Status: "+response.statusCode.toString()+" Body: "+response.body);
+    equipo = Equipo.fromJson(json.decode(response.body));
+
+    return equipo;
   }
 
 

@@ -177,7 +177,7 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
                         return Container(
                           color: (index % 2 == 0) ? Colors.white : Colors.black12,
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.symmetric(vertical: 6,horizontal: 4),
                             child: Text(detalleView.articulosPedidos[index].cantidad
                                 .toString() + " " +
                                 detalleView.articulosPedidos[index].nombre

@@ -10,3 +10,7 @@ abstract class ListaEquiposEvent extends Equatable{
 class ListaEquiposEventListarEquipos extends ListaEquiposEvent{
 
 }
+class ListaEquiposEventGetDetalle extends ListaEquiposEvent{
+  String id;
+  ListaEquiposEventGetDetalle(this.id);
+}

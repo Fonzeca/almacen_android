@@ -5,55 +5,193 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-class ListaEquipos extends StatelessWidget{
+class ListaEquipos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    List<Equipo> _equipos=[];
-    return BlocBuilder<ListaEquiposBloc,ListaEquiposState>(builder: (context,state){
-      if(_equipos == null){
-        BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquiposEventListarEquipos());
-        _equipos=state.listaEquipos;
-        return Container();
-      }else{
-        return  GestureDetector(
-          onTap: (){
-            EasyLoading.showToast("deatelle?");
-          },
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              padding: const EdgeInsets.all(8.0),
-              child: DataTable(
-                  sortColumnIndex: 1,
-                  columns: [
-                    DataColumn(label: Text("Nombre")),
-                    DataColumn(label: Text("Tipo")),
-                    DataColumn(label: Text("Usuario actual")),
-                    DataColumn(label: Text("Lugar")),
-                    DataColumn(label: Text("Modelo")),
-                    DataColumn(label: Text("Estado")),
-                    DataColumn(label: Text("Acción")),
-                  ], rows: _createRow(_equipos)),
-            ),
-          ),
-        );
-      }
-    });
-  }
-}
+    BlocProvider.of<ListaEquiposBloc>(context).add(
+        ListaEquiposEventListarEquipos());
+    return BlocListener<ListaEquiposBloc, ListaEquiposState>(
+      listener: (context, state) {
+        if (state.equipo != null) {
+          crearModal(context, state.equipo);
+        }
+      },
+      child: BlocBuilder<ListaEquiposBloc, ListaEquiposState>(
+          builder: (context, state) {
+            List <Equipo> _equipos = state.listaEquipos;
+            if (_equipos == null) {
+              _equipos = state.listaEquipos;
+              return Container();
+            } else {
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: _equipos == null ? 1 : _equipos.length+1,
+                  itemBuilder: (context, index){
+                    if(index == 0){
+                      return Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Nombre",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text("Tipo",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text("Usuario",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                              Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                    index -=1;
+                    return _createRow(_equipos[index], context, index);
 
-List<DataRow> _createRow (List<Equipo>equipos){
-  List<DataRow> rows= [];
-  for(Equipo a in equipos){
-    rows.add(DataRow(cells: [
-      DataCell(Text(a.nombre)),
-      DataCell(Text(a.tipo)),
-      DataCell(Text(a.usuario)),
-      DataCell(Text(a.lugar)),
-      DataCell(Text(a.modelo)),
-      DataCell(Text(a.enUso?"En uso":"Disponible")),
-      DataCell(Text('botones '))]));
+              });
+            }
+          }),
+    );
   }
-  return rows;
+
+  Widget _createRow(Equipo p, BuildContext context, int index) {
+    return GestureDetector(
+      onTap: () {
+        EasyLoading.show();
+        BlocProvider.of<ListaEquiposBloc>(context).add(
+            (ListaEquiposEventGetDetalle(p.id.toString())));
+      },
+      child: Dismissible(
+          key: Key(p.toString()),
+          confirmDismiss: (direction) async {
+            return await showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: const Text("Atención!"),
+                  content: const Text("¿Eliminar el equipo?"),
+                  actions: <Widget>[
+                    TextButton(
+                        onPressed: () => Navigator.of(context).pop(true),
+                        child: const Text("Eliminar")
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: const Text("Cancelar"),
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+
+          onDismissed: (DismissDirection direction) {
+            _eliminarEquipo(context, p.id);
+          },
+          background: Container(color: Colors.red,),
+          child: Card(
+            color: index.isEven ? Colors.white : Colors.black12,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0, vertical: 4.0),
+              child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:
+                  [
+                    Text(p.nombre),
+                    Text(p.tipo),
+                    Text(p.usuario),
+                    p.enUso ? Text("En uso",) : Text("Disponible",),
+                  ]
+
+              ),
+            ),
+          )),
+    );
+  }
+
+  void _cambiarEstadoEquipo(BuildContext context, int idi) {
+    String id = idi.toString();
+    EasyLoading.showToast("Pedido número " + id + " entregado.");
+    //TODO: llamar api entregar y eliminar respectivamente.
+    Navigator.pop(context);
+  }
+
+  void _eliminarEquipo(BuildContext context, int idi) {
+    String id = idi.toString();
+    EasyLoading.showToast("Se eliminó el pedido número " + id + ", kappa");
+  }
+
+  void crearModal(BuildContext context, Equipo equipo) {
+    Equipo detalleView = equipo;
+    EasyLoading.dismiss();
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(height: 250,
+            color: Colors.white,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Equipo: ' +
+                            detalleView.nombre),
+                        Text('Tipo: ' + detalleView.tipo),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 5.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Usuario: ' + detalleView.usuario),
+                      detalleView.enUso
+                          ?
+                      Text(
+                        'Estado: En Uso', style: TextStyle(color: Colors.red),)
+                          :
+                      Text('Estado: Disponible',
+                          style: TextStyle(color: Colors.green)),
+                      Text('Lugar: ' + detalleView.lugar),
+                    ],
+                  ),
+                  SizedBox(height: 5.0,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Serial: ' + detalleView.serial),
+                      Text('Modelo: ' + detalleView.modelo),
+                      Text('Accesorios: ' + detalleView.accesorios)
+                    ],
+                  ),
+                  Text('Observaciones: ' + detalleView.observaciones),
+                  Divider(color: Colors.deepOrangeAccent, thickness: 1.0,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ElevatedButton.icon(onPressed: () =>
+                            _cambiarEstadoEquipo(context, detalleView.id),
+                          label: const Text('Cambiar Estado'),
+                          icon: const Icon(Icons.compare_arrows_outlined),
+                          style: ElevatedButton.styleFrom(
+                              primary: Colors.blue),),
+                        SizedBox(width: 40.0,),
+                        ElevatedButton(
+                          child: const Text('Cerrar'),
+                          onPressed: () => Navigator.pop(context),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+            ),);
+        });
+  }
 }
