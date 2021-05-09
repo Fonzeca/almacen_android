@@ -152,6 +152,8 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
 void crearModal(BuildContext context, PedidoDetalleView detalle) {
   PedidoDetalleView detalleView = detalle;
   EasyLoading.dismiss();
+  var txt = TextEditingController();
+  txt.text=detalleView.observaciones;
   showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -196,6 +198,9 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
                       }),
                   ),
                 ),
+                Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+
+                TextField(readOnly: true,controller: txt,),
                 Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
