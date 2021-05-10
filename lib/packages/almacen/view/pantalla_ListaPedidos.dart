@@ -1,6 +1,7 @@
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/model/pedido.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/almacenPojos.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -199,11 +200,13 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Text(
-                    detalle.observaciones ?? "",
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-
+                  Flexible(
+                    child: AutoSizeText(
+                      detalle.observaciones ?? "",
+                      textAlign: TextAlign.left,
+                      maxLines: 2,
+                      softWrap: true,
+                      overflow: TextOverflow.visible,
                     ),
                   ),
                 ],

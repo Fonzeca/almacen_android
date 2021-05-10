@@ -36,6 +36,7 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   flutter_launcher_icons: ^0.9.0
   highlighter_coachmark: ^0.0.3
+  auto_size_text: ^2.1.0
 
 flutter_icons:
   android: "launcher_icon"
