@@ -34,6 +34,16 @@ class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
       PedidoDetalleView detalleView = await _servidor.getDetallePedido(id);
 
       yield state.copyWith(detalleView: detalleView, carga: false);
+    }else if(event is AlmacenEventEntregarPedido){
+      yield state.copyWith(carga:true);
+      AlmacenEventEntregarPedido entregarPedido = event as AlmacenEventEntregarPedido;
+      await _servidor.entregarPedido(entregarPedido.id);
+      yield state.copyWith(carga:false);
+    }else if(event is AlmacenEventEliminarPedido){
+      yield state.copyWith(carga:true);
+      AlmacenEventEliminarPedido eliminarPedido = event as AlmacenEventEliminarPedido;
+      await _servidor.eliminarPedido(eliminarPedido.id);
+      yield state.copyWith(carga:false);
     }
 
 

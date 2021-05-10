@@ -17,4 +17,12 @@ class AlmacenEventGetDetalle extends AlmacenEvent{
   AlmacenEventGetDetalle(this.id);
 }
 
+class AlmacenEventEntregarPedido extends AlmacenEvent{
+  String id;
+  AlmacenEventEntregarPedido(this.id);
+}
 
+class AlmacenEventEliminarPedido extends AlmacenEvent{
+  String id;
+  AlmacenEventEliminarPedido(this.id);
+}
