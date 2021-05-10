@@ -237,10 +237,11 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
 
 
 void _entregarPedido (BuildContext context, String id) {
+  BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventEntregarPedido(id));
   EasyLoading.showToast("Pedido número "+id+" entregado.");
-  //TODO: llamar api entregar y eliminar respectivamente.
   Navigator.pop(context);
 }
 void _eliminarPedido (BuildContext context, String id){
-  EasyLoading.showToast("Se eliminó el pedido número "+id+", kappa");
+  BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventEliminarPedido(id));
+  EasyLoading.showToast("Se eliminó el pedido número "+id);
 }

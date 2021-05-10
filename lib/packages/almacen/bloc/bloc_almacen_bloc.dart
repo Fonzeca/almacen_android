@@ -5,7 +5,6 @@ import 'package:almacen_android/packages/almacen/model/pedido.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/almacenPojos.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 
 part 'bloc_almacen_event.dart';
 part 'bloc_almacen_state.dart';
@@ -37,13 +36,21 @@ class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
     }else if(event is AlmacenEventEntregarPedido){
       yield state.copyWith(carga:true);
       AlmacenEventEntregarPedido entregarPedido = event as AlmacenEventEntregarPedido;
+
       await _servidor.entregarPedido(entregarPedido.id);
-      yield state.copyWith(carga:false);
-    }else if(event is AlmacenEventEliminarPedido){
-      yield state.copyWith(carga:true);
+      List<Pedido> pedidos = await _servidor.listarPedidos();
+
+      yield state.copyWith(carga:false,pedidos: pedidos);
+    }else if(event is AlmacenEventEliminarPedido) {
       AlmacenEventEliminarPedido eliminarPedido = event as AlmacenEventEliminarPedido;
+
+      yield state.copyWith(carga: true);
+
       await _servidor.eliminarPedido(eliminarPedido.id);
-      yield state.copyWith(carga:false);
+      List<Pedido> pedidos = state.pedidos;
+      pedidos.removeWhere((element) => element.id == eliminarPedido.id);
+
+      yield state.copyWith(carga:false,pedidos: pedidos);
     }
 
 

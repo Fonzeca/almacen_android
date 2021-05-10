@@ -43,6 +43,25 @@ class ServidorTecnica {
     return equipo;
   }
 
+  Future<void> eliminarEquipo(String id) async{
+    String endpoint = "/equipo/eliminar";
+    String params = "?id="+id;
+    String url = ipServer+endpoint+params;
+
+    var response = await MindiaHttpClient.instance().get(url);
+    print("/eliminarEquipo Status: "+response.statusCode.toString()+", Body: "+response.body);
+
+  }
+
+  Future<void>cambiarEstadoEquipo(String id,bool enUso) async{
+    String endpoint = "/equipo/status";
+    int idi = id as int;
+    String params = "?enUso="+enUso.toString()+"&id="+idi.toString();
+    String url = ipServer+endpoint+params;
+
+    var response = await MindiaHttpClient.instance().put(url);
+    print("cambiarEstadoEquipo/ Status: "+response.statusCode.toString()+", Body: "+response.body);
+  }
 
   /**
    * Llamadas respectivas a Registros
@@ -59,5 +78,7 @@ class ServidorTecnica {
     }
     return registros;
   }
+
+
 
 }
