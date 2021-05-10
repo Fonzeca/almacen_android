@@ -149,79 +149,84 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
 
 
 }
-void crearModal(BuildContext context, PedidoDetalleView detalle) {
-  PedidoDetalleView detalleView = detalle;
-  EasyLoading.dismiss();
-  var txt = TextEditingController();
-  txt.text=detalleView.observaciones;
-  showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Container(height: 250,
-          color: Colors.white,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text('Pedido Número ' +
-                      detalleView.pedidoId.toString()),
-                ),
-                SizedBox(height: 5.0,),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Usuario: ' + detalleView.usuario),
-                    SizedBox(width: 20.0,),
-                    Text('Estado: ' + detalleView.estadopedido),
-                  ],
-                ),
-                Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: detalleView.articulosPedidos.length,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          color: (index % 2 == 0) ? Colors.white : Colors.black12,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 6,horizontal: 4),
-                            child: Text(detalleView.articulosPedidos[index].cantidad
-                                .toString() + " " +
-                                detalleView.articulosPedidos[index].nombre
-                            ),
-                          ),
-                        );
-                      }),
-                  ),
-                ),
-                Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
 
-                TextField(readOnly: true,controller: txt,),
-                Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton.icon(onPressed: ()=> _entregarPedido(context, detalleView.pedidoId.toString()),
-                        label: const Text('Entregar'), icon: const Icon(Icons.check_circle_outline_sharp),
-                        style: ElevatedButton.styleFrom(primary: Colors.green),),
-                      SizedBox(width: 40.0,),
-                      ElevatedButton(
-                        child: const Text('Cerrar'),
-                        onPressed: () => Navigator.pop(context),
-                      ),
-                    ],
+void crearModal(BuildContext context, PedidoDetalleView detalle) {
+  EasyLoading.dismiss();
+
+  showModalBottomSheet<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return Container(
+        height: 250,
+        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+        color: Colors.white,
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Text('Pedido Número ' +
+                  detalle.pedidoId.toString()),
+              SizedBox(height: 5.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('Usuario: ' + detalle.usuario),
+                  SizedBox(width: 20.0,),
+                  Text('Estado: ' + detalle.estadopedido),
+                ],
+              ),
+              Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: detalle.articulosPedidos.length,
+                    itemBuilder: (context, index) {
+                      ArticuloPedidoView articuloView = detalle.articulosPedidos[index];
+                      return Container(
+                        color: (index % 2 == 0) ? Colors.white : Colors.black12,
+                        child: ListTile(
+                          title: Text(articuloView.nombre),
+                          trailing: Text(articuloView.cantidad.toString()),
+                          dense: true,
+                        ),
+                      );
+                    }),
+                ),
+              ),
+              Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    detalle.observaciones ?? "",
+                    textAlign: TextAlign.left,
+                    style: TextStyle(
+
+                    ),
                   ),
-                )
-              ],
-            ),
-          ),);
-      });
+                ],
+              ),
+              Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(onPressed: ()=> _entregarPedido(context, detalle.pedidoId.toString()),
+                    label: const Text('Entregar'), icon: const Icon(Icons.check_circle_outline_sharp),
+                    style: ElevatedButton.styleFrom(primary: Colors.green),),
+                  SizedBox(width: 40.0,),
+                  ElevatedButton(
+                    child: const Text('Cerrar'),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ),);
+    }
+  );
 }
 
 
