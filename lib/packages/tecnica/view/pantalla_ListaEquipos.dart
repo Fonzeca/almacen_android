@@ -193,6 +193,6 @@ class ListaEquipos extends StatelessWidget {
 
   void _eliminarEquipo(BuildContext context, int idi) {
     String id = idi.toString();
-    EasyLoading.showToast("Se eliminó el pedido número " + id + ", kappa");
+    EasyLoading.showToast("Se hubiese eliminado el equipo número " + id+" si no fuera una Beta");
   }
 }
