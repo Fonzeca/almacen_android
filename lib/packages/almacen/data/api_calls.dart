@@ -68,7 +68,7 @@ class Servidor {
     String params = "?id="+id;
     String url = ipServer+endpoint+params;
 
-    var response = await MindiaHttpClient.instance().get(url);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("entregarPedido/ Status: "+response.statusCode.toString()+", Body: "+response.body);
   }
 
@@ -77,7 +77,7 @@ class Servidor {
     String params = "?id="+id;
     String url = ipServer+endpoint+params;
 
-    var response = await MindiaHttpClient.instance().get(url);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("eliminarPedido/ Status: "+response.statusCode.toString()+", Body: "+response.body);
   }
   /// Api calls Articulos.

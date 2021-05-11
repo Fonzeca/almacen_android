@@ -48,7 +48,7 @@ class ServidorTecnica {
     String params = "?id="+id;
     String url = ipServer+endpoint+params;
 
-    var response = await MindiaHttpClient.instance().get(url);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("/eliminarEquipo Status: "+response.statusCode.toString()+", Body: "+response.body);
 
   }
@@ -59,7 +59,7 @@ class ServidorTecnica {
     String params = "?enUso="+enUso.toString()+"&id="+idi.toString();
     String url = ipServer+endpoint+params;
 
-    var response = await MindiaHttpClient.instance().put(url);
+    var response = await MindiaHttpClient.instance().put(Uri.parse(url));
     print("cambiarEstadoEquipo/ Status: "+response.statusCode.toString()+", Body: "+response.body);
   }
 
