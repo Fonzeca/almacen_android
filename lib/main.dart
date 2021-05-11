@@ -101,9 +101,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ],
   );
-  String emailText = "root";
+  String emailText = "";
 
-  String passwordText = "almacen.C12";
+  String passwordText = "";
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -281,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> {
    */
   signIn(BuildContext context, String emailText, String passwordText) async{
 
-    if(emailText!='' && passwordText!=''){
+    if(emailText != '' && passwordText != ''){
       EasyLoading.show();
       CommonApiCalls _servidor = CommonApiCalls();
       bool logeado;
