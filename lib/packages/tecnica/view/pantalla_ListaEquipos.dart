@@ -188,6 +188,7 @@ class ListaEquipos extends StatelessWidget {
 
     EasyLoading.showToast("Equipo número " + idi.toString() + " se cambió de estado.");
     BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventCambiarEstadoEquipo(idi));
+    BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventLimpiarEquipo());
     Navigator.pop(context);
   }
 
