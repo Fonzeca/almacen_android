@@ -15,6 +15,7 @@ class ScannearLlaveBloc extends Bloc<ScannearLlaveEvent, ScannearLlaveState>{
   @override
   Stream<ScannearLlaveState> mapEventToState(ScannearLlaveEvent event,)async*{
     if(event is ScannearLlaveEventInitialize){
+      print("entro a inicializar"+state.qrDetectado.toString());
       yield state.copyWith(carga: true,qrDetectado: "");
     }else if(event is ScannearLlaveCambiarQr){
       ScannearLlaveCambiarQr eventCambiarQr = event as ScannearLlaveCambiarQr;

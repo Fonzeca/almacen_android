@@ -36,7 +36,6 @@ class ListaEquipos extends StatelessWidget {
                             children: [
                               Text("Nombre",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
                               Text("Tipo",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Usuario",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
                               Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
                             ],
                           ),
@@ -58,6 +57,7 @@ class ListaEquipos extends StatelessWidget {
         EasyLoading.show();
         BlocProvider.of<ListaEquiposBloc>(context).add(
             (ListaEquiposEventGetDetalle(p.id.toString())));
+
       },
       child: Dismissible(
           key: Key(p.toString()),
@@ -98,7 +98,6 @@ class ListaEquipos extends StatelessWidget {
                   [
                     Text(p.nombre),
                     Text(p.tipo),
-                    Text(p.usuario),
                     p.enUso ? Text("En uso",) : Text("Disponible",),
                   ]
 

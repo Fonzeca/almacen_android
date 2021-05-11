@@ -8,28 +8,39 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class ScanLlaves extends StatelessWidget{
   String identificacion;
+  bool scnner=false;
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveEventInitialize());
     return BlocListener<ScannearLlaveBloc,ScannearLlaveState>(
       listener: (context,state){
+
+        print(state.qrDetectado);
+
         if(state.carga){
           EasyLoading.show();
         }else EasyLoading.dismiss();
       },
       child: BlocBuilder<ScannearLlaveBloc,ScannearLlaveState>(
           builder: (context,state){
-            if(state.qrDetectado==""){
-              _scannear(context);
+            if(state.qrDetectado == null||state.qrDetectado == ""){
+              if(!scnner){
+                _scannear(context);
+              }
               return Container();
             }else{
               identificacion = state.qrDetectado;
               BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveBuscarLlave(identificacion));
+              if(state.llave != null){
+
               Llave llave = state.llave;
               return Container(
                 child: _crearVista(llave, context),
 
               );
+              }else{
+                return Container(child: Text("La llave devuelva fue nula"),);
+              }
             }
 
           }),
@@ -38,6 +49,7 @@ class ScanLlaves extends StatelessWidget{
   }
 
   Future<void> _scannear (BuildContext context) async{
+    scnner=true;
     await Permission.camera.request();
     String resultado= await FlutterBarcodeScanner.scanBarcode("#ff0000", "Cancelar", true, ScanMode.QR);
     if(resultado != null){
@@ -45,7 +57,9 @@ class ScanLlaves extends StatelessWidget{
         BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveCambiarQr(resultado));
 
       }else EasyLoading.showToast("El código scaneado no corresponde con una llave!\nPor favor inténtelo nuevamente.");
-    }else EasyLoading.showToast("No se encontró código para scannear");
+    }else{
+      EasyLoading.showToast("No se encontró código para scannear");
+    }
   }
 
 

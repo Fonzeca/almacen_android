@@ -16,7 +16,7 @@ class Servidor {
   /// Api calls Pedidos.
   Future<List<Pedido>> listarPedidos() async{
     String endpoint = "/pedido";
-
+    print(ipServer+endpoint);
     var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
 
     var jsonData = json.decode(response.body);
@@ -51,7 +51,7 @@ class Servidor {
     String endpoint = "/pedido/detalle";
     String params = "?id="+id.toString();
     String url = ipServer+endpoint+params;
-
+    print(url);
     var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("getPedidoEspecifico/ Status: "+response.statusCode.toString()+" Body: "+response.body);
     var n = json.decode(response.body);
