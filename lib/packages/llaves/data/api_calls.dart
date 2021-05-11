@@ -20,7 +20,7 @@ class ServidorLlaves {
     String endpoint, params;
     endpoint="/getLlave";
     params="?and=yes&id="+id;
-    var response=await client.get(ipServer+endpoint+params);
+    var response=await client.get(Uri.parse(ipServer+endpoint+params));
     print("getLlaveEspecifica/ Status: "+response.statusCode.toString()+" Body: "+response.body);
     var n = json.decode(response.body);
     Llave llave = Llave.fromJson(n);

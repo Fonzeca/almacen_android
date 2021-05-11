@@ -20,7 +20,7 @@ class ServidorTecnica {
     String endpoint = "/equipo";
     String url = ipServer+endpoint;
     List<Equipo> equipos= [];
-    var response= await MindiaHttpClient.instance().get(url);
+    var response= await MindiaHttpClient.instance().get(Uri.parse(url));
     print("/listarEquipos Status: "+response.statusCode.toString()+" Body: "+response.body);
     var jsonData = json.decode(response.body);
     for(var n in jsonData){
@@ -36,7 +36,7 @@ class ServidorTecnica {
     String url = ipServer+endpoint+params;
     Equipo equipo;
 
-    var response = await MindiaHttpClient.instance().get(url);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("/detalleEquipo Status: "+response.statusCode.toString()+" Body: "+response.body);
     equipo = Equipo.fromJson(json.decode(response.body));
 
@@ -51,7 +51,7 @@ class ServidorTecnica {
     String endpoint = "/registro";
     String url = ipServer+endpoint;
     List<Registro> registros=[];
-    var response= await MindiaHttpClient.instance().get(url);
+    var response= await MindiaHttpClient.instance().get(Uri.parse(url));
     print("/listarRegistros Status: "+response.statusCode.toString()+" Body: "+response.body);
     for(var n in json.decode(response.body)){
       Registro registro= Registro.fromJson(n);

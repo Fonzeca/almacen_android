@@ -17,7 +17,7 @@ class Servidor {
   Future<List<Pedido>> listarPedidos() async{
     String endpoint = "/pedido";
 
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
 
     var jsonData = json.decode(response.body);
 
@@ -39,7 +39,7 @@ class Servidor {
     }
     NuevoPedido createPedidoRequest= new NuevoPedido(observaciones, user, arts, cant);
 
-    var response = await MindiaHttpClient.instance().post(ipServer+endpoint,body: jsonEncode(createPedidoRequest));
+    var response = await MindiaHttpClient.instance().post(Uri.parse(ipServer+endpoint),body: jsonEncode(createPedidoRequest));
 
     if(response.statusCode == 200){
       EasyLoading.showSuccess("Pedido creado con éxito!");
@@ -52,7 +52,7 @@ class Servidor {
     String params = "?id="+id.toString();
     String url = ipServer+endpoint+params;
 
-    var response = await MindiaHttpClient.instance().get(url);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("getPedidoEspecifico/ Status: "+response.statusCode.toString()+" Body: "+response.body);
     var n = json.decode(response.body);
 
@@ -67,7 +67,7 @@ class Servidor {
   Future<List<Articulo>> listarArticulos() async{
     String endpoint = "/articulo";
 
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
     var jsonData = json.decode(response.body);
     List<Articulo> articulos= [];
     for(var n in jsonData){
@@ -79,7 +79,7 @@ class Servidor {
   Future<Articulo> getArticuloByNombre(String nombreArticulo) async{
     String endpoint = '/articulo/' + nombreArticulo;
 
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
     var n = json.decode(response.body);
     Articulo articulo = new Articulo.fromJson(n);
     return articulo;
@@ -88,7 +88,7 @@ class Servidor {
   Future<List<Articulo>> getArticulosLikeNombre(String nombreArticulo) async{
     String endpoint = '/articulo/like/' + nombreArticulo;
 
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
     var jsonData = json.decode(response.body);
 
     List<Articulo> articulos= [];
@@ -105,7 +105,7 @@ class Servidor {
     String endpoint = '/categorias';
     List<Categoria> categorias;
 
-    var response = await MindiaHttpClient.instance().get(ipServer+endpoint);
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
     for(var c in json.decode(response.body)){
       categorias.add(Categoria.fromJson(c));
     }
@@ -119,7 +119,7 @@ class Servidor {
     var url = ipServer + endpoint;
 
     List<String> usuarios=[];
-    http.Response response = await MindiaHttpClient.instance().get(url);
+    http.Response response = await MindiaHttpClient.instance().get(Uri.parse(url));
 
     for(var c in json.decode(response.body)){
       usuarios.add(User.fromJson(c).username);

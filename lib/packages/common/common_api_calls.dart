@@ -16,7 +16,7 @@ class CommonApiCalls {
 
     var url = ipServer + endpoint;
 
-    http.Response response = await MindiaHttpClient.instance().get(url);
+    http.Response response = await MindiaHttpClient.instance().get(Uri.parse(url));
     var n = json.decode(response.body);
 
     LoggedUser loggedUser = new LoggedUser.fromJson(n);
@@ -30,7 +30,7 @@ class CommonApiCalls {
 
     var url = ipServer + endpoint + params;
 
-    http.Response response = await http.post(url);
+    http.Response response = await http.post(Uri.parse(url));
     var n = json.decode(response.body);
     Token token = new Token.fromJson(n);
     MindiaHttpClient.TOKEN = token.token;
