@@ -7,6 +7,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class ScanLlaves extends StatelessWidget{
+  String identificacion;
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveEventInitialize());
@@ -18,18 +19,19 @@ class ScanLlaves extends StatelessWidget{
       },
       child: BlocBuilder<ScannearLlaveBloc,ScannearLlaveState>(
           builder: (context,state){
-            if(state.qrDetectado!=null){
-            String id = state.qrDetectado ;//TODO: cree esta variable por las dudas que hagamos algo en el medio, qsy
-            BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveBuscarLlave(id));
-            Llave llave = state.llave;
+            if(state.qrDetectado==""){
+              _scannear(context);
+              return Container();
+            }else{
+              identificacion = state.qrDetectado;
+              BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveBuscarLlave(identificacion));
+              Llave llave = state.llave;
               return Container(
-                  child: _crearVista(llave),
+                child: _crearVista(llave, context),
 
               );
+            }
 
-            }else
-              _scannear(context);
-            return Container(color: Colors.lightBlue,);
           }),
     );
 
@@ -39,12 +41,15 @@ class ScanLlaves extends StatelessWidget{
     await Permission.camera.request();
     String resultado= await FlutterBarcodeScanner.scanBarcode("#ff0000", "Cancelar", true, ScanMode.QR);
     if(resultado != null){
-      BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveCambiarQr(resultado));
-    }else EasyLoading.showToast("No se encontraron resultados");
+      if(RegExp(".{1,}-[0-9]{1,}").hasMatch(resultado)){
+        BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveCambiarQr(resultado));
+
+      }else EasyLoading.showToast("El código scaneado no corresponde con una llave!\nPor favor inténtelo nuevamente.");
+    }else EasyLoading.showToast("No se encontró código para scannear");
   }
 
 
-  Widget _crearVista (Llave llave){
+  Widget _crearVista (Llave llave, BuildContext context){
     return Container(
       height: double.infinity,
       child: SingleChildScrollView(
@@ -54,10 +59,6 @@ class ScanLlaves extends StatelessWidget{
             mainAxisSize: MainAxisSize.min,
 
             children: <Widget>[
-              Text(llave.identificacion,textAlign: TextAlign.center,style: TextStyle(fontSize: 24),),
-              SizedBox(height: 10.0,),
-              Divider(height: 0.5,color: Colors.orange,),
-              SizedBox(height: 10.0,),
               Row(
                 children: [
                   Expanded(child:
@@ -88,7 +89,7 @@ class ScanLlaves extends StatelessWidget{
               ),
               Row(
                 children: [
-                  Expanded(child: Text(llave.ubicacion.nombre)),
+                  Expanded(child: Text(llave.ubicacion)),
                   Expanded(child: Text(llave.observaciones),)
                 ],
               ),
@@ -100,7 +101,7 @@ class ScanLlaves extends StatelessWidget{
                 child: Text(llave.estado,style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
               ),
               SizedBox(height: 20.0,),
-              _buildButtons(),
+              _buildButtons(context),
             ],
           ),
         ),
@@ -109,7 +110,7 @@ class ScanLlaves extends StatelessWidget{
   }
 
 
-  Widget _buildButtons() {
+  Widget _buildButtons(BuildContext context) {
     return Container(
 
       padding: EdgeInsets.symmetric(vertical: 15.0),
@@ -120,7 +121,7 @@ class ScanLlaves extends StatelessWidget{
             child: ElevatedButton(
                 style:
                 ElevatedButton.styleFrom(primary:Colors.green),
-                onPressed: ()=> registrarEntrada(),
+                onPressed: ()=> registrarEntrada(context),
                 child: Text("E",style: TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.bold,
@@ -130,7 +131,7 @@ class ScanLlaves extends StatelessWidget{
           Expanded(
             child: ElevatedButton(
                 style: ElevatedButton.styleFrom(primary:Colors.red),
-                onPressed: ()=> registrarSalida(),
+                onPressed: ()=> registrarSalida(context),
                 child: Text("S", style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18.0,
@@ -141,12 +142,14 @@ class ScanLlaves extends StatelessWidget{
     );
   }
 
-  registrarSalida() {
+  registrarSalida(BuildContext context) {
     EasyLoading.showToast("Salida de la llave.");
+    BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveCambiarEstado(identificacion,"En uso"));
   }
 
-  registrarEntrada() {
+  registrarEntrada(BuildContext context) {
     EasyLoading.showToast("Entrada de la llave.");
+    BlocProvider.of<ScannearLlaveBloc>(context).add(ScannearLlaveCambiarEstado(identificacion,"Disponible"));
   }
 }
 

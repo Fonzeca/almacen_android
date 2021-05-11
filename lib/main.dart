@@ -282,13 +282,18 @@ class _MyHomePageState extends State<MyHomePage> {
   signIn(BuildContext context, String emailText, String passwordText) async{
 
     if(emailText!='' && passwordText!=''){
+      EasyLoading.show();
       CommonApiCalls _servidor = CommonApiCalls();
       bool logeado;
       logeado = await _servidor.login(emailText,passwordText);
       if(logeado) {
         LoggedUser loggedUser = await _servidor.getLoggedUser();
+        EasyLoading.dismiss();
         Navigator.push(context, MaterialPageRoute(builder: (context)=> MainDrawer(loggedUser.esAdmin)),);
-      }else EasyLoading.showError("Usuario o contraseña incorrectos.");
+      }else{
+        EasyLoading.dismiss();
+        EasyLoading.showError("Usuario o contraseña incorrectos.");
+      }
     }else{
       EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
     }

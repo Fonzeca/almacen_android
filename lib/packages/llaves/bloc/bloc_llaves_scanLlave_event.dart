@@ -18,3 +18,7 @@ class ScannearLlaveBuscarLlave extends ScannearLlaveEvent{
   String id;
   ScannearLlaveBuscarLlave(this.id,);
 }
+class ScannearLlaveCambiarEstado extends ScannearLlaveEvent{
+  String identificacion,estado;
+  ScannearLlaveCambiarEstado(this.identificacion,this.estado);
+}

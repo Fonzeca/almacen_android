@@ -1,23 +1,21 @@
-import 'package:almacen_android/packages/tecnica/model/lugar.dart';
 import 'package:equatable/equatable.dart';
 
 class Llave extends Equatable{
 
-  final String copia, identificacion, nombre, observaciones,estado;
-  final Lugar ubicacion;
+  final String copia, grupo, nombre, observaciones,estado, ubicacion;
 
 
-  Llave(this.copia, this.identificacion, this.nombre, this.observaciones, this.estado, this.ubicacion);
+  Llave(this.copia, this.grupo, this.nombre, this.observaciones, this.estado, this.ubicacion);
   Llave.fromJson(Map<String, dynamic> json):
-        copia=json['copia'],
-        identificacion=json['identificacion'],
         nombre=json['nombre'],
-        observaciones=json['observaciones'],
+        copia=json['copia'],
+        grupo=json['grupo'],
         estado=json['estado'],
-        ubicacion=Lugar("test", "esto esta hardcore");
+        observaciones=json['observaciones'],
+        ubicacion=json['ubicacion'];
 
 
   @override
-  List<Object> get props => [identificacion,nombre,copia,ubicacion,estado,observaciones];
+  List<Object> get props => [grupo,nombre,copia,ubicacion,estado,observaciones];
 
 }
