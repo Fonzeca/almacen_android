@@ -53,14 +53,14 @@ class ServidorTecnica {
 
   }
 
-  Future<void>cambiarEstadoEquipo(String id,bool enUso) async{
+  Future<void>cambiarEstadoEquipo(int id) async{
     String endpoint = "/equipo/status";
-    int idi = id as int;
-    String params = "?enUso="+enUso.toString()+"&id="+idi.toString();
+    String params = "?id="+id.toString();
     String url = ipServer+endpoint+params;
 
     var response = await MindiaHttpClient.instance().put(Uri.parse(url));
     print("cambiarEstadoEquipo/ Status: "+response.statusCode.toString()+", Body: "+response.body);
+
   }
 
   /**

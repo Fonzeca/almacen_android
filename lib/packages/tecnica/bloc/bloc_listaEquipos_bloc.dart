@@ -34,12 +34,8 @@ class ListaEquiposBloc extends Bloc<ListaEquiposEvent, ListaEquiposState>{
 
       ListaEquipoEventCambiarEstadoEquipo cambiarEstadoEquipo = event as ListaEquipoEventCambiarEstadoEquipo;
 
-      await _servidorTecnica.cambiarEstadoEquipo(cambiarEstadoEquipo.id,cambiarEstadoEquipo.enUso);
-      List<Equipo> equipos = state.listaEquipos;
-      int index = equipos.indexWhere((element) => element.id == cambiarEstadoEquipo.id);
-      Equipo equipo = equipos[index];
-      equipo.copyWith(enUso: !cambiarEstadoEquipo.enUso);
-      equipos[index]=equipo;
+      await _servidorTecnica.cambiarEstadoEquipo(cambiarEstadoEquipo.id);
+      List<Equipo> equipos = await _servidorTecnica.listarEquipos();
 
       yield state.copyWith(listaEquipos: equipos);
     }

@@ -21,7 +21,6 @@ class ListaEquipoEventEliminarEquipo extends ListaEquiposEvent{
 }
 
 class ListaEquipoEventCambiarEstadoEquipo extends ListaEquiposEvent{
-  String id;
-  bool enUso;
-  ListaEquipoEventCambiarEstadoEquipo(this.id,this.enUso);
+  int id;
+  ListaEquipoEventCambiarEstadoEquipo(this.id);
 }

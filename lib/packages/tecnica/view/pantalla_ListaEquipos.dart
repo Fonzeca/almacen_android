@@ -1,3 +1,4 @@
+import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/tecnica/bloc/bloc_listaEquipos_bloc.dart';
 import 'package:almacen_android/packages/tecnica/model/equipo.dart';
 import 'package:flutter/material.dart';
@@ -184,10 +185,9 @@ class ListaEquipos extends StatelessWidget {
   }
 
   void _cambiarEstadoEquipo(BuildContext context, int idi) {
-    String id = idi.toString();
 
-    EasyLoading.showToast("Pedido número " + id + " entregado.");
-    //TODO: llamar api entregar y eliminar respectivamente.
+    EasyLoading.showToast("Equipo número " + idi.toString() + " se cambió de estado.");
+    BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventCambiarEstadoEquipo(idi));
     Navigator.pop(context);
   }
 
