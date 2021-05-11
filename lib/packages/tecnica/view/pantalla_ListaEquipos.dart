@@ -108,17 +108,6 @@ class ListaEquipos extends StatelessWidget {
     );
   }
 
-  void _cambiarEstadoEquipo(BuildContext context, int idi) {
-    String id = idi.toString();
-    EasyLoading.showToast("Pedido número " + id + " entregado.");
-    //TODO: llamar api entregar y eliminar respectivamente.
-    Navigator.pop(context);
-  }
-
-  void _eliminarEquipo(BuildContext context, int idi) {
-    String id = idi.toString();
-    EasyLoading.showToast("Se eliminó el pedido número " + id + ", kappa");
-  }
 
   void crearModal(BuildContext context, Equipo equipo) {
     Equipo detalleView = equipo;
@@ -193,5 +182,18 @@ class ListaEquipos extends StatelessWidget {
               ),
             ),);
         });
+  }
+
+  void _cambiarEstadoEquipo(BuildContext context, int idi) {
+    String id = idi.toString();
+
+    EasyLoading.showToast("Pedido número " + id + " entregado.");
+    //TODO: llamar api entregar y eliminar respectivamente.
+    Navigator.pop(context);
+  }
+
+  void _eliminarEquipo(BuildContext context, int idi) {
+    String id = idi.toString();
+    EasyLoading.showToast("Se eliminó el pedido número " + id + ", kappa");
   }
 }

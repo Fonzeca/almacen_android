@@ -5,12 +5,18 @@ class Pedido extends Equatable{
 
   final String id;
   final String estadoPedido;
-  final String //TODO: Usuario
-  usuario;
+  final String usuario;
   final String fecha;
   final String observaciones;
 
   Pedido(this.id,this.usuario,this.estadoPedido,this.observaciones, this.fecha);
+  Pedido copyWith({String id, String estadoPedido, String usuario, String fecha, String observaciones}){
+    id ?? this.id;
+    estadoPedido ?? this.estadoPedido;
+    usuario ?? this.usuario;
+    fecha ?? this.fecha;
+    observaciones ?? this.observaciones;
+  }
 
   Pedido.fromJson(Map<String, dynamic> json):
         id=json['viewId'],

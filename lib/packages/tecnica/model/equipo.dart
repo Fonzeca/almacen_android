@@ -6,7 +6,17 @@ class Equipo extends Equatable {
   final bool enUso;
 
   Equipo(this.id, this.usuario, this.observaciones, this.nombre, this.tipo, this.enUso, this.lugar, this.accesorios, this.modelo, this.serial);
-
+  Equipo copyWith({int id, String nombre, String serial, String modelo, String observaciones, String usuario, String accessorios, String lugar, bool enUso}){
+    id ?? this.id;
+    nombre ?? this.nombre;
+    serial ?? this.serial;
+    modelo ?? this.modelo;
+    observaciones ?? this.observaciones;
+    usuario ?? this.usuario;
+    accesorios ?? this.accesorios;
+    lugar ?? this.lugar;
+    enUso ?? this.enUso;
+  }
   Equipo.fromJson(Map<String, dynamic> json):
       id= json['id'],
         nombre = json['nombre'],
