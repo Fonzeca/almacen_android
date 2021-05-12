@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'package:almacen_android/packages/almacen/model/articulo.dart';
 import 'package:almacen_android/packages/almacen/model/modelAlmacen.dart';
 import 'package:almacen_android/packages/almacen/model/user.dart';
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/almacenPojos.dart';
 import 'package:http/http.dart' as http;
@@ -115,6 +117,27 @@ class Servidor {
     }
 
     return articulos;
+  }
+
+  Future<Articulo> getArticuloFromQr(String identificacion) async{
+    String endpoint = '/articulo/qr/'+identificacion;
+
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
+    var jsonData = json.decode(response.body);
+
+    return Articulo.fromJson(jsonData);
+  }
+
+  Future<Articulo> agregarStockToArticulo(String nombre, String cantidad) async{
+    String endpoint = '/articulo/stock';
+    String params = "?nombre="+nombre+"&cantidad="+cantidad;
+    var url = Uri.parse(ipServer+endpoint+params);
+    var response = await MindiaHttpClient.instance().get(url);
+
+    print("/agregarStockToArticulo Status: "+response.statusCode.toString()+", Body: "+response.body);
+
+    var jsonData = json.decode(response.body);
+    return Articulo.fromJson(jsonData);
   }
 
   /// Api calls Categorías y Subcategorías

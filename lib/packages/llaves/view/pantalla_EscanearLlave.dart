@@ -58,7 +58,7 @@ class ScanLlaves extends StatelessWidget{
 
       }else EasyLoading.showToast("El código scaneado no corresponde con una llave!\nPor favor inténtelo nuevamente.");
     }else{
-      EasyLoading.showToast("No se encontró código para scannear");
+      EasyLoading.showToast("Se canceló la operación");
     }
   }
 

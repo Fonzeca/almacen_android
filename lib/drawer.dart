@@ -1,4 +1,5 @@
 import 'package:almacen_android/main.dart';
+import 'package:almacen_android/packages/almacen/view/pantalla_agregarStock.dart';
 import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
@@ -80,7 +81,12 @@ class MainDrawer extends StatelessWidget{
                   onTap: () => _cerrarDrawer(context, 1),
                 ),
                 //        Listar Artículos
-
+                admin?ListTile(
+                      title: Text("Agregar Stock"),
+                      leading: Icon(Icons.arrow_right_rounded),
+                      selected: valueNotifier.value == 2,
+                      onTap:()=> _cerrarDrawer(context, 2),
+                    ):SizedBox(),
                 Divider(
                   height: 1,
                   thickness: 1,
@@ -149,6 +155,9 @@ class MainDrawer extends StatelessWidget{
             case 1:
               appTitle="Lista de Pedidos";
               return ListaPedidos(admn: admin,);
+            case 2:
+              appTitle="Agregar Stock";
+              return AgregarStock();
             case 10:
               appTitle="Lista de Equipos";
               return ListaEquipos();
