@@ -97,9 +97,9 @@ class ListaEquipos extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:
                   [
-                    Text(p.nombre),
-                    Text(p.tipo),
-                    p.enUso ? Text("En uso",) : Text("Disponible",),
+                    Text(p.nombre,softWrap: true,),
+                    Text(p.tipo,softWrap: true),
+                    p.enUso ? Text("En uso",softWrap: true) : Text("Disponible",softWrap: true,),
                   ]
 
               ),
@@ -110,6 +110,7 @@ class ListaEquipos extends StatelessWidget {
 
 
   void crearModal(BuildContext context, Equipo equipo) {
+    BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventLimpiarEquipo());
     Equipo detalleView = equipo;
     EasyLoading.dismiss();
     showModalBottomSheet<void>(
@@ -188,7 +189,6 @@ class ListaEquipos extends StatelessWidget {
 
     EasyLoading.showToast("Equipo número " + idi.toString() + " se cambió de estado.");
     BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventCambiarEstadoEquipo(idi));
-    BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventLimpiarEquipo());
     Navigator.pop(context);
   }
 
