@@ -2,11 +2,12 @@ import 'package:equatable/equatable.dart';
 
 class Llave extends Equatable{
 
-  final String copia, grupo, nombre, observaciones,estado, ubicacion;
+  final String id, copia, grupo, nombre, observaciones,estado, ubicacion;
 
 
-  Llave(this.copia, this.grupo, this.nombre, this.observaciones, this.estado, this.ubicacion);
+  Llave(this.id, this.copia, this.grupo, this.nombre, this.observaciones, this.estado, this.ubicacion);
   Llave.fromJson(Map<String, dynamic> json):
+      id=json['id'],
         nombre=json['nombre'],
         copia=json['copia'],
         grupo=json['grupo'],

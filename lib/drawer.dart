@@ -2,6 +2,7 @@ import 'package:almacen_android/main.dart';
 import 'package:almacen_android/packages/almacen/view/pantalla_agregarStock.dart';
 import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
+import 'package:almacen_android/packages/common/view/ScanScreen.dart';
 import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
 import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
 import 'package:flutter/cupertino.dart';
@@ -124,7 +125,7 @@ class MainDrawer extends StatelessWidget{
                 ),
                 //          Escanear Llave
                 ListTile(
-                  title: Text(sections[11]),
+                  title: Text(sections[12]),
                   leading: Icon(Icons.arrow_right_rounded),
                   selected: valueNotifier.value ==20,
                   onTap: () => _cerrarDrawer(context, 20),
@@ -133,6 +134,13 @@ class MainDrawer extends StatelessWidget{
                   height: 1,
                   thickness: 1,
                 ),
+                ListTile(
+                  title: Text("Scannear"),
+                  leading: Icon(Icons.qr_code),
+                  selected: valueNotifier.value == 50,
+                  onTap: ()=> _cerrarDrawer(context, 50),
+                ),
+                SizedBox(height: 20.0,),
                 ListTile(
                   title: Text("Cerrar Sesión"),
                   leading: Icon(Icons.logout),
@@ -166,7 +174,10 @@ class MainDrawer extends StatelessWidget{
               return ListaRegistros(admn: admin,);
             case 20:
               appTitle="Llaves";
-              return ScanLlaves();
+              return ListaLlavesDisponibles();
+            case 50:
+              appTitle="Scannear QR";
+              return ScanScreen();
             case 99:
               CommonApiCalls commonApiCalls= CommonApiCalls();
               commonApiCalls.logout().then((value) {

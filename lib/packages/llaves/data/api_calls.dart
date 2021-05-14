@@ -16,14 +16,11 @@ class ServidorLlaves {
   /**
    * Llamadas referentes a llaves
    */
-  Future <Llave> getLlaveEspecifica (String identificacion) async{
+  Future <Llave> getLlaveEspecifica (String id) async{
 
-    //El String identificación es el que se obtiene del Qr y está formado por el nombre, guión e id de la llave. 'Llave de prueba-2'.
-   ;
-    print("nombre: "+identificacion.split("-")[0]+", id: "+identificacion.split("-")[1]);
     String endpoint, params;
     endpoint="/llave";
-    params="?identificacion="+identificacion;
+    params="?id="+id;
     String url = ipServer + endpoint + params;
     print(Uri.parse(url));
     var response=await MindiaHttpClient.instance().get(Uri.parse(url));
@@ -36,12 +33,30 @@ class ServidorLlaves {
     }
   }
 
-  Future <void> changeLlaveEstado(String identificacion, String entrada) async{
+  Future <void> changeLlaveEstado(String id, String entrada) async{
     String endpoint, params;
     endpoint = "/llave/change";
-    params="?identificacion="+identificacion+"&entrada="+entrada;
+    params="?id="+id+"&entrada="+entrada;
     var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint+params));
     print("changeLlaveEstado/ Status: "+response.statusCode.toString()+", Body: "+response.body);
 
+  }
+
+  /**
+   * Llamadas referentes a Grupos de llaves.
+   */
+
+  Future <GrupoLlave> getGrupoLlave(String identificacionGrupoLlaves) async{
+    String endpoint, params;
+    endpoint = "/grupoLlaves";
+    params = "?identificacion="+identificacionGrupoLlaves;
+    var url = Uri.parse(ipServer + endpoint + params);
+    var response = await MindiaHttpClient.instance().get(url);
+
+    if(response.statusCode == 200){
+      var n = json.decode(response.body);
+      GrupoLlave grupoLlave = GrupoLlave.fromJson(n);
+      return grupoLlave;
+    }
   }
 }

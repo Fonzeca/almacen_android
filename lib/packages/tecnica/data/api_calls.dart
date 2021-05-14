@@ -1,5 +1,6 @@
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
 import 'package:almacen_android/packages/tecnica/model/equipo.dart';
+import 'package:almacen_android/packages/tecnica/model/grupoEquipo.dart';
 import 'package:almacen_android/packages/tecnica/model/registro.dart';
 import 'dart:convert';
 
@@ -64,6 +65,25 @@ class ServidorTecnica {
   }
 
   /**
+   * Llamas respectivas a Grupos de Equipos.
+   */
+
+  Future<GrupoEquipo>getGrupoEquipoByQr(String identificacion) async{
+    String endpoint = "/grupoEquipos";
+    String params = "?identificacion="+identificacion;
+    var url = Uri.parse(ipServer+endpoint+params);
+
+    var response = await MindiaHttpClient.instance().get(url);
+
+    if(response.statusCode == 200){
+      var n = json.decode(response.body);
+      return GrupoEquipo.fromJson(n);
+    }
+  }
+
+
+
+  /**
    * Llamadas respectivas a Registros
    */
   Future<List<Registro>> listarRegistros() async{
@@ -78,6 +98,7 @@ class ServidorTecnica {
     }
     return registros;
   }
+
 
 
 
