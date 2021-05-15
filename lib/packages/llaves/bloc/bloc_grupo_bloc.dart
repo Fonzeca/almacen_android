@@ -14,6 +14,10 @@ class GrupoBloc extends Bloc<GrupoEvent, GrupoState> {
   Stream<GrupoState> mapEventToState(
     GrupoEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if(event is GrupoEventSetGrupo){
+      GrupoEventSetGrupo setGrupo = event as GrupoEventSetGrupo;
+      state.copyWith(grupoLlave: setGrupo.grupoLlave);
+
+    }
   }
 }

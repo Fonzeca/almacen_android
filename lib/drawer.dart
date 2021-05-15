@@ -14,8 +14,8 @@ import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart' a
 class MainDrawer extends StatelessWidget{
 
   bool admin;
-  ValueNotifier<int> valueNotifier;
   String appTitle;
+  Icon leadingArrow;
 
 
   /// En la lista de 'sections' se agregaron todas las funcionalidades posibles aunque solo se utilizan algunas, esto es para preveer que se incluyan mas funcionalidades en un futuro.
@@ -26,35 +26,52 @@ class MainDrawer extends StatelessWidget{
 
   MainDrawer (bool admin){
     this.admin=admin;
-    valueNotifier = ValueNotifier(0);
   }
 
-  /// Se crea el drawer en sí, valueNotifier.value determina cual opción fue seleccionada.
   /// Se utilizan los valores en decenas para permitir agregar funcionalidades en caso de ser necesario.
   /// Almacen abarca de los valores 0-9, Tecnica de 10-19 y Llaves de 20-29.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
+    leadingArrow = Icon(Icons.arrow_right_rounded);
 
     return BlocBuilder<NavigatorBloc,BlocNavigator.NavigatorState>(
       builder: (context, state){
-
-        //TODO: quitar los value listenable para usar BLoC.
-
+        switch (state.values.last){
+          case 0:
+            appTitle="Nuevo Pedido";
+            return NuevoPedido(admn: admin,);
+          case 1:
+            appTitle="Lista de Pedidos";
+            return ListaPedidos(admn: admin,);
+          case 2:
+            appTitle="Agregar Stock";
+            return AgregarStock();
+          case 10:
+            appTitle="Lista de Equipos";
+            return ListaEquipos();
+          case 11:
+            appTitle="Lista de Registros";
+            return ListaRegistros(admn: admin,);
+          case 20:
+            appTitle="Llaves";
+            return BuscarLlave();
+          case 50:
+            appTitle="Scannear QR";
+            return ScanScreen();
+          case 99:
+            CommonApiCalls commonApiCalls= CommonApiCalls();
+            commonApiCalls.logout().then((value) {
+              return Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
+            });
+        }
         return Scaffold(
           appBar: AppBar(
-            title: ValueListenableBuilder(
-              builder: (BuildContext context, value, Widget child) {
-                return Text(appTitle);
-              },
-              valueListenable: valueNotifier,
-            ),
+            title: Text(appTitle),
           ),
           drawer: Drawer(
-            child: ValueListenableBuilder(
-              builder: (context, value, child) {
-                return ListView(
+            child: ListView(
                   padding: EdgeInsets.zero,
                   children: <Widget>[
                     Padding(
@@ -76,21 +93,11 @@ class MainDrawer extends StatelessWidget{
                       ),
                     ),
                     //        Nuevo Pedido
-                    _drawerItem(sections[0], Icon(Icons.arrow_right_rounded), 0, values, context),
-                    //        Listar Pedido
-                    ListTile(
-                      title: Text(sections[1]),
-                      leading: Icon(Icons.arrow_right_rounded),
-                      selected: valueNotifier.value == 1,
-                      onTap: () => _cerrarDrawer(context, 1),
-                    ),
-                    //        Listar Artículos
-                    admin?ListTile(
-                      title: Text("Agregar Stock"),
-                      leading: Icon(Icons.arrow_right_rounded),
-                      selected: valueNotifier.value == 2,
-                      onTap:()=> _cerrarDrawer(context, 2),
-                    ):SizedBox(),
+                    _drawerItem(sections[0], leadingArrow, 0, state.values, context),
+                    //
+                    _drawerItem(sections[1], leadingArrow, 1, state.values, context),
+                    admin?_drawerItem("Agregar Stock", leadingArrow, 2, state.values, context)
+                    :SizedBox(),
                     Divider(
                       height: 1,
                       thickness: 1,
@@ -102,20 +109,9 @@ class MainDrawer extends StatelessWidget{
                       ),
                     ),
                     //          Listar Equipos
-                    ListTile(
-                      title: Text(sections[6]),
-                      leading: Icon(Icons.arrow_right_rounded),
-                      selected: valueNotifier.value ==10,
-                      onTap: () => _cerrarDrawer(context, 10),
-                    ),
+                    _drawerItem(sections[6], leadingArrow, 10, state.values, context),
                     //          Listar Registros
-                    ListTile(
-                      title: Text(sections[7]),
-                      leading: Icon(Icons.arrow_right_rounded),
-                      selected: valueNotifier.value ==11,
-                      onTap: () => _cerrarDrawer(context, 11),
-                    ),
-
+                    _drawerItem(sections[7], leadingArrow, 11, state.values, context),
                     Divider(
                       height: 1,
                       thickness: 1,
@@ -127,86 +123,31 @@ class MainDrawer extends StatelessWidget{
                       ),
                     ),
                     //          Escanear Llave
-                    ListTile(
-                      title: Text(sections[12]),
-                      leading: Icon(Icons.arrow_right_rounded),
-                      selected: valueNotifier.value ==20,
-                      onTap: () => _cerrarDrawer(context, 20),
-                    ),
+                    _drawerItem(sections[12], leadingArrow, 20, state.values, context),
                     Divider(
                       height: 1,
                       thickness: 1,
                     ),
-                    ListTile(
-                      title: Text("Scannear"),
-                      leading: Icon(Icons.qr_code),
-                      selected: valueNotifier.value == 50,
-                      onTap: ()=> _cerrarDrawer(context, 50),
-                    ),
+                    _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
                     SizedBox(height: 20.0,),
-                    ListTile(
-                      title: Text("Cerrar Sesión"),
-                      leading: Icon(Icons.logout),
-                      selected: valueNotifier.value==99,
-                      onTap: () => _cerrarDrawer(context,99),
-                    )
+                    _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
                     //          Listar Llaves
                   ],
-                );
-              },
-              valueListenable: valueNotifier,
-            ),
-          ),
-          body: ValueListenableBuilder(
-            builder: (context, value, child) {
-              switch(value){
-                case 0:
-                  appTitle="Nuevo Pedido";
-                  return NuevoPedido(admn: admin,);
-                case 1:
-                  appTitle="Lista de Pedidos";
-                  return ListaPedidos(admn: admin,);
-                case 2:
-                  appTitle="Agregar Stock";
-                  return AgregarStock();
-                case 10:
-                  appTitle="Lista de Equipos";
-                  return ListaEquipos();
-                case 11:
-                  appTitle="Lista de Registros";
-                  return ListaRegistros(admn: admin,);
-                case 20:
-                  appTitle="Llaves";
-                  return BuscarLlave();
-                case 50:
-                  appTitle="Scannear QR";
-                  return ScanScreen();
-                case 99:
-                  CommonApiCalls commonApiCalls= CommonApiCalls();
-                  commonApiCalls.logout().then((value) {
-                    return Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
-                  });
-              }
-              return Container();
-            },
-            valueListenable: valueNotifier,
-          ),
+                )
+        )
         );
       },
 
     );
-  }
-  void _cerrarDrawer (BuildContext context, int value){
-    valueNotifier.value=value;
-    Navigator.of(context).pop();
-
   }
   ListTile _drawerItem(String title, Icon leading, int value, List<int> values, BuildContext context){
     return ListTile(
       title: Text(title),
       leading: leading,
       selected: value == values.last,
-      onTap: ()=>BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value)),
+      onTap: (){
+        Navigator.of(context).pop();
+        BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value));},
 
     );
   }
