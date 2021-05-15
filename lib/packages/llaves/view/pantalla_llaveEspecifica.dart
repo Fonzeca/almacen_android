@@ -23,10 +23,10 @@ class LlaveEspecifica extends StatelessWidget{
     },
     child: BlocBuilder<LlaveBloc,LlaveState>(
       builder: (context,state){
-        if(llave == null){
-          llave = state.llave;
-          return Container();
+        if(state.llave == null){
+          return Container(child: Text("No se encontró llave con el id ingresado, por favor inténtelo nuevamente."),);
         }else{
+          llave = state.llave;
           return Container(
             height: double.infinity,
             child: SingleChildScrollView(

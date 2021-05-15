@@ -4,6 +4,7 @@ import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/loggedUser.dart';
 import 'package:almacen_android/packages/almacen/view/pantalla_agregarStock.dart';
+import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:almacen_android/packages/common/bloc/scan_screen_bloc.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_grupo_bloc.dart';
@@ -35,6 +36,7 @@ class MyApp extends StatelessWidget {
         builder: EasyLoading.init(),
       ),
       providers: [
+        BlocProvider(create: (context) => NavigatorBloc()),
         BlocProvider(create: (context) => ScanScreenBloc()),
         BlocProvider(create: (context) => AlmacenBloc(),),
         BlocProvider(create: (context) => NuevoPedidoBloc(),),
