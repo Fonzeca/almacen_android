@@ -42,27 +42,23 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
     NuevoPedidoEventAddArt eventAddArt = event;
 
     Artxcant artxcant = new Artxcant(eventAddArt.nombreArt, eventAddArt.cantidad);
-    List<Artxcant> nuevaLista = state.articulosAPedir;
-    bool cambio=false;
-    if(nuevaLista == null){
-      nuevaLista = [];
-    }
+    List<Artxcant> nuevaLista;
+    nuevaLista = state.articulosAPedir == null ? [] : new List.from(state.articulosAPedir);
+    bool cambio = false;
     for(Artxcant a in nuevaLista){
       if(cambio){
         break;
       }
-      //TODO: no está funcionando correctamente, cuando se aprieta el '+' se cambia la cantidad internamente pero no se muestra y ese numero queda en el campo cantidad.
-      print("articulo "+a.nombreArt);
-      if(a.nombreArt==artxcant.nombreArt){
-        int i,j;
+      if(a.nombreArt == artxcant.nombreArt){
+        int i, j;
         i= int.parse(a.cantidad);
         j= int.parse(artxcant.cantidad);
 
-        Artxcant newArt = Artxcant (a.nombreArt,(i+j).toString());
+        Artxcant newArt = Artxcant (a.nombreArt, (i + j).toString());
         nuevaLista.remove(a);
         nuevaLista.add(newArt);
         print("Cantidad editada");
-        cambio=true;
+        cambio = true;
       }
     }
     if(!cambio){

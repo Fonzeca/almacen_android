@@ -135,9 +135,11 @@ class NuevoPedido extends StatelessWidget{
           Expanded(
               child: TypeAheadField(
                 textFieldConfiguration: TextFieldConfiguration(
-                  autofocus: true,
                   decoration: InputDecoration(
                     hintText: "Artículo",
+                    hintStyle: TextStyle(
+                      color: Colors.black26,
+                    )
                   ),
                   controller: _typeAheadController,
                 ),
@@ -173,8 +175,16 @@ class NuevoPedido extends StatelessWidget{
           SizedBox(width: 25.0),
           Expanded(
             child: TextField(
+              controller: TextEditingController(
+                text: ""
+              ),
               onChanged: (value) => cantidad = value,
-              decoration: const InputDecoration(hintText: "Cantidad"),
+              decoration: const InputDecoration(
+                hintText: "Cantidad",
+                hintStyle: TextStyle(
+                    color: Colors.black26,
+                ),
+              ),
               keyboardType: TextInputType.number,
               maxLength: 3,
             ),
