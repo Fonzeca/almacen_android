@@ -23,7 +23,6 @@ void main() {
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -38,13 +37,13 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => NavigatorBloc()),
         BlocProvider(create: (context) => ScanScreenBloc()),
-        BlocProvider(create: (context) => AlmacenBloc(),),
-        BlocProvider(create: (context) => NuevoPedidoBloc(),),
-        BlocProvider(create: (context) => LlaveBloc(),),
+        BlocProvider(create: (context) => AlmacenBloc()),
+        BlocProvider(create: (context) => NuevoPedidoBloc()),
+        BlocProvider(create: (context) => LlaveBloc()),
         BlocProvider(create: (context) => GrupoBloc()),
-        BlocProvider(create: (context) => ListaEquiposBloc(),),
-        BlocProvider(create: (context) => ListaRegistrosBloc(),),
-        BlocProvider(create: (context) => AgregarStockBloc(),),
+        BlocProvider(create: (context) => ListaEquiposBloc()),
+        BlocProvider(create: (context) => ListaRegistrosBloc()),
+        BlocProvider(create: (context) => AgregarStockBloc()),
       ],
     );
   }
@@ -58,33 +57,37 @@ class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
+
 /**
  * La primera pantalla que nos devuelve la aplicación es un login que pide usuario y contraseña.
  * En caso de validarse, se llega a la pantalla principal en la que nos deja elegir entre almacen, tecnica y llaves.
  */
 class _MyHomePageState extends State<MyHomePage> {
-
   final kHintTextStyle = TextStyle(
-      color: Colors.white,
-      fontFamily: 'OpenSans',
-      fontSize: 12
+    color: Colors.white,
+    fontFamily: 'OpenSans',
+    fontSize: 12,
   );
 
   final kLabelStyle = TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      fontFamily: 'OpenSans',
-      fontSize: 12
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'OpenSans',
+    fontSize: 12,
   );
 
   Widget _buildLoginBtn() {
     return Container(
-
       padding: EdgeInsets.symmetric(vertical: 15.0),
       width: double.infinity,
       child: ElevatedButton(
         onPressed: () => signIn(context, emailText, passwordText),
-        style: ElevatedButton.styleFrom(padding: EdgeInsets.all(15.0),primary:Colors.white,elevation: 5,shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0))),
+        style: ElevatedButton.styleFrom(
+            padding: EdgeInsets.all(15.0),
+            primary: Colors.white,
+            elevation: 5,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30.0))),
         child: Text(
           'Iniciar Sesión',
           style: TextStyle(
@@ -113,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String emailText = "root";
 
   String passwordText = "almacen.C12";
+
   Widget _buildEmailTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +137,6 @@ class _MyHomePageState extends State<MyHomePage> {
             style: TextStyle(
               color: Colors.white,
               fontFamily: 'OpenSans',
-
             ),
             decoration: InputDecoration(
               border: InputBorder.none,
@@ -150,6 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
+
   Widget _buildPasswordTF() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -186,100 +190,103 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
         child: GestureDetector(
-            onTap: () => FocusScope.of(context).unfocus(),
-            child: Container(
-              height: double.infinity,
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.only(
-                      top: 25.0,
-                      bottom: 60.0,
-                      right: 30.0,
-                      left: 30.0
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        'CANAL 12',
-                        style: TextStyle(
-                            fontFamily: 'NickMayus',
-                            fontSize: 60
-                        ),
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Container(
+            height: double.infinity,
+            child: SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                  top: 25.0,
+                  bottom: 60.0,
+                  right: 30.0,
+                  left: 30.0,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      'CANAL 12',
+                      style: TextStyle(
+                        fontFamily: 'NickMayus',
+                        fontSize: 60,
                       ),
-                      Text(
-                        'Sistema Almacén',
-                        style: TextStyle(
-                            fontFamily: 'NickMin',
-                            fontSize: 28
-                        ),
+                    ),
+                    Text(
+                      'Sistema Almacén',
+                      style: TextStyle(
+                        fontFamily: 'NickMin',
+                        fontSize: 28,
                       ),
-                      SizedBox(height: 10.0),
-                      Stack(
-                        alignment: Alignment.topCenter,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.only(top: 50),
-                            child: Container(
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(255, 255, 255, 0.7),
-                                  borderRadius: BorderRadius.all(Radius.circular(60)),
-                                  boxShadow: [
-                                    BoxShadow(
-                                        color: Colors.black26,
-                                        spreadRadius: 0,
-                                        blurRadius: 7,
-                                        offset: Offset(0,0)
-                                    )
-                                  ]
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.only(left: 20,top: 60, right: 20, bottom: 40),
-                                child: Column(
-                                  children: <Widget>[
-                                    _buildEmailTF(),
-                                    SizedBox(height: 10.0,),
-                                    _buildPasswordTF(),
-                                    SizedBox(height: 20.0,),
-                                    _buildLoginBtn(),
-                                  ],
+                    ),
+                    SizedBox(height: 10.0),
+                    Stack(
+                      alignment: Alignment.topCenter,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(top: 50),
+                          child: Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Color.fromRGBO(255, 255, 255, 0.7),
+                              borderRadius: BorderRadius.all(Radius.circular(60)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black26,
+                                  spreadRadius: 0,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 0),
                                 ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 20, top: 60, right: 20, bottom: 40),
+                              child: Column(
+                                children: <Widget>[
+                                  _buildEmailTF(),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  _buildPasswordTF(),
+                                  SizedBox(
+                                    height: 20.0,
+                                  ),
+                                  _buildLoginBtn(),
+                                ],
                               ),
                             ),
                           ),
-                          Container(
-                            height: 100,
-                            width: 100,
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                image: DecorationImage(
-                                    image: ExactAssetImage('assets/logos/canal12.png')
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                      color: Colors.black26,
-                                      spreadRadius: 0,
-                                      blurRadius: 7,
-                                      offset: Offset(0,-5)
-                                  )
-                                ]
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                        Container(
+                          height: 100,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            shape: BoxShape.circle,
+                            image: DecorationImage(image: ExactAssetImage('assets/logos/canal12.png')),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black26,
+                                spreadRadius: 0,
+                                blurRadius: 7,
+                                offset: Offset(0, -5),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
-            )
+            ),
+          ),
         ),
       ),
     );
@@ -288,22 +295,21 @@ class _MyHomePageState extends State<MyHomePage> {
   /**
    * Método que valida tanto usuario como contraseña con la api.
    */
-  signIn(BuildContext context, String emailText, String passwordText) async{
-
-    if(emailText != '' && passwordText != ''){
+  signIn(BuildContext context, String emailText, String passwordText) async {
+    if (emailText != '' && passwordText != '') {
       EasyLoading.show();
       CommonApiCalls _servidor = CommonApiCalls();
       bool logeado;
-      logeado = await _servidor.login(emailText,passwordText);
-      if(logeado) {
+      logeado = await _servidor.login(emailText, passwordText);
+      if (logeado) {
         LoggedUser loggedUser = await _servidor.getLoggedUser();
         EasyLoading.dismiss();
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> MainDrawer(loggedUser.esAdmin)),);
-      }else{
+        Navigator.push(context,MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin)));
+      } else {
         EasyLoading.dismiss();
         EasyLoading.showError("Usuario o contraseña incorrectos.");
       }
-    }else{
+    } else {
       EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
     }
   }
