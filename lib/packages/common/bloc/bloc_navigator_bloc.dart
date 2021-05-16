@@ -7,7 +7,7 @@ part 'bloc_navigator_event.dart';
 part 'bloc_navigator_state.dart';
 
 class NavigatorBloc extends Bloc<NavigatorEvent, NavigatorState> {
-  NavigatorBloc() : super(NavigatorState());
+  NavigatorBloc() : super(NavigatorState([0]));
 
   @override
   Stream<NavigatorState> mapEventToState(
@@ -15,8 +15,10 @@ class NavigatorBloc extends Bloc<NavigatorEvent, NavigatorState> {
   ) async* {
    if (event is NavigatorEventPushPage){
      NavigatorEventPushPage pushPage = event as NavigatorEventPushPage;
-     List<int> values = state.values;
+     List<int> values;
+     values= state.values;
      values.add(pushPage.value);
+     print(values.toString());
      yield state.copyWith(values: values);
    }
   }

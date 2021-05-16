@@ -35,43 +35,58 @@ class MainDrawer extends StatelessWidget{
     final theme = Theme.of(context);
     final textTheme = theme.textTheme;
     leadingArrow = Icon(Icons.arrow_right_rounded);
+    Widget body;
 
+    BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
     return BlocBuilder<NavigatorBloc,BlocNavigator.NavigatorState>(
       builder: (context, state){
-        switch (state.values.last){
-          case 0:
-            appTitle="Nuevo Pedido";
-            return NuevoPedido(admn: admin,);
-          case 1:
-            appTitle="Lista de Pedidos";
-            return ListaPedidos(admn: admin,);
-          case 2:
-            appTitle="Agregar Stock";
-            return AgregarStock();
-          case 10:
-            appTitle="Lista de Equipos";
-            return ListaEquipos();
-          case 11:
-            appTitle="Lista de Registros";
-            return ListaRegistros(admn: admin,);
-          case 20:
-            appTitle="Llaves";
-            return BuscarLlave();
-          case 50:
-            appTitle="Scannear QR";
-            return ScanScreen();
-          case 99:
-            CommonApiCalls commonApiCalls= CommonApiCalls();
-            commonApiCalls.logout().then((value) {
-              return Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
-            });
-        }
+          switch (state.values.last){
+            case 0:
+              appTitle="Nuevo Pedido";
+              body = NuevoPedido(admn: admin,);
+              break;
+            case 1:
+              appTitle="Lista de Pedidos";
+              body = ListaPedidos(admn: admin,);
+              break;
+            case 2:
+              appTitle="Agregar Stock";
+              body = AgregarStock();
+              break;
+            case 10:
+              appTitle="Lista de Equipos";
+              body = ListaEquipos();
+              break;
+            case 11:
+              appTitle="Lista de Registros";
+              body = ListaRegistros(admn: admin,);
+              break;
+            case 20:
+              appTitle="Llaves";
+              body = BuscarLlave();
+              break;
+            case 50:
+              appTitle="Scannear QR";
+              body = ScanScreen();
+              break;
+            case 99:
+              CommonApiCalls commonApiCalls= CommonApiCalls();
+              commonApiCalls.logout().then((value) {
+                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
+              });
+              break;
+            default :
+              appTitle = "Nuevo Pedido";
+              body = NuevoPedido(admn: admin,);
+              break;
+          }
         return Scaffold(
-          appBar: AppBar(
-            title: Text(appTitle),
-          ),
-          drawer: Drawer(
-            child: ListView(
+            appBar: AppBar(
+              title: Text(appTitle),
+            ),
+            body: body,
+            drawer: Drawer(
+                child: ListView(
                   padding: EdgeInsets.zero,
                   children: <Widget>[
                     Padding(
@@ -97,7 +112,7 @@ class MainDrawer extends StatelessWidget{
                     //
                     _drawerItem(sections[1], leadingArrow, 1, state.values, context),
                     admin?_drawerItem("Agregar Stock", leadingArrow, 2, state.values, context)
-                    :SizedBox(),
+                        :SizedBox(),
                     Divider(
                       height: 1,
                       thickness: 1,
@@ -134,11 +149,12 @@ class MainDrawer extends StatelessWidget{
                     //          Listar Llaves
                   ],
                 )
-        )
+            )
         );
       },
 
     );
+
   }
   ListTile _drawerItem(String title, Icon leading, int value, List<int> values, BuildContext context){
     return ListTile(
