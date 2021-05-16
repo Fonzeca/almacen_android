@@ -10,36 +10,36 @@ import 'package:permission_handler/permission_handler.dart';
 class AgregarStock extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventInitialize());
+    _scannear(context);
     return BlocListener<AgregarStockBloc, AlmacenAgregarStockState>(listener: (context, state){
       if(state.carga){
         EasyLoading.show();
       }else EasyLoading.dismiss();
     },
-    child: BlocBuilder<AgregarStockBloc, AlmacenAgregarStockState>(
-      builder: (context, state){
-        if(state.qrArticulo == null){
-          _scannear(context);
-          return Container();
-        }else{
-          BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventBuscarArticulo(state.qrArticulo));
-          if(state.articulo != null){
-            Articulo articulo = state.articulo;
-            return Container(
-              child: Column(
-                children: [
-                  Text("Inserte la cantidad a agregar:"),
-                  TextField(keyboardType: TextInputType.number,maxLength: 3,),
-                  FloatingActionButton.extended(onPressed: ()=>_sumarStock(context, articulo.nombre,"valor del textField"), label: Text("Aceptar")),
-                ],
-              ),
+      child: BlocBuilder<AgregarStockBloc, AlmacenAgregarStockState>(
+        builder: (context, state){
+          if(state.qrArticulo == null){
+            return Container(child: ElevatedButton.icon(onPressed:()=> _scannear(context), icon: const Icon(Icons.camera_alt), label: Text("Abrir cámara")),
             );
-          }else {
-            return Container (child: Text("No se encontró el artículo deseado"));
+          }else{
+            BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventBuscarArticulo(state.qrArticulo));
+            if(state.articulo != null){
+              Articulo articulo = state.articulo;
+              return Container(
+                child: Column(
+                  children: [
+                    Text("Inserte la cantidad a agregar:"),
+                    TextField(keyboardType: TextInputType.number,maxLength: 3,),
+                    FloatingActionButton.extended(onPressed: ()=>_sumarStock(context, articulo.nombre,"valor del textField"), label: Text("Aceptar")),
+                  ],
+                ),
+              );
+            }else {
+              return Container (child: Text("No se encontró el artículo deseado"));
+            }
           }
-        }
-      },
-    ),
+        },
+      ),
     );
   }
 

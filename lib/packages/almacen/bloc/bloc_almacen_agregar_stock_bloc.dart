@@ -19,11 +19,11 @@ class AgregarStockBloc extends Bloc<AlmacenAgregarStockEvent, AlmacenAgregarStoc
   ) async* {
     if(event is AgregarStockEventInitialize){
 
-      yield state.copyWith(carga: true,qrAticulo: null,articulo: null);
+      yield state.copyWith(carga: true,qrArticulo: null,articulo: null);
     }else if (event is AgregarStockEventReconocerQr){
       AgregarStockEventReconocerQr reconocerQr = event as AgregarStockEventReconocerQr;
 
-      yield state.copyWith(qrAticulo: reconocerQr.resultado,carga: false);
+      yield state.copyWith(qrArticulo: reconocerQr.resultado,carga: false);
 
     }else if (event is AgregarStockEventBuscarArticulo){
       AgregarStockEventBuscarArticulo buscarArticulo = event as AgregarStockEventBuscarArticulo;

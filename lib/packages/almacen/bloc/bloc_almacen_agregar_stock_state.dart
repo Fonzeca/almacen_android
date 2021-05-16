@@ -10,10 +10,10 @@ class AlmacenAgregarStockState extends Equatable{
   @override
   List<Object> get props =>[articulo, qrArticulo, carga];
 
-  AlmacenAgregarStockState copyWith({bool carga, String qrAticulo, Articulo articulo}){
+  AlmacenAgregarStockState copyWith({bool carga, String qrArticulo, Articulo articulo}){
     return AlmacenAgregarStockState(
       articulo ?? this.articulo,
-      qrAticulo ?? this.qrArticulo,
+      qrArticulo ?? this.qrArticulo,
       carga ?? this.carga,
     );
   }
