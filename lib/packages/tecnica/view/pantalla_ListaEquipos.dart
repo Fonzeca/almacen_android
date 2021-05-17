@@ -12,13 +12,14 @@ class ListaEquipos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if(equipo!=null){
-      crearModal(context,equipo);
-    }
     BlocProvider.of<ListaEquiposBloc>(context).add(
         ListaEquiposEventListarEquipos());
     return BlocListener<ListaEquiposBloc, ListaEquiposState>(
       listener: (context, state) {
+        if(equipo!=null){
+          BlocProvider.of<ListaEquiposBloc>(context).add(
+              (ListaEquiposEventGetDetalle(equipo.id.toString())));
+        }
         if (state.equipo != null) {
           crearModal(context, state.equipo);
         }
@@ -52,7 +53,7 @@ class ListaEquipos extends StatelessWidget {
                     index -=1;
                     return _createRow(_equipos[index], context, index);
 
-              });
+                  });
             }
           }),
     );
