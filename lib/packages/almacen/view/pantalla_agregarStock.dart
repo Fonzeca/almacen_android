@@ -14,12 +14,14 @@ class AgregarStock extends StatelessWidget{
     return BlocListener<AgregarStockBloc, AlmacenAgregarStockState>(listener: (context, state){
       if(state.carga){
         EasyLoading.show();
-      }else EasyLoading.dismiss();
+      }else {
+        EasyLoading.dismiss();
+      }
     },
       child: BlocBuilder<AgregarStockBloc, AlmacenAgregarStockState>(
         builder: (context, state){
           if(state.qrArticulo == null){
-            return Container(child: ElevatedButton.icon(onPressed:()=> _scannear(context), icon: const Icon(Icons.camera_alt), label: Text("Abrir cámara")),
+            return Container(child: Center(child: ElevatedButton.icon(onPressed:()=> _scannear(context), icon: const Icon(Icons.camera_alt), label: Text("Abrir cámara"))),
             );
           }else{
             BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventBuscarArticulo(state.qrArticulo));
@@ -47,11 +49,10 @@ class AgregarStock extends StatelessWidget{
     await Permission.camera.request();
     String resultado = await FlutterBarcodeScanner.scanBarcode("#ff0000", "Cancelar", true, ScanMode.QR);
     if(resultado != null){
-      //TOdO: hacer un reg para cada entidad, esta es la de llave
-      if(RegExp(".{1,}-[0-9]{1,}").hasMatch(resultado)){
+      if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)){
         BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventReconocerQr(resultado));
 
-      }else EasyLoading.showToast("El código scaneado no corresponde con un artículo!\nPor favor inténtelo nuevamente.");
+      }else EasyLoading.showToast("El código scaneado no corresponde con un artículo!\n\nPor favor inténtelo nuevamente.");
 
     }else EasyLoading.showToast("Se canceló la operación");
   }

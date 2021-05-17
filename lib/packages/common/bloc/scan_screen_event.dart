@@ -7,7 +7,9 @@ abstract class ScanScreenEvent extends Equatable{
 
 }
 
+class ScanEventClearEntities extends ScanScreenEvent{
 
+}
 class ScanEventGetGrupoLlave extends ScanScreenEvent{
   final String identificacionGrupoLlaves;
   ScanEventGetGrupoLlave(this.identificacionGrupoLlaves);

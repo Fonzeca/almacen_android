@@ -13,7 +13,7 @@ part 'scan_screen_event.dart';
 part 'scan_screen_state.dart';
 
 class ScanScreenBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
-  ScanScreenBloc() : super(ScanScreenState());
+  ScanScreenBloc() : super(ScanScreenState(false));
 
   Servidor _servidorAlmacen = Servidor();
   ServidorLlaves _servidorLlaves = ServidorLlaves();
@@ -29,7 +29,7 @@ class ScanScreenBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
       yield state.copyWith(carga: true);
 
       GrupoLlave grupoLlave = await _servidorLlaves.getGrupoLlave(splitString(getGrupoLlave.identificacionGrupoLlaves));
-      yield state.copyWith(grupoLlave:grupoLlave, grupoEquipo: null, equipo: null, articulo: null, carga: false);
+      yield state.copyWith(grupoLlave:grupoLlave, carga: false);
 
     }else if (event is ScanEventGetGrupoEquipo){
 
@@ -37,7 +37,7 @@ class ScanScreenBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
       yield state.copyWith(carga: true);
 
       GrupoEquipo grupoEquipo = await _servidorTecnica.getGrupoEquipoByQr(splitString(getGrupoEquipo.identificacionGrupoEquipo));
-      yield state.copyWith(grupoEquipo: grupoEquipo, grupoLlave: null, articulo: null, equipo: null, carga: false);
+      yield state.copyWith(grupoEquipo: grupoEquipo, carga: false);
 
     }else if(event is ScanEventGetEquipo){
 
@@ -45,7 +45,7 @@ class ScanScreenBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
       yield state.copyWith(carga: true);
 
       Equipo equipo = await _servidorTecnica.getDetalleEquipo(splitString(getEquipo.identificacionEquipo).split("-").last);
-      yield state.copyWith(equipo: equipo, articulo: null, grupoLlave: null, grupoEquipo: null, carga: false);
+      yield state.copyWith(equipo: equipo, carga: false);
 
     }else if(event is ScanEventGetArticulo){
 
@@ -53,7 +53,7 @@ class ScanScreenBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
       yield state.copyWith(carga: true);
 
       Articulo articulo = await _servidorAlmacen.getArticuloByNombre(getArticulo.identificacionArticulo.split("-")[1]);
-      yield state.copyWith(articulo: articulo, equipo: null, grupoEquipo: null, grupoLlave: null, carga: false);
+      yield state.copyWith(articulo: articulo, carga: false);
     }
   }
 

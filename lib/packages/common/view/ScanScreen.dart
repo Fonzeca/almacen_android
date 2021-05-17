@@ -32,7 +32,7 @@ class ScanScreen extends StatelessWidget{
       }
     },
     child: Container(
-      child: ElevatedButton.icon(onPressed:()=> _scannear(context), icon: const Icon(Icons.camera_alt), label: Text("Abrir cámara")),
+      child: Center(child: ElevatedButton.icon(onPressed:()=> _scannear(context), icon: const Icon(Icons.camera_alt), label: Text("Abrir cámara"))),
     ),);
   }
 
