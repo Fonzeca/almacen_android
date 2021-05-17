@@ -52,7 +52,7 @@ class ScanScreenBloc extends Bloc<ScanScreenEvent, ScanScreenState> {
       ScanEventGetArticulo getArticulo = event as ScanEventGetArticulo;
       yield state.copyWith(carga: true);
 
-      Articulo articulo = await _servidorAlmacen.getArticuloFromQr(splitString(getArticulo.identificacionArticulo));
+      Articulo articulo = await _servidorAlmacen.getArticuloByNombre(getArticulo.identificacionArticulo.split("-")[1]);
       yield state.copyWith(articulo: articulo,carga: false);
     }
   }

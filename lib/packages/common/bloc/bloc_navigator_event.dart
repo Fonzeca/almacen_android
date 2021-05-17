@@ -8,7 +8,7 @@ abstract class NavigatorEvent extends Equatable {
 
 class NavigatorEventPushPage extends NavigatorEvent{
   final int value;
-  final String parametro;
+  final Object parametro;
   NavigatorEventPushPage(this.value,{this.parametro});
 }
 

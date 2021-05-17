@@ -1,3 +1,4 @@
+import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:almacen_android/packages/common/bloc/scan_screen_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,15 +16,18 @@ class ScanScreen extends StatelessWidget{
    return BlocListener<ScanScreenBloc, ScanScreenState>(
       listener: (context, state) {
       if(state.equipo!=null){
-
+        BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(10,parametro: state.equipo));
       }
       if(state.articulo!=null){
+        BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0,parametro: state.articulo.nombre));
 
       }
       if(state.grupoLlave!=null){
+        BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(22,parametro: state.grupoLlave));
 
       }
       if(state.grupoEquipo!=null){
+        BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(12,parametro: state.grupoEquipo));
 
       }
     },

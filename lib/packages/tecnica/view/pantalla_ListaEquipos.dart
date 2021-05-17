@@ -7,8 +7,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ListaEquipos extends StatelessWidget {
+  Equipo equipo;
+  ListaEquipos({Key key,this.equipo}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    if(equipo!=null){
+      crearModal(context,equipo);
+    }
     BlocProvider.of<ListaEquiposBloc>(context).add(
         ListaEquiposEventListarEquipos());
     return BlocListener<ListaEquiposBloc, ListaEquiposState>(

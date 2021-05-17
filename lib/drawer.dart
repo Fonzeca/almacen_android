@@ -4,6 +4,7 @@ import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
 import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/common/view/ScanScreen.dart';
+import 'package:almacen_android/packages/tecnica/view/pantalla_GrupoEquipos.dart';
 import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
 import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,7 +44,11 @@ class MainDrawer extends StatelessWidget{
           switch (state.values.last){
             case 0:
               appTitle="Nuevo Pedido";
-              body = NuevoPedido(admn: admin,);
+              if(state.parametro!=null){
+                body=NuevoPedido(admn: admin, nombreArticulo: state.parametro,);
+                break;
+              }
+              body= NuevoPedido(admn: admin,);
               break;
             case 1:
               appTitle="Lista de Pedidos";
@@ -55,11 +60,19 @@ class MainDrawer extends StatelessWidget{
               break;
             case 10:
               appTitle="Lista de Equipos";
+              if(state.parametro != null){
+               body = ListaEquipos(equipo: state.parametro,);
+               break;
+              }
               body = ListaEquipos();
               break;
             case 11:
               appTitle="Lista de Registros";
               body = ListaRegistros(admn: admin,);
+              break;
+            case 12:
+              appTitle="Grupo Equipos Específico";
+              body = GrupoEquiposEspecifico(grupoEquipo: state.parametro);
               break;
             case 20:
               appTitle="Llaves";
@@ -68,6 +81,10 @@ class MainDrawer extends StatelessWidget{
             case 21:
               appTitle="Llave Específica";
               body = LlaveEspecifica(id: state.parametro);
+              break;
+            case 22:
+              appTitle="Grupo Llaves Específico";
+              body = GrupoEspecifico(grupoLlave: state.parametro);
               break;
             case 50:
               appTitle="Scannear QR";

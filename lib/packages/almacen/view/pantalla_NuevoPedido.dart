@@ -18,7 +18,7 @@ class NuevoPedido extends StatelessWidget{
   final TextEditingController _observacionesController = TextEditingController();
 
 
-  NuevoPedido({Key key, @required this.admn}):super(key: key);
+  NuevoPedido({Key key, @required this.admn, this.nombreArticulo}):super(key: key);
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize(admn));
