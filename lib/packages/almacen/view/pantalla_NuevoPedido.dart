@@ -24,7 +24,7 @@ class NuevoPedido extends StatelessWidget{
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize(admn));
     return BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
         builder: (context,state){
-          if(state.listaArticulos != null && state.listaUsuarios != null){
+          if(state.listaArticulos != null && (!admn || state.listaUsuarios != null)){
             EasyLoading.dismiss();
             return Container(
               height: double.infinity,

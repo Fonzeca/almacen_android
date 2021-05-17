@@ -25,8 +25,9 @@ class MainDrawer extends StatelessWidget{
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
     "Escanear Llave", "Buscar Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
 
-  MainDrawer (bool admin){
+  MainDrawer (bool admin, BuildContext context){
     this.admin=admin;
+    BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
   }
 
   /// Se utilizan los valores en decenas para permitir agregar funcionalidades en caso de ser necesario.
@@ -38,9 +39,9 @@ class MainDrawer extends StatelessWidget{
     leadingArrow = Icon(Icons.arrow_right_rounded);
     Widget body;
 
-    BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
     return BlocBuilder<NavigatorBloc,BlocNavigator.NavigatorState>(
       builder: (context, state){
+        print(state.values);
           switch (state.values.last){
             case 0:
               appTitle="Nuevo Pedido";
@@ -91,14 +92,17 @@ class MainDrawer extends StatelessWidget{
               body = ScanScreen();
               break;
             case 99:
+              appTitle = "";
+              body = Container();
               CommonApiCalls commonApiCalls= CommonApiCalls();
               commonApiCalls.logout().then((value) {
+                BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventResetNavigator());
                 Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
               });
               break;
             default :
-              appTitle = "Nuevo Pedido";
-              body = NuevoPedido(admn: admin,);
+              appTitle = "";
+              body = Container();
               break;
           }
         return Scaffold(

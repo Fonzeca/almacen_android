@@ -113,9 +113,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ],
   );
-  String emailText = "root";
+  String emailText = "";
 
-  String passwordText = "almacen.C12";
+  String passwordText = "";
 
   Widget _buildEmailTF() {
     return Column(
@@ -304,7 +304,7 @@ class _MyHomePageState extends State<MyHomePage> {
       if (logeado) {
         LoggedUser loggedUser = await _servidor.getLoggedUser();
         EasyLoading.dismiss();
-        Navigator.push(context,MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin)));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, context)));
       } else {
         EasyLoading.dismiss();
         EasyLoading.showError("Usuario o contraseña incorrectos.");

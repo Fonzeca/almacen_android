@@ -12,3 +12,7 @@ class NavigatorEventPushPage extends NavigatorEvent{
   NavigatorEventPushPage(this.value,{this.parametro});
 }
 
+class NavigatorEventResetNavigator extends NavigatorEvent{
+  NavigatorEventResetNavigator();
+}
+
