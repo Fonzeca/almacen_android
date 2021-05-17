@@ -22,7 +22,7 @@ class MainDrawer extends StatelessWidget{
 
   List<String> sections =["Nuevo Pedido", "Listar Pedidos", "Listar Artículos", "Listar Proveedores","Nuevo Artículo","Nuevo Proveedor",
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
-    "Escanear Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
+    "Escanear Llave", "Buscar Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
 
   MainDrawer (bool admin){
     this.admin=admin;
@@ -64,6 +64,10 @@ class MainDrawer extends StatelessWidget{
             case 20:
               appTitle="Llaves";
               body = BuscarLlave();
+              break;
+            case 21:
+              appTitle="Llave Específica";
+              body = LlaveEspecifica(id: state.parametro);
               break;
             case 50:
               appTitle="Scannear QR";

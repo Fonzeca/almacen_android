@@ -19,7 +19,9 @@ class NavigatorBloc extends Bloc<NavigatorEvent, NavigatorState> {
      values= state.values;
      values.add(pushPage.value);
      print(values.toString());
-     yield state.copyWith(values: values);
+     if(pushPage.parametro!=null){
+       yield state.copyWith(values: values,parametro: pushPage.parametro);
+     }else yield state.copyWith(values: values);
    }
   }
 }
