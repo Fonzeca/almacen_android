@@ -16,3 +16,7 @@ class NavigatorEventResetNavigator extends NavigatorEvent{
   NavigatorEventResetNavigator();
 }
 
+class NavigatorEventGetBack extends NavigatorEvent{
+
+}
+

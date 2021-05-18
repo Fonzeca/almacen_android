@@ -14,6 +14,7 @@ class NavigatorBloc extends Bloc<NavigatorEvent, NavigatorState> {
     NavigatorEvent event,
   ) async* {
    if (event is NavigatorEventPushPage){
+
      NavigatorEventPushPage pushPage = event as NavigatorEventPushPage;
      List<int> values;
      values= state.values;
@@ -22,8 +23,14 @@ class NavigatorBloc extends Bloc<NavigatorEvent, NavigatorState> {
      if(pushPage.parametro!=null){
        yield state.copyWith(values: values,parametro: pushPage.parametro);
      }else yield state.copyWith(values: values);
-   }else if(event is NavigatorEventResetNavigator){
+
+   }else if(event is NavigatorEventResetNavigator) {
      yield state.copyWith(values: [-1]);
+   }else if (event is NavigatorEventGetBack){
+
+     List<int> values = state.values;
+     values.removeAt(values.length-1);
+     yield state.copyWith(values: values);
    }
   }
 }

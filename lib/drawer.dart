@@ -93,7 +93,6 @@ class MainDrawer extends StatelessWidget{
               break;
             case 99:
               appTitle = "";
-              appTitle = "";
               body = Container();
               CommonApiCalls commonApiCalls= CommonApiCalls();
               commonApiCalls.logout().then((value) {
@@ -106,76 +105,85 @@ class MainDrawer extends StatelessWidget{
               body = Container();
               break;
           }
-        return Scaffold(
-            appBar: AppBar(
-              title: Text(appTitle),
-            ),
-            body: body,
-            drawer: Drawer(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Canal 12',
-                        style: textTheme.headline6,
+        return WillPopScope(
+          onWillPop: () async{
+            if(state.values.last == -1 || state.values.length == 1){
+              return true;
+            }
+            BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventGetBack());
+            return false;
+          },
+          child: Scaffold(
+              appBar: AppBar(
+                title: Text(appTitle),
+              ),
+              body: body,
+              drawer: Drawer(
+                  child: ListView(
+                    padding: EdgeInsets.zero,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Canal 12',
+                          style: textTheme.headline6,
+                        ),
                       ),
-                    ),
 
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Almacén',
+                      Divider(
+                        height: 1,
+                        thickness: 1,
                       ),
-                    ),
-                    //        Nuevo Pedido
-                    _drawerItem(sections[0], leadingArrow, 0, state.values, context),
-                    //
-                    _drawerItem(sections[1], leadingArrow, 1, state.values, context),
-                    admin?_drawerItem("Agregar Stock", leadingArrow, 2, state.values, context)
-                        :SizedBox(),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Técnica',
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Almacén',
+                        ),
                       ),
-                    ),
-                    //          Listar Equipos
-                    _drawerItem(sections[6], leadingArrow, 10, state.values, context),
-                    //          Listar Registros
-                    _drawerItem(sections[7], leadingArrow, 11, state.values, context),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        'Llaves',
+                      //        Nuevo Pedido
+                      _drawerItem(sections[0], leadingArrow, 0, state.values, context),
+                      //
+                      _drawerItem(sections[1], leadingArrow, 1, state.values, context),
+                      admin?_drawerItem("Agregar Stock", leadingArrow, 2, state.values, context)
+                          :SizedBox(),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
                       ),
-                    ),
-                    //          Escanear Llave
-                    _drawerItem(sections[12], leadingArrow, 20, state.values, context),
-                    Divider(
-                      height: 1,
-                      thickness: 1,
-                    ),
-                    _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
-                    SizedBox(height: 20.0,),
-                    _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
-                    //          Listar Llaves
-                  ],
-                )
-            )
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Técnica',
+                        ),
+                      ),
+                      //          Listar Equipos
+                      _drawerItem(sections[6], leadingArrow, 10, state.values, context),
+                      //          Listar Registros
+                      _drawerItem(sections[7], leadingArrow, 11, state.values, context),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Text(
+                          'Llaves',
+                        ),
+                      ),
+                      //          Escanear Llave
+                      _drawerItem(sections[12], leadingArrow, 20, state.values, context),
+                      Divider(
+                        height: 1,
+                        thickness: 1,
+                      ),
+                      _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
+                      SizedBox(height: 20.0,),
+                      _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
+                      //          Listar Llaves
+                    ],
+                  )
+              )
+          ),
         );
       },
 
