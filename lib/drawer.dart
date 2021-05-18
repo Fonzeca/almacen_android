@@ -93,6 +93,7 @@ class MainDrawer extends StatelessWidget{
               break;
             case 99:
               appTitle = "";
+              appTitle = "";
               body = Container();
               CommonApiCalls commonApiCalls= CommonApiCalls();
               commonApiCalls.logout().then((value) {

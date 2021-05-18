@@ -21,6 +21,9 @@ class NuevoPedido extends StatelessWidget{
   NuevoPedido({Key key, @required this.admn, this.nombreArticulo}):super(key: key);
   @override
   Widget build(BuildContext context) {
+  if(nombreArticulo != null){
+    _typeAheadController.text = nombreArticulo;
+  }
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize(admn));
     return BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
         builder: (context,state){

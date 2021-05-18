@@ -17,16 +17,13 @@ class ScanScreen extends StatelessWidget{
       listener: (context, state) {
       if(state.equipo!=null){
         BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(10,parametro: state.equipo));
-      }
-      if(state.articulo!=null){
+      }else if(state.articulo!=null){
         BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0,parametro: state.articulo.nombre));
 
-      }
-      if(state.grupoLlave!=null){
+      }else if(state.grupoLlave!=null){
         BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(22,parametro: state.grupoLlave));
 
-      }
-      if(state.grupoEquipo!=null){
+      }else if(state.grupoEquipo!=null){
         BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(12,parametro: state.grupoEquipo));
 
       }
@@ -45,7 +42,7 @@ class ScanScreen extends StatelessWidget{
             ScanEventGetGrupoLlave(resultado));
       } else if (RegExp("grupoE{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)) {
         BlocProvider.of<ScanScreenBloc>(context).add(
-            ScanEventGetEquipo(resultado));
+            ScanEventGetGrupoEquipo(resultado));
       } else if (RegExp("equipo{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)) {
         BlocProvider.of<ScanScreenBloc>(context).add(
             ScanEventGetEquipo(resultado));

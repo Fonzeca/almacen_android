@@ -153,7 +153,6 @@ Widget _createRow (Pedido p,BuildContext context,int index,bool adm){
 
 void crearModal(BuildContext context, PedidoDetalleView detalle) {
   EasyLoading.dismiss();
-
   showModalBottomSheet<void>(
     context: context,
     builder: (BuildContext context) {

@@ -3,16 +3,18 @@ part of 'bloc_listaEquipos_bloc.dart';
 class ListaEquiposState extends Equatable{
   final List<Equipo> listaEquipos;
   final Equipo equipo;
+  final bool carga;
 
-  ListaEquiposState([this.listaEquipos,this.equipo]);
+  ListaEquiposState({this.carga, this.listaEquipos,this.equipo});
 
   @override
-  List<Object> get props => [listaEquipos, equipo];
+  List<Object> get props => [listaEquipos, equipo, carga];
 
-  ListaEquiposState copyWith({List<Equipo> listaEquipos, Equipo equipo}){
+  ListaEquiposState copyWith({bool carga, List<Equipo> listaEquipos, Equipo equipo}){
     return ListaEquiposState(
-      listaEquipos ?? this.listaEquipos,
-      equipo ?? this.equipo,
+      carga: carga ?? this.carga,
+      listaEquipos: listaEquipos ?? this.listaEquipos,
+      equipo: equipo ?? equipo,
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/tecnica/bloc/bloc_listaEquipos_bloc.dart';
 import 'package:almacen_android/packages/tecnica/model/equipo.dart';
 import 'package:flutter/material.dart';
@@ -8,17 +7,24 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ListaEquipos extends StatelessWidget {
   Equipo equipo;
+
   ListaEquipos({Key key,this.equipo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<ListaEquiposBloc>(context).add(
         ListaEquiposEventListarEquipos());
-    return BlocListener<ListaEquiposBloc, ListaEquiposState>(
-      listener: (context, state) {
+
         if(equipo!=null){
           BlocProvider.of<ListaEquiposBloc>(context).add(
               (ListaEquiposEventGetDetalle(equipo.id.toString())));
+        }
+    return BlocListener<ListaEquiposBloc, ListaEquiposState>(
+      listener: (context, state) {
+        if(state.carga){
+          EasyLoading.show();
+        }else{
+          EasyLoading.dismiss();
         }
         if (state.equipo != null) {
           crearModal(context, state.equipo);
@@ -63,8 +69,8 @@ class ListaEquipos extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         EasyLoading.show();
-        BlocProvider.of<ListaEquiposBloc>(context).add(
-            (ListaEquiposEventGetDetalle(p.id.toString())));
+        BlocProvider.of<ListaEquiposBloc>(context).add
+            (ListaEquiposEventGetDetalle(p.id.toString()));
 
       },
       child: Dismissible(
@@ -116,14 +122,14 @@ class ListaEquipos extends StatelessWidget {
   }
 
 
-  void crearModal(BuildContext context, Equipo equipo) {
-    BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventLimpiarEquipo());
-    Equipo detalleView = equipo;
+  void crearModal(BuildContext context, Equipo detalleView) {
     EasyLoading.dismiss();
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
-          return Container(height: 250,
+          return Container(
+            height: 250,
+            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
             color: Colors.white,
             child: Center(
               child: Column(

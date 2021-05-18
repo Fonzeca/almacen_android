@@ -24,7 +24,3 @@ class ListaEquipoEventCambiarEstadoEquipo extends ListaEquiposEvent{
   int id;
   ListaEquipoEventCambiarEstadoEquipo(this.id);
 }
-
-class ListaEquipoEventLimpiarEquipo extends ListaEquiposEvent{
-
-}
