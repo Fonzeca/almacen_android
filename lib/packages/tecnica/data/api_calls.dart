@@ -69,7 +69,7 @@ class ServidorTecnica {
    */
 
   Future<GrupoEquipo>getGrupoEquipoByQr(String identificacion) async{
-    String endpoint = "/grupoEquipos";
+    String endpoint = "/grupoEquipo";
     String params = "?identificacion="+identificacion;
     var url = Uri.parse(ipServer+endpoint+params);
 

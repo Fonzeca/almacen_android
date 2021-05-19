@@ -17,11 +17,11 @@ class NavigatorBloc extends Bloc<NavigatorEvent, NavigatorState> {
 
      NavigatorEventPushPage pushPage = event as NavigatorEventPushPage;
      List<int> values;
-     values= state.values;
+     values = List.from(state.values);
      values.add(pushPage.value);
      print(values.toString());
      if(pushPage.parametro!=null){
-       yield state.copyWith(values: values,parametro: pushPage.parametro);
+       yield state.copyWith(values: values, parametro: pushPage.parametro);
      }else yield state.copyWith(values: values);
 
    }else if(event is NavigatorEventResetNavigator) {

@@ -37,6 +37,7 @@ class ScanScreen extends StatelessWidget{
     await Permission.camera.request();
     String resultado = await FlutterBarcodeScanner.scanBarcode("#ff0000", "Cancelar", true, ScanMode.QR);
     if(resultado != null) {
+      print(resultado);
       if (RegExp("grupoL{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)) {
         BlocProvider.of<ScanScreenBloc>(context).add(
             ScanEventGetGrupoLlave(resultado));
@@ -49,6 +50,8 @@ class ScanScreen extends StatelessWidget{
       } else if (RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)) {
         BlocProvider.of<ScanScreenBloc>(context).add(
             ScanEventGetArticulo(resultado));
+      } else {
+        EasyLoading.showToast("Qr no compatible.");
       }
     }else{
       EasyLoading.showToast("Se canceló la operación");

@@ -11,7 +11,7 @@ class GrupoLlave extends Equatable{
   GrupoLlave.fromJson(Map<String, dynamic> json):
       nombre = json["nombre"],
       estado = json["estado"],
-      llaves = json["llaves"];
+      llaves = List.from(json["llaves"]).map((e) => Llave.fromJson(e)).toList();
 
 
   @override

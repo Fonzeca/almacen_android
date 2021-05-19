@@ -48,7 +48,7 @@ class ServidorLlaves {
 
   Future <GrupoLlave> getGrupoLlave(String identificacionGrupoLlaves) async{
     String endpoint, params;
-    endpoint = "/grupoLlaves";
+    endpoint = "/grupoLlave";
     params = "?identificacion="+identificacionGrupoLlaves;
     var url = Uri.parse(ipServer + endpoint + params);
     var response = await MindiaHttpClient.instance().get(url);

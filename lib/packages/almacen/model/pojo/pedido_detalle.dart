@@ -15,7 +15,7 @@ PedidoDetalleView(this.pedidoId,this.usuario,this.observaciones,this.estadopedid
       estadopedido= json['estadopedido'],
       usuario= json['usuario'],
       observaciones= json['observaciones'],
-      articulosPedidos= (json['pedidos'] as List).map((e) => ArticuloPedidoView.fromJson(e)).toList();
+      articulosPedidos = (json['pedidos'] as List).map((e) => ArticuloPedidoView.fromJson(e)).toList();
 
 }
 class ArticuloPedidoView extends Equatable{

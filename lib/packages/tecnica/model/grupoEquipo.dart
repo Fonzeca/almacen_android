@@ -10,8 +10,8 @@ class GrupoEquipo extends Equatable{
   GrupoEquipo(this.nombre,this.estado,this.equipos);
   GrupoEquipo.fromJson(Map<String, dynamic> json):
       nombre = json["nombre"],
-  estado = json["estado"],
-  equipos = json["equipos"];
+      estado = json["estado"],
+      equipos = List.from(json["equipos"]).map((e) => Equipo.fromJson(e)).toList();
 
   @override
   List<Object> get props => [nombre, estado, equipos];
