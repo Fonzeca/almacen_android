@@ -199,6 +199,7 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Text("Observaciones: "),
                   Flexible(
                     child: AutoSizeText(
                       detalle.observaciones ?? "",

@@ -239,6 +239,7 @@ class NuevoPedido extends StatelessWidget{
   void _clickNuevoPedido(BuildContext context){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSavePedido(_observacionesController.text));
     _observacionesController.text = "";
+    
   }
 
 
