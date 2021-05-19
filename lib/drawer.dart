@@ -110,6 +110,7 @@ class MainDrawer extends StatelessWidget{
             if(state.values.last == -1 || state.values.length == 1){
               return true;
             }
+            Navigator.canPop(context)?Navigator.pop(context):
             BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventGetBack());
             return false;
           },
