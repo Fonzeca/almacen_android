@@ -21,7 +21,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +62,7 @@ class MyHomePage extends StatefulWidget {
  * En caso de validarse, se llega a la pantalla principal en la que nos deja elegir entre almacen, tecnica y llaves.
  */
 class _MyHomePageState extends State<MyHomePage> {
+  bool pressed;
   final kHintTextStyle = TextStyle(
     color: Colors.white,
     fontFamily: 'OpenSans',
@@ -76,11 +76,13 @@ class _MyHomePageState extends State<MyHomePage> {
     fontSize: 12,
   );
 
+
   Widget _buildLoginBtn() {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 15.0),
       width: double.infinity,
       child: ElevatedButton(
+
         onPressed: () => signIn(context, emailText, passwordText),
         style: ElevatedButton.styleFrom(
             padding: EdgeInsets.all(15.0),
@@ -193,6 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    pressed = false;
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
         value: SystemUiOverlayStyle.light,
@@ -296,21 +299,26 @@ class _MyHomePageState extends State<MyHomePage> {
    * Método que valida tanto usuario como contraseña con la api.
    */
   signIn(BuildContext context, String emailText, String passwordText) async {
-    if (emailText != '' && passwordText != '') {
-      EasyLoading.show();
-      CommonApiCalls _servidor = CommonApiCalls();
-      bool logeado;
-      logeado = await _servidor.login(emailText, passwordText);
-      if (logeado) {
-        LoggedUser loggedUser = await _servidor.getLoggedUser();
-        EasyLoading.dismiss();
-        Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, context)));
+    if(!pressed){
+      pressed=true;
+      if (emailText != '' && passwordText != '') {
+        EasyLoading.show();
+        CommonApiCalls _servidor = CommonApiCalls();
+        bool logeado;
+        logeado = await _servidor.login(emailText, passwordText);
+        if (logeado) {
+          LoggedUser loggedUser = await _servidor.getLoggedUser();
+          EasyLoading.dismiss();
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, context)));
+        } else {
+          EasyLoading.dismiss();
+          EasyLoading.showError("Usuario o contraseña incorrectos.");
+          pressed = false;
+        }
       } else {
-        EasyLoading.dismiss();
-        EasyLoading.showError("Usuario o contraseña incorrectos.");
+        EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
+        pressed = false;
       }
-    } else {
-      EasyLoading.showError("Por favor ingrese un usuario y contraseña.");
     }
   }
 }
