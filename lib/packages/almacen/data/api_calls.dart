@@ -65,13 +65,16 @@ class Servidor {
     return pedidoDetalleView;
   }
 
-  Future<void> entregarPedido(String id) async{
+  Future<bool> entregarPedido(String id) async{
     String endpoint = "/pedido/entregar";
     String params = "?id="+id;
     String url = ipServer+endpoint+params;
 
     var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("entregarPedido/ Status: "+response.statusCode.toString()+", Body: "+response.body);
+    if (response.statusCode == 200){
+      return response.body as bool;
+    }return false;
   }
 
   Future<void> eliminarPedido(String id) async{

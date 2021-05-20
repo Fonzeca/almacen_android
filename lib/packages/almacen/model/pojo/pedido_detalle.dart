@@ -4,18 +4,20 @@ class PedidoDetalleView extends Equatable{
  int pedidoId;
  String estadopedido, usuario, observaciones;
  List<ArticuloPedidoView> articulosPedidos;
+ List<String> articulosFaltantes;
 
 PedidoDetalleView(this.pedidoId,this.usuario,this.observaciones,this.estadopedido);
 
   @override
-  List<Object> get props => [this.pedidoId,this.usuario,this.observaciones,this.estadopedido];
+  List<Object> get props => [this.pedidoId,this.usuario,this.observaciones,this.estadopedido,];
 
   PedidoDetalleView.fromJson(Map<String, dynamic> json):
       pedidoId= json['pedidoId'],
       estadopedido= json['estadopedido'],
       usuario= json['usuario'],
       observaciones= json['observaciones'],
-      articulosPedidos = (json['pedidos'] as List).map((e) => ArticuloPedidoView.fromJson(e)).toList();
+      articulosPedidos = (json['pedidos'] as List).map((e) => ArticuloPedidoView.fromJson(e)).toList(),
+      articulosFaltantes = json['nombreArticuloFaltante'];
 
 }
 class ArticuloPedidoView extends Equatable{
