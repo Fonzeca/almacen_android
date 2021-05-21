@@ -38,7 +38,7 @@ class NuevoPedidoEventSavePedido extends NuevoPedidoEvent{
 }
 
 class NuevoPedidoEventArticulosFromQr extends NuevoPedidoEvent{
-  final List<String> articulosDetectados;
+  final String articuloDetectado;
 
-  NuevoPedidoEventArticulosFromQr(this.articulosDetectados);
+  NuevoPedidoEventArticulosFromQr(this.articuloDetectado);
 }

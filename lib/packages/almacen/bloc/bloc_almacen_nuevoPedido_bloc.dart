@@ -117,7 +117,7 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
   }
 
   Stream<NuevoPedidoState> onEventArticulosFromQr(NuevoPedidoEventArticulosFromQr event) async*{
-    yield state.copyWith(nombresArticulosFromQr: event.articulosDetectados);
+    yield state.copyWith(nombresArticulosFromQr: event.articuloDetectado);
   }
 
 }

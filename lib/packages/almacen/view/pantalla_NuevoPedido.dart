@@ -1,4 +1,6 @@
 
+import 'dart:async';
+
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
@@ -20,6 +22,7 @@ class NuevoPedido extends StatelessWidget{
 
   final TextEditingController _typeAheadController = TextEditingController();
   final TextEditingController _observacionesController = TextEditingController();
+  final TextEditingController _controller = TextEditingController();
 
 
   NuevoPedido({Key key, @required this.admn, this.nombreArticulo}):super(key: key);
@@ -32,11 +35,45 @@ class NuevoPedido extends StatelessWidget{
     return BlocListener<NuevoPedidoBloc, NuevoPedidoState>(
       listener: (context, state){
         if(state.nombresArticulosFromQr != null){
-          String mostrar = "";
-          for (String a in state.nombresArticulosFromQr){
-            mostrar + a + "\n";
-          }
-          EasyLoading.showInfo(mostrar);
+          showModalBottomSheet<void>(
+              context: context,
+              builder: (BuildContext context) {
+                return Container(
+                    height: 700,
+                    color: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
+                    child: Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text('Articulo: ' +
+                                  state.nombresArticulosFromQr.split("-")[1]),
+                              SizedBox(height: 35.0,),
+                              Align(child: Text('Ingrese la cantidad:'), alignment: Alignment.centerLeft,),
+                              TextField(controller: _controller, keyboardType: TextInputType.number, maxLength: 3, autofocus: false,),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ElevatedButton(onPressed: ()=>_finalizar(context), child: Text("Finalizar"),),
+                                  SizedBox(width: 40.0,),
+                                  ElevatedButton(onPressed: (){
+                                    String nuevaCantidad = _controller.text;
+                                    if(nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
+                                      _continuar(context, state.nombresArticulosFromQr.split("-")[1],nuevaCantidad);
+                                    }else {
+                                      EasyLoading.showToast("Por favor ingrese una cantidad válida!");
+                                    }
+                                  },
+                                      child: Text("Continuar Scaneo")),
+                                ],
+                              )
+                            ]
+                        )
+                    )
+                );
+              }
+          );
         }
       },
       child: BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
@@ -50,10 +87,10 @@ class NuevoPedido extends StatelessWidget{
                     padding: EdgeInsets.all(25.0),
                     child: Column(
                       children: [
-                         FloatingActionButton(
-                              mini: true,
-                              child: Icon(Icons.search),
-                              onPressed:()=> _scannearMultiplesArticulos(context)),
+                        FloatingActionButton(
+                            mini: true,
+                            child: Icon(Icons.search),
+                            onPressed:()=> _scannearMultiplesArticulos(context)),
                         _crearVista(context, admn, state),
                         FloatingActionButton.extended(
                           onPressed: () => _clickNuevoPedido(context),
@@ -261,28 +298,31 @@ class NuevoPedido extends StatelessWidget{
     _observacionesController.text = "";
 
   }
-  Future<void> _scannearMultiplesArticulos(BuildContext context) async{
-
-    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventArticulosFromQr(await _scan(context)));
-
-  }
-  Future<List<String>> _scan(BuildContext context) async{
-    List<String> articulosDetectados = [];
+  Future<List<String>> _scannearMultiplesArticulos(BuildContext context) async{
     await Permission.camera.request();
-    FlutterBarcodeScanner.getBarcodeStreamReceiver(
-        "#ff0000", "Cancelar", true, ScanMode.QR).listen((barcode) {
-      if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(barcode)){
-        articulosDetectados.add(barcode);
-        SystemSound.play(SystemSoundType.click);
-        print(barcode.toString());
-      }
-    });
-    return articulosDetectados;
+    String resultado = await FlutterBarcodeScanner.scanBarcode(
+        "#ff0000", "Cancelar", true, ScanMode.QR);
+
+    if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)){
+      print("añadido");
+      BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventArticulosFromQr(resultado));
+    }else{
+      EasyLoading.showToast("Por favor scanee un Qr de Artículo!");
+    }
+
+
+
   }
+  void _continuar(BuildContext context, String nombreArt, String cantidad){
+    _controller.text="";
+    Navigator.pop(context);
+    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombreArt, cantidad));
+    _scannearMultiplesArticulos(context);
 
-
-
-
+  }
+  void _finalizar(BuildContext context){
+    Navigator.pop(context);
+  }
 }
 
 
