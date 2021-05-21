@@ -188,7 +188,7 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
                         itemBuilder: (context, index) {
                           ArticuloPedidoView articuloView = detalle.articulosPedidos[index];
                           bool red = false;
-                          if(detalle.articulosFaltantes!=[]){
+                          if(detalle.articulosFaltantes !=null && detalle.articulosFaltantes!=[]){
                             for(String a in detalle.articulosFaltantes){
                               if(a == articuloView.nombre){
                                 red = true;
@@ -253,7 +253,6 @@ void crearModal(BuildContext context, PedidoDetalleView detalle) {
 void _entregarPedido (BuildContext context, String id) {
   BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventEntregarPedido(id));
   Navigator.pop(context);
-  print("entro a entregar y va a mostrar un toast rikolino con el id "+id);
   EasyLoading.showToast("Pedido número "+id+" entregado.");
 }
 void _eliminarPedido (BuildContext context, String id){

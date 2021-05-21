@@ -73,7 +73,7 @@ class Servidor {
     var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("entregarPedido/ Status: "+response.statusCode.toString()+", Body: "+response.body);
     if (response.statusCode == 200){
-      return response.body as bool;
+      return response.body.toLowerCase() == "true";
     }return false;
   }
 
