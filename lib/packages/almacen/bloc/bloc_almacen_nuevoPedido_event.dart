@@ -14,7 +14,6 @@ class NuevoPedidoInitialize extends NuevoPedidoEvent{
   NuevoPedidoInitialize(this.adm);
 }
 class NuevoPedidoEventGetArts extends NuevoPedidoEvent{
-
 }
 
 class NuevoPedidoEventAddArt extends NuevoPedidoEvent{
@@ -36,4 +35,10 @@ class NuevoPedidoEventSavePedido extends NuevoPedidoEvent{
   final String observaciones;
 
   NuevoPedidoEventSavePedido(this.observaciones);
+}
+
+class NuevoPedidoEventArticulosFromQr extends NuevoPedidoEvent{
+  final List<String> articulosDetectados;
+
+  NuevoPedidoEventArticulosFromQr(this.articulosDetectados);
 }

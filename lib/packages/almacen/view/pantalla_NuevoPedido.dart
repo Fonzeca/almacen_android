@@ -4,9 +4,12 @@ import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:permission_handler/permission_handler.dart';
+
 
 class NuevoPedido extends StatelessWidget{
   final bool admn;
@@ -21,48 +24,64 @@ class NuevoPedido extends StatelessWidget{
   NuevoPedido({Key key, @required this.admn, this.nombreArticulo}):super(key: key);
   @override
   Widget build(BuildContext context) {
-  if(nombreArticulo != null){
-    _typeAheadController.text = nombreArticulo;
-  }
+    if(nombreArticulo != null){
+      _typeAheadController.text = nombreArticulo;
+    }
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoInitialize(admn));
-    return BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
-        builder: (context,state){
-          if(state.listaArticulos != null && (!admn || state.listaUsuarios != null)){
-            EasyLoading.dismiss();
-            return Container(
-              height: double.infinity,
-              child: SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.all(25.0),
-                  child: Column(
-                    children: [
-                      _crearVista(context, admn, state),
-                      FloatingActionButton.extended(
-                        onPressed: () => _clickNuevoPedido(context),
-                        icon: const Icon(Icons.save_alt),
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                        backgroundColor: Theme.of(context).accentColor,
-                        elevation: 5,
-                        label: const Text('Aceptar',
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 1.5,
-                            fontSize: 18.0,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'OpenSans',
+    return BlocListener<NuevoPedidoBloc, NuevoPedidoState>(
+      listener: (context, state){
+        if(state.nombresArticulosFromQr != null){
+          String mostrar = "";
+          for (String a in state.nombresArticulosFromQr){
+            mostrar + a + "\n";
+          }
+          EasyLoading.showInfo(mostrar);
+        }
+      },
+      child: BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
+          builder: (context,state){
+            if(state.listaArticulos != null && (!admn || state.listaUsuarios != null)){
+              EasyLoading.dismiss();
+              return Container(
+                height: double.infinity,
+                child: SingleChildScrollView(
+                  child: Container(
+                    padding: EdgeInsets.all(25.0),
+                    child: Column(
+                      children: [
+                         FloatingActionButton(
+                              mini: true,
+                              child: Icon(Icons.search),
+                              onPressed:()=> _scannearMultiplesArticulos(context)),
+                        _crearVista(context, admn, state),
+                        FloatingActionButton.extended(
+                          onPressed: () => _clickNuevoPedido(context),
+                          icon: const Icon(Icons.save_alt),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
+                          backgroundColor: Theme.of(context).accentColor,
+                          elevation: 5,
+                          label: const Text('Aceptar',
+                            style: TextStyle(
+                              color: Colors.white,
+                              letterSpacing: 1.5,
+                              fontSize: 18.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'OpenSans',
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            );
-          }else{
-            EasyLoading.show();
-            return Container();
+              );
+            }else{
+              EasyLoading.show();
+              return Container();
+            }
           }
-        }
+      ),
     );
   }
 
@@ -71,23 +90,23 @@ class NuevoPedido extends StatelessWidget{
 
     if(adm){
       seccionElegirUsuario =
-        Column(
-          children: [
-            Text("Usuario",style: TextStyle(color: Colors.grey)),
-            DropdownButton<String>(
-              value: state.nombreUsuario,
-              items: state.listaUsuarios.map<DropdownMenuItem<String>>((String value){
-                return DropdownMenuItem<String>(value : value,child: Text(value,style: TextStyle(color: Colors.black),),);
-              }).toList(),
-              onChanged: (String newValue){
-                BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSetUser(newValue));
-              },
-              style: TextStyle(fontSize: 16),
-            ),
-            Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
-            SizedBox(height: 10.0,),
-          ],
-        );
+          Column(
+            children: [
+              Text("Usuario",style: TextStyle(color: Colors.grey)),
+              DropdownButton<String>(
+                value: state.nombreUsuario,
+                items: state.listaUsuarios.map<DropdownMenuItem<String>>((String value){
+                  return DropdownMenuItem<String>(value : value,child: Text(value,style: TextStyle(color: Colors.black),),);
+                }).toList(),
+                onChanged: (String newValue){
+                  BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSetUser(newValue));
+                },
+                style: TextStyle(fontSize: 16),
+              ),
+              Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
+              SizedBox(height: 10.0,),
+            ],
+          );
     }
     return Column(
       children: [
@@ -136,56 +155,56 @@ class NuevoPedido extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-              child: TypeAheadField(
-                textFieldConfiguration: TextFieldConfiguration(
-                  decoration: InputDecoration(
+            child: TypeAheadField(
+              textFieldConfiguration: TextFieldConfiguration(
+                decoration: InputDecoration(
                     hintText: "Artículo",
                     hintStyle: TextStyle(
                       color: Colors.black26,
                     )
-                  ),
-                  controller: _typeAheadController,
                 ),
-                suggestionsCallback: (pattern) async{
-                  if(pattern.length < 3){
-                    return ["NO HAY"];
-                  }
-                  return Servidor().getArticulosLikeNombre(pattern);
-                },
-                noItemsFoundBuilder: (context) {
+                controller: _typeAheadController,
+              ),
+              suggestionsCallback: (pattern) async{
+                if(pattern.length < 3){
+                  return ["NO HAY"];
+                }
+                return Servidor().getArticulosLikeNombre(pattern);
+              },
+              noItemsFoundBuilder: (context) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("No se encontro", style: TextStyle(fontSize: 20, color: Colors.black26),),
+                );
+              },
+              hideOnError: true,
+              itemBuilder: (context, itemData) {
+                if(itemData == "NO HAY"){
+                  return Container();
+                }else{
                   return Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("No se encontro", style: TextStyle(fontSize: 20, color: Colors.black26),),
+                    child: Text(itemData.nombre),
                   );
-                },
-                hideOnError: true,
-                itemBuilder: (context, itemData) {
-                  if(itemData == "NO HAY"){
-                    return Container();
-                  }else{
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(itemData.nombre),
-                    );
-                  }
-                },
-                onSuggestionSelected: (suggestion) {
-                  _typeAheadController.text = suggestion.nombre;
-                  nombreArticulo = suggestion.nombre;
-                },
-              ),
+                }
+              },
+              onSuggestionSelected: (suggestion) {
+                _typeAheadController.text = suggestion.nombre;
+                nombreArticulo = suggestion.nombre;
+              },
+            ),
           ),
           SizedBox(width: 25.0),
           Expanded(
             child: TextField(
               controller: TextEditingController(
-                text: ""
+                  text: ""
               ),
               onChanged: (value) => cantidad = value,
               decoration: const InputDecoration(
                 hintText: "Cantidad",
                 hintStyle: TextStyle(
-                    color: Colors.black26,
+                  color: Colors.black26,
                 ),
               ),
               keyboardType: TextInputType.number,
@@ -239,12 +258,30 @@ class NuevoPedido extends StatelessWidget{
   void _clickNuevoPedido(BuildContext context){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSavePedido(_observacionesController.text));
     _observacionesController.text = "";
-    
+
+  }
+  Future<void> _scannearMultiplesArticulos(BuildContext context) async{
+
+    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventArticulosFromQr(await _scan(context)));
+
+  }
+  Future<List<String>> _scan(BuildContext context) async{
+    List<String> articulosDetectados = [];
+    await Permission.camera.request();
+    FlutterBarcodeScanner.getBarcodeStreamReceiver(
+        "#ff0000", "Cancelar", true, ScanMode.QR).listen((barcode) {
+      if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(barcode)){
+        articulosDetectados.add(barcode);
+        print(barcode.toString());
+      }
+    });
+    return articulosDetectados;
   }
 
 
 
 
 }
+
 
 

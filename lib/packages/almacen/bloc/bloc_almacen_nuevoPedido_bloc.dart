@@ -5,7 +5,6 @@ import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.d
 import 'package:almacen_android/packages/almacen/model/pojo/loggedUser.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'bloc_almacen_nuevoPedido_event.dart';
@@ -31,6 +30,8 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
       yield* onEventSetUser(event);
     }else if(event is NuevoPedidoInitialize){
       yield* onEventInitialize(event);
+    }else if(event is NuevoPedidoEventArticulosFromQr){
+      yield* onEventArticulosFromQr(event);
     }
   }
 
@@ -113,6 +114,10 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
       yield state.copyWith(listaArticulos: articulos, nombreUsuario: userActual.nombreUsuario);
 
     }
+  }
+
+  Stream<NuevoPedidoState> onEventArticulosFromQr(NuevoPedidoEventArticulosFromQr event) async*{
+    yield state.copyWith(nombresArticulosFromQr: event.articulosDetectados);
   }
 
 }
