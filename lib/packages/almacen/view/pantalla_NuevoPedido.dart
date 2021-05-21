@@ -4,6 +4,7 @@ import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -272,6 +273,7 @@ class NuevoPedido extends StatelessWidget{
         "#ff0000", "Cancelar", true, ScanMode.QR).listen((barcode) {
       if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(barcode)){
         articulosDetectados.add(barcode);
+        SystemSound.play(SystemSoundType.click);
         print(barcode.toString());
       }
     });
