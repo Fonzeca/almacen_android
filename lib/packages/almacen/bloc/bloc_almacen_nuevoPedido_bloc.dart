@@ -110,7 +110,6 @@ class NuevoPedidoBloc extends Bloc<NuevoPedidoEvent, NuevoPedidoState>{
     }else{
       List<Articulo> articulos =  await _servidor.listarArticulos();
       LoggedUser userActual = await _apiCalls.getLoggedUser();
-      //TODO: Agregar tanto acá como arriba el usuario actual.
       yield state.copyWith(listaArticulos: articulos, nombreUsuario: userActual.nombreUsuario);
 
     }

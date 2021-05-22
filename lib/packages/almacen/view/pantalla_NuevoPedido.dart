@@ -55,16 +55,12 @@ class NuevoPedido extends StatelessWidget{
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  ElevatedButton(onPressed: ()=>_finalizar(context), child: Text("Finalizar"),),
-                                  SizedBox(width: 40.0,),
                                   ElevatedButton(onPressed: (){
-                                    String nuevaCantidad = _controller.text;
-                                    if(nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
-                                      _continuar(context, state.nombresArticulosFromQr.split("-")[1],nuevaCantidad);
-                                    }else {
-                                      EasyLoading.showToast("Por favor ingrese una cantidad válida!");
-                                    }
-                                  },
+                                    _finalizar(context, state.nombresArticulosFromQr.split("-")[1], _controller.value.text);
+                                    },
+                                    child: Text("Finalizar"),),
+                                  SizedBox(width: 40.0,),
+                                  ElevatedButton(onPressed: ()=>_continuar(context, state.nombresArticulosFromQr.split("-")[1], _controller.value.text),
                                       child: Text("Continuar Scaneo")),
                                 ],
                               )
@@ -313,15 +309,23 @@ class NuevoPedido extends StatelessWidget{
 
 
   }
-  void _continuar(BuildContext context, String nombreArt, String cantidad){
-    _controller.text="";
-    Navigator.pop(context);
-    BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombreArt, cantidad));
-    _scannearMultiplesArticulos(context);
+  void _continuar(BuildContext context, String nombreArt, String nuevaCantidad){
+    if(nuevaCantidad != null && nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
+      _finalizar(context, nombreArt, nuevaCantidad);
+      _scannearMultiplesArticulos(context);
+    }else {
+      EasyLoading.showToast("Por favor ingrese una cantidad válida!");
+    }
 
   }
-  void _finalizar(BuildContext context){
-    Navigator.pop(context);
+  void _finalizar(BuildContext context, String nombre, String nuevaCantidad){
+    if(nuevaCantidad != null && nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
+      BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombre, nuevaCantidad));
+      Navigator.pop(context);
+      _controller.text="";
+    }else {
+      EasyLoading.showToast("Por favor ingrese una cantidad válida!");
+    }
   }
 }
 
