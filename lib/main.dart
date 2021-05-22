@@ -309,6 +309,7 @@ class _MyHomePageState extends State<MyHomePage> {
         if (logeado) {
           LoggedUser loggedUser = await _servidor.getLoggedUser();
           EasyLoading.dismiss();
+          pressed = false;
           Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, context)));
         } else {
           EasyLoading.dismiss();
