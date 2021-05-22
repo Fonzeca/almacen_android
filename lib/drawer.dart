@@ -25,6 +25,8 @@ class MainDrawer extends StatelessWidget{
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
     "Escanear Llave", "Buscar Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
 
+  GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   MainDrawer (bool admin, BuildContext context){
     this.admin=admin;
     BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
@@ -42,79 +44,83 @@ class MainDrawer extends StatelessWidget{
     return BlocBuilder<NavigatorBloc,BlocNavigator.NavigatorState>(
       builder: (context, state){
         print(state.values);
-          switch (state.values.last){
-            case 0:
-              appTitle="Nuevo Pedido";
-              if(state.parametro!=null){
-                body=NuevoPedido(admn: admin, nombreArticulo: state.parametro,);
-                break;
-              }
-              body= NuevoPedido(admn: admin,);
+        switch (state.values.last){
+          case 0:
+            appTitle="Nuevo Pedido";
+            if(state.parametro!=null){
+              body=NuevoPedido(admn: admin, nombreArticulo: state.parametro,);
               break;
-            case 1:
-              appTitle="Lista de Pedidos";
-              body = ListaPedidos(admn: admin,);
+            }
+            body= NuevoPedido(admn: admin,);
+            break;
+          case 1:
+            appTitle="Lista de Pedidos";
+            body = ListaPedidos(admn: admin,);
+            break;
+          case 2:
+            appTitle="Agregar Stock";
+            body = AgregarStock();
+            break;
+          case 10:
+            appTitle="Lista de Equipos";
+            if(state.parametro != null){
+              body = ListaEquipos(equipo: state.parametro,);
               break;
-            case 2:
-              appTitle="Agregar Stock";
-              body = AgregarStock();
-              break;
-            case 10:
-              appTitle="Lista de Equipos";
-              if(state.parametro != null){
-               body = ListaEquipos(equipo: state.parametro,);
-               break;
-              }
-              body = ListaEquipos();
-              break;
-            case 11:
-              appTitle="Lista de Registros";
-              body = ListaRegistros(admn: admin,);
-              break;
-            case 12:
-              appTitle="Grupo Equipos Específico";
-              body = GrupoEquiposEspecifico(grupoEquipo: state.parametro);
-              break;
-            case 20:
-              appTitle="Llaves";
-              body = BuscarLlave();
-              break;
-            case 21:
-              appTitle="Llave Específica";
-              body = LlaveEspecifica(id: state.parametro);
-              break;
-            case 22:
-              appTitle="Grupo Llaves Específico";
-              body = GrupoEspecifico(grupoLlave: state.parametro);
-              break;
-            case 50:
-              appTitle="Scannear QR";
-              body = ScanScreen();
-              break;
-            case 99:
-              appTitle = "";
-              body = Container();
-              CommonApiCalls commonApiCalls= CommonApiCalls();
-              commonApiCalls.logout().then((value) {
-                BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventResetNavigator());
-                Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
-              });
-              break;
-            default :
-              appTitle = "";
-              body = Container();
-              break;
-          }
+            }
+            body = ListaEquipos();
+            break;
+          case 11:
+            appTitle="Lista de Registros";
+            body = ListaRegistros(admn: admin,);
+            break;
+          case 12:
+            appTitle="Grupo Equipos Específico";
+            body = GrupoEquiposEspecifico(grupoEquipo: state.parametro);
+            break;
+          case 20:
+            appTitle="Llaves";
+            body = BuscarLlave();
+            break;
+          case 21:
+            appTitle="Llave Específica";
+            body = LlaveEspecifica(id: state.parametro);
+            break;
+          case 22:
+            appTitle="Grupo Llaves Específico";
+            body = GrupoEspecifico(grupoLlave: state.parametro);
+            break;
+          case 50:
+            appTitle="Scannear QR";
+            body = ScanScreen();
+            break;
+          case 99:
+            appTitle = "";
+            body = Container();
+            CommonApiCalls commonApiCalls= CommonApiCalls();
+            commonApiCalls.logout().then((value) {
+              BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventResetNavigator());
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=> MyHomePage()), (route) => false);
+            });
+            break;
+          default :
+            appTitle = "";
+            body = Container();
+            break;
+        }
         return WillPopScope(
           onWillPop: () async{
             if(state.values.last == -1 || state.values.length == 1){
               return true;
+            }else if (_scaffoldKey.currentState.isDrawerOpen) {
+              Navigator.of(context).pop();
+              return false;
+            }else{
+              BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventGetBack());
+              return false;
             }
-            Navigator.canPop(context)?Navigator.pop(context):
-            BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventGetBack());
-            return false;
           },
           child: Scaffold(
+              key: _scaffoldKey,
               appBar: AppBar(
                 title: Text(appTitle),
               ),
