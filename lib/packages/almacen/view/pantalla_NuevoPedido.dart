@@ -1,6 +1,7 @@
 
 import 'dart:async';
 
+import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
@@ -35,41 +36,7 @@ class NuevoPedido extends StatelessWidget{
     return BlocListener<NuevoPedidoBloc, NuevoPedidoState>(
       listener: (context, state){
         if(state.nombresArticulosFromQr != null){
-          showModalBottomSheet<void>(
-              context: context,
-              builder: (BuildContext context) {
-                return Container(
-                    height: 700,
-                    color: Colors.white,
-                    padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
-                    child: Center(
-                        child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.max,
-                            children: <Widget>[
-                              Text('Articulo: ' +
-                                  state.nombresArticulosFromQr.split("-")[1]),
-                              SizedBox(height: 35.0,),
-                              Align(child: Text('Ingrese la cantidad:'), alignment: Alignment.centerLeft,),
-                              TextField(controller: _controller, keyboardType: TextInputType.number, maxLength: 3, autofocus: false,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ElevatedButton(onPressed: (){
-                                    _finalizar(context, state.nombresArticulosFromQr.split("-")[1], _controller.value.text);
-                                    },
-                                    child: Text("Finalizar"),),
-                                  SizedBox(width: 40.0,),
-                                  ElevatedButton(onPressed: ()=>_continuar(context, state.nombresArticulosFromQr.split("-")[1], _controller.value.text),
-                                      child: Text("Continuar Scaneo")),
-                                ],
-                              )
-                            ]
-                        )
-                    )
-                );
-              }
-          );
+          _abrirModalQrDetactado(context, state);
         }
       },
       child: BlocBuilder<NuevoPedidoBloc,NuevoPedidoState>(
@@ -309,6 +276,47 @@ class NuevoPedido extends StatelessWidget{
 
 
   }
+
+  void _abrirModalQrDetactado(BuildContext contexto, NuevoPedidoState state){
+    showModalBottomSheet<void>(
+        context: contexto,
+        builder: (BuildContext context) {
+          return Container(
+              height: 700,
+              color: Colors.white,
+              padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 50.0),
+              child: Center(
+                  child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: <Widget>[
+                        Text('Articulo: ' +
+                            state.nombresArticulosFromQr.split("-")[1]),
+                        SizedBox(height: 35.0,),
+                        Align(child: Text('Ingrese la cantidad:'), alignment: Alignment.centerLeft,),
+                        TextField(controller: _controller, keyboardType: TextInputType.number, maxLength: 3, autofocus: true,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () => _finalizar(contexto, state.nombresArticulosFromQr.split("-")[1], _controller.value.text),
+                              child: Text("Finalizar"),
+                            ),
+                            SizedBox(width: 40.0,),
+                            ElevatedButton(
+                                onPressed: () => _continuar(contexto, state.nombresArticulosFromQr.split("-")[1], _controller.value.text),
+                                child: Text("Continuar Scaneo")
+                            ),
+                          ],
+                        )
+                      ]
+                  )
+              )
+          );
+        }
+    );
+  }
+
   void _continuar(BuildContext context, String nombreArt, String nuevaCantidad){
     if(nuevaCantidad != null && nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
       _finalizar(context, nombreArt, nuevaCantidad);
@@ -321,12 +329,14 @@ class NuevoPedido extends StatelessWidget{
   void _finalizar(BuildContext context, String nombre, String nuevaCantidad){
     if(nuevaCantidad != null && nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
       BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombre, nuevaCantidad));
+      print("FINALIZA!!!");
       Navigator.pop(context);
-      _controller.text="";
+      _controller.text = "";
     }else {
       EasyLoading.showToast("Por favor ingrese una cantidad válida!");
     }
   }
+
 }
 
 
