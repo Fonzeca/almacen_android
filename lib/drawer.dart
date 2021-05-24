@@ -40,22 +40,26 @@ class MainDrawer extends StatelessWidget{
     final textTheme = theme.textTheme;
     leadingArrow = Icon(Icons.arrow_right_rounded);
     Widget body;
+    Widget trailingAppBar;
 
     return BlocBuilder<NavigatorBloc,BlocNavigator.NavigatorState>(
       builder: (context, state){
-        print(state.values);
+        trailingAppBar = null;
+        appTitle = "";
+        body = null;
         switch (state.values.last){
           case 0:
-            appTitle="Nuevo Pedido";
+            appTitle = "Nuevo Pedido";
             if(state.parametro!=null){
-              body=NuevoPedido(admn: admin, nombreArticulo: state.parametro,);
+              body = NuevoPedido(admn: admin, nombreArticulo: state.parametro,);
               break;
             }
-            body= NuevoPedido(admn: admin,);
+            body = NuevoPedido(admn: admin,);
             break;
           case 1:
             appTitle="Lista de Pedidos";
             body = ListaPedidos(admn: admin,);
+            trailingAppBar = Padding(padding: EdgeInsets.symmetric(horizontal: 20),child: GestureDetector(onTap: (body as ListaPedidos).abrirFilter,child: Icon(Icons.tune)));
             break;
           case 2:
             appTitle="Agregar Stock";
@@ -123,6 +127,7 @@ class MainDrawer extends StatelessWidget{
               key: _scaffoldKey,
               appBar: AppBar(
                 title: Text(appTitle),
+                actions: [trailingAppBar ?? Container()],
               ),
               body: body,
               drawer: Drawer(

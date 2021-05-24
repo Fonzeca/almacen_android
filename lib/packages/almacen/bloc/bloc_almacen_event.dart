@@ -26,3 +26,8 @@ class AlmacenEventEliminarPedido extends AlmacenEvent{
   String id;
   AlmacenEventEliminarPedido(this.id);
 }
+
+class AlmacenEventFiltrarPedidos extends AlmacenEvent{
+  PedidoFiltro filtro;
+  AlmacenEventFiltrarPedidos(this.filtro);
+}

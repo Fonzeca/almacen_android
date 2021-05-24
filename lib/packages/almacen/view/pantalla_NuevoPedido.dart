@@ -20,6 +20,7 @@ class NuevoPedido extends StatelessWidget{
 
   String nombreArticulo;
   String cantidad;
+  BuildContext _context;
 
   final TextEditingController _typeAheadController = TextEditingController();
   final TextEditingController _observacionesController = TextEditingController();
@@ -29,6 +30,7 @@ class NuevoPedido extends StatelessWidget{
   NuevoPedido({Key key, @required this.admn, this.nombreArticulo}):super(key: key);
   @override
   Widget build(BuildContext context) {
+    _context = context;
     if(nombreArticulo != null){
       _typeAheadController.text = nombreArticulo;
     }
@@ -261,6 +263,7 @@ class NuevoPedido extends StatelessWidget{
     _observacionesController.text = "";
 
   }
+
   Future<List<String>> _scannearMultiplesArticulos(BuildContext context) async{
     await Permission.camera.request();
     String resultado = await FlutterBarcodeScanner.scanBarcode(
@@ -326,10 +329,10 @@ class NuevoPedido extends StatelessWidget{
     }
 
   }
+
   void _finalizar(BuildContext context, String nombre, String nuevaCantidad){
     if(nuevaCantidad != null && nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
       BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventAddArt(nombre, nuevaCantidad));
-      print("FINALIZA!!!");
       Navigator.pop(context);
       _controller.text = "";
     }else {

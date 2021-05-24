@@ -5,20 +5,25 @@ class AlmacenState extends Equatable{
   final PedidoDetalleView detalleView;
   final bool entregado;
 
+  final List<Pedido> pedidosFiltrados;
+  final PedidoFiltro filtro;
 
   final bool carga;
 
-  AlmacenState({this.carga, this.pedidos, this.detalleView, this.entregado});
+  AlmacenState({this.carga, this.pedidos, this.detalleView, this.entregado, this.pedidosFiltrados, this.filtro});
 
   @override
-  List<Object> get props => [pedidos, detalleView, carga, entregado];
+  List<Object> get props => [pedidos, detalleView, carga, entregado, pedidosFiltrados, filtro];
 
-  AlmacenState copyWith({bool carga, List<Pedido> pedidos, PedidoDetalleView detalleView, bool entregado}) {
+  AlmacenState copyWith({bool carga, List<Pedido> pedidos, PedidoDetalleView detalleView, bool entregado, List<Pedido> pedidosFiltrados, PedidoFiltro filtro}) {
     return AlmacenState(
       carga: carga ?? this.carga,
       pedidos: pedidos ?? this.pedidos,
       detalleView: detalleView ?? detalleView,
-      entregado: entregado ?? true);
+      entregado: entregado ?? true,
+      pedidosFiltrados : pedidosFiltrados ?? this.pedidosFiltrados,
+      filtro : filtro ?? this.filtro,
+    );
   }
 }
 

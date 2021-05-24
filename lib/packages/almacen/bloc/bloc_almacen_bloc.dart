@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/pedido.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/almacenPojos.dart';
+import 'package:almacen_android/packages/almacen/model/pojo/pedido_filtro.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -11,7 +12,7 @@ part 'bloc_almacen_event.dart';
 part 'bloc_almacen_state.dart';
 
 class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
-  AlmacenBloc() : super(AlmacenState());
+  AlmacenBloc() : super(AlmacenState(filtro: PedidoFiltro()));
   Servidor _servidor = Servidor();
 
   @override
@@ -24,6 +25,12 @@ class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
       pedidos = await _servidor.listarPedidos();
 
       yield state.copyWith(pedidos: pedidos, carga: false);
+    }else if(event is AlmacenEventFiltrarPedidos){
+      List<Pedido> pedidos = new List.from(state.pedidos);
+
+      PedidoFiltro filtro = event.filtro;
+
+      yield state.copyWith(pedidosFiltrados: pedidos.where((e) => filtro.filterByEstado(e)).toList());
     }else if(event is AlmacenEventGetDetalle){
       yield state.copyWith(carga: true);
       AlmacenEventGetDetalle getDetalle = event as AlmacenEventGetDetalle;
