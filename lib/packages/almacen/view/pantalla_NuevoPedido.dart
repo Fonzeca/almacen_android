@@ -1,8 +1,8 @@
 
 import 'dart:async';
 
-import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
+import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/articulo_nvopedido.dart';
 import 'package:flutter/cupertino.dart';
@@ -261,6 +261,7 @@ class NuevoPedido extends StatelessWidget{
   void _clickNuevoPedido(BuildContext context){
     BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventSavePedido(_observacionesController.text));
     _observacionesController.text = "";
+    BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(1));
 
   }
 

@@ -28,6 +28,7 @@ class Servidor {
       print(n);
       pedidos.add(Pedido.fromJson(n));
     }
+    pedidos.sort((a, b) => b.id.compareTo(a.id));
     return pedidos;
   }
 
@@ -44,7 +45,7 @@ class Servidor {
     var response = await MindiaHttpClient.instance().post(Uri.parse(ipServer+endpoint),body: jsonEncode(createPedidoRequest));
 
     if(response.statusCode == 200){
-      EasyLoading.showSuccess("Pedido creado con éxito!");
+      EasyLoading.showSuccess("Pedido creado con éxito!",duration: const Duration(milliseconds: 2000));
 
     }else EasyLoading.showError("Algo salió mal :(\n Por favor vuelva a intentarlo.");
   }
