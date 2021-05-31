@@ -58,7 +58,14 @@ class NuevoPedido extends StatelessWidget{
                             onPressed:()=> _scannearMultiplesArticulos(context)),
                         _crearVista(context, admn, state),
                         FloatingActionButton.extended(
-                          onPressed: () => _clickNuevoPedido(context),
+                          onPressed: () {
+                            if(state.tamanioListaArticulosAPedir != null &&state.tamanioListaArticulosAPedir != 0){
+                              _clickNuevoPedido(context);
+                            }else {
+                              EasyLoading.showToast("Por favor ingrese al menos un artículo a pedir");
+                            }
+
+                          },
                           icon: const Icon(Icons.save_alt),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
                           backgroundColor: Theme.of(context).accentColor,
