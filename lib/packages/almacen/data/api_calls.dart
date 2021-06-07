@@ -78,13 +78,17 @@ class Servidor {
     }return false;
   }
 
-  Future<void> eliminarPedido(String id) async{
+  Future<bool> eliminarPedido(String id) async{
     String endpoint = "/pedido/eliminar";
     String params = "?id="+id;
     String url = ipServer+endpoint+params;
 
     var response = await MindiaHttpClient.instance().get(Uri.parse(url));
     print("eliminarPedido/ Status: "+response.statusCode.toString()+", Body: "+response.body);
+
+    if(response.statusCode == 200){
+      return response.body.toLowerCase() == true;
+    }return false;
   }
   /// Api calls Articulos.
 

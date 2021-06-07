@@ -58,6 +58,7 @@ class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
       List<Pedido> pedidos = state.pedidos;
       pedidos.removeWhere((element) => element.id == eliminarPedido.id);
 
+
       yield state.copyWith(carga:false,pedidos: pedidos);
     }
 

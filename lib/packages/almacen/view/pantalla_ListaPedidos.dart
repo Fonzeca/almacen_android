@@ -109,7 +109,7 @@ class ListaPedidos extends StatelessWidget{
         BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventGetDetalle(p.id));
       },
       child: Dismissible(
-          key: Key(p.toString()),
+          key: UniqueKey(),
           confirmDismiss: (direction) async {
             return await showDialog(
               context: context,
