@@ -74,7 +74,7 @@ class ListaEquipos extends StatelessWidget {
 
       },
       child: Dismissible(
-          key: Key(p.toString()),
+          key: UniqueKey(),
           confirmDismiss: (direction) async {
             return await showDialog(
               context: context,
