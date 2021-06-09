@@ -75,6 +75,7 @@ class AgregarStock extends StatelessWidget{
 
   Future<void> _sumarStock(BuildContext context,String id, String cantidad){
     BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventAgregarStock(id,cantidad));
+    BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventInitialize());
   }
 
 }
