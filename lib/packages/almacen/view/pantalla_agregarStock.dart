@@ -1,5 +1,6 @@
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_agregar_stock_bloc.dart';
 import 'package:almacen_android/packages/almacen/model/articulo.dart';
+import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -76,6 +77,7 @@ class AgregarStock extends StatelessWidget{
   Future<void> _sumarStock(BuildContext context,String id, String cantidad){
     BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventAgregarStock(id,cantidad));
     BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventInitialize());
+    BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
   }
 
 }
