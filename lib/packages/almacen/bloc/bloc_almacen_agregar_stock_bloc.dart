@@ -4,6 +4,7 @@ import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/almacen/model/articulo.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:meta/meta.dart';
 
 part 'bloc_almacen_agregar_stock_event.dart';
@@ -38,7 +39,7 @@ class AgregarStockBloc extends Bloc<AlmacenAgregarStockEvent, AlmacenAgregarStoc
       yield state.copyWith(carga: true);
       Articulo articulo = await _servidor.agregarStockToArticulo(agregarStock.nombre, agregarStock.cantidad);
 
-      yield state.copyWith(articulo: articulo,carga: false);
+      yield state.copyWith(articulo: articulo,carga: false, success: true);
     }
   }
 }

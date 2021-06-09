@@ -128,7 +128,8 @@ class Servidor {
   }
 
   Future<Articulo> getArticuloFromQr(String identificacion) async{
-    String endpoint = '/articulo/qr/'+identificacion;
+    String nombre = identificacion.split('-')[1];
+    String endpoint = '/articulo/'+nombre;
 
     var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
     var jsonData = json.decode(response.body);

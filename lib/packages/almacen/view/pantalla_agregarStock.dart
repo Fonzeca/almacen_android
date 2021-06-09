@@ -8,14 +8,27 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AgregarStock extends StatelessWidget{
+
+  TextEditingController _controller = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     _scannear(context);
+    BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventInitialize());
+    _controller.text = "";
     return BlocListener<AgregarStockBloc, AlmacenAgregarStockState>(listener: (context, state){
       if(state.carga){
         EasyLoading.show();
       }else {
         EasyLoading.dismiss();
+      }
+
+      if(state.success){
+        EasyLoading.showSuccess("Stock agregado");
+      }
+
+      if(state.qrArticulo != null && state.articulo == null){
+        BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventBuscarArticulo(state.qrArticulo));
       }
     },
       child: BlocBuilder<AgregarStockBloc, AlmacenAgregarStockState>(
@@ -24,15 +37,18 @@ class AgregarStock extends StatelessWidget{
             return Container(child: Center(child: ElevatedButton.icon(onPressed:()=> _scannear(context), icon: const Icon(Icons.camera_alt), label: Text("Abrir cámara"))),
             );
           }else{
-            BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventBuscarArticulo(state.qrArticulo));
             if(state.articulo != null){
               Articulo articulo = state.articulo;
               return Container(
                 child: Column(
                   children: [
+                    Text(articulo.nombre, style: TextStyle(fontSize: 24),),
                     Text("Inserte la cantidad a agregar:"),
-                    TextField(keyboardType: TextInputType.number,maxLength: 3,),
-                    FloatingActionButton.extended(onPressed: ()=>_sumarStock(context, articulo.nombre,"valor del textField"), label: Text("Aceptar")),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
+                      child: TextField(keyboardType: TextInputType.number,maxLength: 3, controller: _controller,),
+                    ),
+                    FloatingActionButton.extended(onPressed: ()=>_sumarStock(context, articulo.nombre, _controller.text), label: Text("Agregar")),
                   ],
                 ),
               );
@@ -46,8 +62,8 @@ class AgregarStock extends StatelessWidget{
   }
 
   Future<void> _scannear (BuildContext context) async{
-    await Permission.camera.request();
-    String resultado = await FlutterBarcodeScanner.scanBarcode("#ff0000", "Cancelar", true, ScanMode.QR);
+    //await Permission.camera.request();
+    String resultado = "articulo-Bolas-76";
     if(resultado != null){
       if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)){
         BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventReconocerQr(resultado));
