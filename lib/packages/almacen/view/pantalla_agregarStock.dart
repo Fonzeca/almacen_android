@@ -62,8 +62,8 @@ class AgregarStock extends StatelessWidget{
   }
 
   Future<void> _scannear (BuildContext context) async{
-    //await Permission.camera.request();
-    String resultado = "articulo-Bolas-76";
+    await Permission.camera.request();
+    String resultado = await FlutterBarcodeScanner.scanBarcode("#ff0000", "Cancelar", true, ScanMode.QR);
     if(resultado != null){
       if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)){
         BlocProvider.of<AgregarStockBloc>(context).add(AgregarStockEventReconocerQr(resultado));
