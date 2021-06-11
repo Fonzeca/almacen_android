@@ -180,7 +180,10 @@ class ListaEquipos extends StatelessWidget {
                       children: [
                         ElevatedButton.icon(onPressed: () =>
                             _cambiarEstadoEquipo(context, detalleView.id),
-                          label: const Text('Cambiar Estado'),
+                          label:
+                          detalleView.enUso?
+                          const Text('Entregar'):
+                          const Text('Retirar'),
                           icon: const Icon(Icons.compare_arrows_outlined),
                           style: ElevatedButton.styleFrom(
                               primary: Colors.blue),),
