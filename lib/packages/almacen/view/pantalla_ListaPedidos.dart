@@ -57,7 +57,7 @@ class ListaPedidos extends StatelessWidget{
                               children:
                               [
                                 Text("Fecha",textAlign: TextAlign.left,style: TextStyle(fontWeight: FontWeight.bold)),
-                                Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold)),
+                                Expanded(child: Text("Usuario",textAlign: TextAlign.center,style: TextStyle(fontWeight: FontWeight.bold))),
                                 Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
                               ],
                             ),
@@ -143,8 +143,8 @@ class ListaPedidos extends StatelessWidget{
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: adm ?
                 [
-                  Text(p.fecha),
-                  Text(p.usuario),
+                  Text(p.fecha.substring(0,10)),
+                  Expanded(child: Text(p.usuario,textAlign: TextAlign.center,)),
                   Text(p.estadoPedido, style: TextStyle(color: colorEstado),),
                 ]:
                 [
@@ -167,7 +167,7 @@ class ListaPedidos extends StatelessWidget{
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 250,
+            height: 500,
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 5),
             color: Colors.white,
             child: Center(
@@ -189,28 +189,35 @@ class ListaPedidos extends StatelessWidget{
                   Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
                   Expanded(
                     child: SingleChildScrollView(
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: detalle.articulosPedidos.length,
-                          itemBuilder: (context, index) {
-                            ArticuloPedidoView articuloView = detalle.articulosPedidos[index];
-                            bool red = false;
-                            if(detalle.articulosFaltantes !=null && detalle.articulosFaltantes!=[]){
-                              for(String a in detalle.articulosFaltantes){
-                                if(a == articuloView.nombre){
-                                  red = true;
+                      physics: ScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Text("Artículos:"),
+                          ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: detalle.articulosPedidos.length,
+                              itemBuilder: (context, index) {
+                                ArticuloPedidoView articuloView = detalle.articulosPedidos[index];
+                                bool red = false;
+                                if(detalle.articulosFaltantes !=null && detalle.articulosFaltantes!=[]){
+                                  for(String a in detalle.articulosFaltantes){
+                                    if(a == articuloView.nombre){
+                                      red = true;
+                                    }
+                                  }
                                 }
-                              }
-                            }
-                            return Container(
-                              color: (index % 2 == 0) ? Colors.white : Colors.black12,
-                              child: ListTile(
-                                title: red? Text(articuloView.nombre,style: TextStyle(color: Colors.red),):Text(articuloView.nombre),
-                                trailing: Text(articuloView.cantidad.toString()),
-                                dense: true,
-                              ),
-                            );
-                          }),
+                                return Container(
+                                  color: (index % 2 == 0) ? Colors.white : Colors.black12,
+                                  child: ListTile(
+                                    title: red? Text(articuloView.nombre,style: TextStyle(color: Colors.red),):Text(articuloView.nombre),
+                                    trailing: Text(articuloView.cantidad.toString()),
+                                    dense: true,
+                                  ),
+                                );
+                              }),
+                        ],
+                      )
                     ),
                   ),
                   Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),

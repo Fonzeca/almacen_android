@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:almacen_android/packages/tecnica/bloc/bloc_listaEquipos_bloc.dart';
 import 'package:almacen_android/packages/tecnica/model/equipo.dart';
 import 'package:flutter/material.dart';
@@ -15,10 +17,10 @@ class ListaEquipos extends StatelessWidget {
     BlocProvider.of<ListaEquiposBloc>(context).add(
         ListaEquiposEventListarEquipos());
 
-        if(equipo!=null){
-          BlocProvider.of<ListaEquiposBloc>(context).add(
-              (ListaEquiposEventGetDetalle(equipo.id.toString())));
-        }
+    if(equipo!=null){
+      BlocProvider.of<ListaEquiposBloc>(context).add(
+          (ListaEquiposEventGetDetalle(equipo.id.toString())));
+    }
     return BlocListener<ListaEquiposBloc, ListaEquiposState>(
       listener: (context, state) {
         if(state.carga){
@@ -70,7 +72,7 @@ class ListaEquipos extends StatelessWidget {
       onTap: () {
         EasyLoading.show();
         BlocProvider.of<ListaEquiposBloc>(context).add
-            (ListaEquiposEventGetDetalle(p.id.toString()));
+          (ListaEquiposEventGetDetalle(p.id.toString()));
 
       },
       child: Dismissible(
@@ -102,17 +104,15 @@ class ListaEquipos extends StatelessWidget {
           },
           background: Container(color: Colors.red,),
           child: Card(
-            color: index.isEven ? Colors.white : Colors.black12,
             child: Padding(
               padding: const EdgeInsets.symmetric(
                   horizontal: 8.0, vertical: 4.0),
               child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children:
                   [
-                    Text(p.nombre,softWrap: true,),
-                    Text(p.tipo,softWrap: true),
-                    p.enUso ? Text("En uso",softWrap: true) : Text("Disponible",softWrap: true,),
+                    Expanded(child: Text(p.nombre,softWrap: true,textAlign: TextAlign.start,)),
+                    Expanded(child: Text(p.tipo,softWrap: true, textAlign: TextAlign.center,)),
+                    p.enUso ? Expanded(child: Text("En uso",softWrap: true, textAlign: TextAlign.end,)) : Expanded(child: Text("Disponible",style: TextStyle(color: Colors.green),softWrap: true, textAlign: TextAlign.end,)),
                   ]
 
               ),
@@ -128,50 +128,45 @@ class ListaEquipos extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 250,
-            padding: EdgeInsets.symmetric(vertical: 10,horizontal: 5),
+            height: 400,
+            padding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
             color: Colors.white,
             child: Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Equipo: ' +
-                            detalleView.nombre),
-                        Text('Tipo: ' + detalleView.tipo),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 5.0,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Usuario: ' + detalleView.usuario),
-                      detalleView.enUso
-                          ?
-                      Text(
-                        'Estado: En Uso', style: TextStyle(color: Colors.red),)
-                          :
-                      Text('Estado: Disponible',
-                          style: TextStyle(color: Colors.green)),
-                      Text('Lugar: ' + detalleView.lugar),
+                      Expanded(
+                        child: Text('Equipo:\n' +
+                            detalleView.nombre, textAlign: TextAlign.center,),
+                      ),
+                      Expanded(child: Text('Tipo:\n' + detalleView.tipo, textAlign: TextAlign.center,)),
                     ],
                   ),
-                  SizedBox(height: 5.0,),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Text('Serial: ' + detalleView.serial),
-                      Text('Modelo: ' + detalleView.modelo),
-                      Text('Accesorios: ' + detalleView.accesorios)
+                      Expanded(child: Text('Usuario:\n' + detalleView.usuario, textAlign: TextAlign.center,)),
+
+                      Expanded(child: Text('Lugar:\n' + detalleView.lugar, textAlign: TextAlign.center,)),
                     ],
                   ),
-                  Text('Observaciones: ' + detalleView.observaciones),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Expanded(child: Text('Serial:\n' + detalleView.serial, textAlign: TextAlign.center,)),
+                      Expanded(child: Text('Accesorios:\n' + detalleView.accesorios, textAlign: TextAlign.center,))
+                    ],
+                  ),
+                  detalleView.enUso
+                      ?
+                  Text(
+                    'Estado:\nEn Uso', style: TextStyle(color: Colors.red,fontSize: 18), textAlign: TextAlign.center,)
+                      :
+                  Text('Estado:\nDisponible',
+                    style: TextStyle(color: Colors.green, fontSize: 18), textAlign: TextAlign.center,),
                   Divider(color: Colors.deepOrangeAccent, thickness: 1.0,),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
