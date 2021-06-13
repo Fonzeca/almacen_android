@@ -33,6 +33,26 @@ class ServidorLlaves {
     }
   }
 
+  Future <List<Llave>> getLlaveLikeNombre (String nombre) async{
+    String endpoint;
+    List<Llave> llaves = [];
+
+    endpoint="/llave/like/" + nombre;
+    String url = ipServer + endpoint;
+
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
+    print("getLlaveLikeNombre/ Status: "+response.statusCode.toString()+" Body: "+response.body);
+
+
+    if(response.statusCode == 200){
+      for(var n in json.decode(response.body)){
+        Llave llave = Llave.fromJson(n);
+        llaves.add(llave);
+      }
+    }
+    return llaves;
+  }
+
   Future <void> changeLlaveEstado(String id, String entrada) async{
     String endpoint, params;
     endpoint = "/llave/status";

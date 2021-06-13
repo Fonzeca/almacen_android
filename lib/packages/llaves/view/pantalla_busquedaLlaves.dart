@@ -1,12 +1,19 @@
+import 'package:almacen_android/packages/llaves/data/api_calls.dart';
 import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
-import 'package:almacen_android/packages/llaves/view/pantalla_llaveEspecifica.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class BuscarLlave extends StatelessWidget{
   final TextEditingController _controller = TextEditingController();
+
+  final TextEditingController _typeAheadController = TextEditingController();
+
+  String nombreLlave;
+  String idLlave;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,14 +23,47 @@ class BuscarLlave extends StatelessWidget{
           Row(
             children: [
               Expanded(
-                child: TextField(keyboardType: TextInputType.number, inputFormatters: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),]
-                  ,controller: _controller, decoration: InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: 'Ingrese el id de la llave'
-                ),),
+                child: TypeAheadField(
+                  textFieldConfiguration: TextFieldConfiguration(
+                    decoration: InputDecoration(
+                        hintText: "Nombre de la llave",
+                        hintStyle: TextStyle(
+                          color: Colors.black26,
+                        )
+                    ),
+                    controller: _typeAheadController,
+                  ),
+                  suggestionsCallback: (pattern) async{
+                    if(pattern.length < 2){
+                      return ["NO HAY"];
+                    }
+                    return ServidorLlaves().getLlaveLikeNombre(pattern);
+                  },
+                  noItemsFoundBuilder: (context) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("No se encontro", style: TextStyle(fontSize: 20, color: Colors.black26),),
+                    );
+                  },
+                  hideOnError: false,
+                  itemBuilder: (context, itemData) {
+                    if(itemData == "NO HAY"){
+                      return Container();
+                    }else{
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(itemData.nombre + " - copia " + itemData.copia),
+                      );
+                    }
+                  },
+                  onSuggestionSelected: (suggestion) {
+                    _typeAheadController.text = suggestion.nombre + " - copia " + suggestion.copia;
+                    nombreLlave = suggestion.nombre;
+                    idLlave = suggestion.id;
+                  },
+                ),
               ),
-              TextButton(onPressed: ()=> _buscarLlave(context, _controller.text), child: Text("Buscar"))
+              TextButton(onPressed: ()=> _buscarLlave(context, idLlave), child: Text("Buscar"))
             ],
           ),
         ],
