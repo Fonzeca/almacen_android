@@ -62,6 +62,24 @@ class ServidorLlaves {
 
   }
 
+
+  Future <List<Llave>> getLlavesEnPosesion() async{
+    String endpoint, params;
+    endpoint = "/llave/getPosesion";
+    List<Llave> llaves = [];
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint+params));
+    print("getLlavesPosesion/ Status: "+response.statusCode.toString()+", Body: "+response.body);
+
+    if(response.statusCode == 200){
+      var jsonData = json.decode(response.body);
+      for(var n in jsonData){
+        Llave llave = Llave.fromJson(n);
+        llaves.add(llave);
+      }
+      return llaves;
+    }
+  }
+
   /**
    * Llamadas referentes a Grupos de llaves.
    */
@@ -79,4 +97,5 @@ class ServidorLlaves {
       return grupoLlave;
     }
   }
+
 }

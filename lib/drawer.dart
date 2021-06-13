@@ -4,6 +4,7 @@ import 'package:almacen_android/packages/almacen/view/pantallasAlmacen.dart';
 import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/common/view/ScanScreen.dart';
+import 'package:almacen_android/packages/llaves/view/pantalla_llavesposesion.dart';
 import 'package:almacen_android/packages/tecnica/view/pantalla_GrupoEquipos.dart';
 import 'package:almacen_android/packages/tecnica/view/pantallasTecnica.dart';
 import 'package:almacen_android/packages/llaves/view/pantallasLlaves.dart';
@@ -23,7 +24,7 @@ class MainDrawer extends StatelessWidget{
 
   List<String> sections =["Nuevo Pedido", "Listar Pedidos", "Listar Artículos", "Listar Proveedores","Nuevo Artículo","Nuevo Proveedor",
     "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
-    "Escanear Llave", "Buscar Llave", "Listar Llaves","Nueva Llave","Nuevo Grupo"];
+    "Escanear Llave", "Buscar Llave", "Llaves en posesión","Nueva Llave","Nuevo Grupo"];
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -92,6 +93,10 @@ class MainDrawer extends StatelessWidget{
           case 22:
             appTitle="Grupo Llaves Específico";
             body = GrupoEspecifico(grupoLlave: state.parametro);
+            break;
+          case 23:
+            appTitle="Llaves en Posesión";
+            body = LlavesPosesion(admn: admin,);
             break;
           case 50:
             appTitle="Scannear QR";
@@ -182,8 +187,9 @@ class MainDrawer extends StatelessWidget{
                           'Llaves',
                         ),
                       ),
-                      //          Escanear Llave
+                      //          Buscar Llave
                       _drawerItem(sections[12], leadingArrow, 20, state.values, context),
+                      _drawerItem(sections[13], leadingArrow, 23, state.values, context),
                       Divider(
                         height: 1,
                         thickness: 1,
