@@ -125,7 +125,6 @@ class NuevoPedido extends StatelessWidget{
             height: 250,
             child: _listaArticulos(context, state)
         ),
-        Divider(color: Colors.deepOrangeAccent,thickness: 1.0,),
         SizedBox(height: 10.0),
         TextField(
             maxLength: 140,
@@ -134,6 +133,7 @@ class NuevoPedido extends StatelessWidget{
               contentPadding: const EdgeInsets.symmetric(vertical:5.0, horizontal: 10.0),
               hintStyle: TextStyle(color: Colors.grey),
               hintText: "Observaciones",
+              border: OutlineInputBorder(),
             ),
             controller: _observacionesController
         ),
