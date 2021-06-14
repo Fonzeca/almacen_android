@@ -56,11 +56,12 @@ class MainDrawer extends StatelessWidget{
               break;
             }
             body = NuevoPedido(admn: admin,);
+            trailingAppBar = Padding(padding: EdgeInsets.symmetric(horizontal: 20),child: GestureDetector(onTap: (body as NuevoPedido).scannearMultiplesArticulos, child: Icon(Icons.qr_code)));
             break;
           case 1:
             appTitle="Lista de Pedidos";
             body = ListaPedidos(admn: admin,);
-            trailingAppBar = Padding(padding: EdgeInsets.symmetric(horizontal: 20),child: GestureDetector(onTap: (body as ListaPedidos).abrirFilter,child: Icon(Icons.tune)));
+            trailingAppBar = Padding(padding: EdgeInsets.symmetric(horizontal: 20),child: GestureDetector(onTap: (body as ListaPedidos).abrirFilter, child: Icon(Icons.tune)));
             break;
           case 2:
             appTitle="Agregar Stock";

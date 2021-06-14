@@ -52,10 +52,6 @@ class NuevoPedido extends StatelessWidget{
                     padding: EdgeInsets.all(25.0),
                     child: Column(
                       children: [
-                        FloatingActionButton(
-                            mini: true,
-                            child: Icon(Icons.search),
-                            onPressed:()=> _scannearMultiplesArticulos(context)),
                         _crearVista(context, admn, state),
                         FloatingActionButton.extended(
                           onPressed: () {
@@ -272,20 +268,17 @@ class NuevoPedido extends StatelessWidget{
 
   }
 
-  Future<List<String>> _scannearMultiplesArticulos(BuildContext context) async{
+  void scannearMultiplesArticulos() async{
     await Permission.camera.request();
     String resultado = await FlutterBarcodeScanner.scanBarcode(
         "#ff0000", "Cancelar", true, ScanMode.QR);
 
     if(RegExp("articulo{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)){
       print("añadido");
-      BlocProvider.of<NuevoPedidoBloc>(context).add(NuevoPedidoEventArticulosFromQr(resultado));
+      BlocProvider.of<NuevoPedidoBloc>(_context).add(NuevoPedidoEventArticulosFromQr(resultado));
     }else{
       EasyLoading.showToast("Por favor scanee un Qr de Artículo!");
     }
-
-
-
   }
 
   void _abrirModalQrDetactado(BuildContext contexto, NuevoPedidoState state){
@@ -331,7 +324,7 @@ class NuevoPedido extends StatelessWidget{
   void _continuar(BuildContext context, String nombreArt, String nuevaCantidad){
     if(nuevaCantidad != null && nuevaCantidad.isNotEmpty && nuevaCantidad != "0"){
       _finalizar(context, nombreArt, nuevaCantidad);
-      _scannearMultiplesArticulos(context);
+      scannearMultiplesArticulos();
     }else {
       EasyLoading.showToast("Por favor ingrese una cantidad válida!");
     }
