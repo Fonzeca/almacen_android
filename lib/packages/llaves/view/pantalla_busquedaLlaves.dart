@@ -20,51 +20,54 @@ class BuscarLlave extends StatelessWidget{
       height: double.infinity,
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: TypeAheadField(
-                  textFieldConfiguration: TextFieldConfiguration(
-                    decoration: InputDecoration(
-                        hintText: "Nombre de la llave",
-                        hintStyle: TextStyle(
-                          color: Colors.black26,
-                        )
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: InputDecoration(
+                          hintText: "Nombre de la llave",
+                          hintStyle: TextStyle(
+                            color: Colors.black26,
+                          )
+                      ),
+                      controller: _typeAheadController,
                     ),
-                    controller: _typeAheadController,
-                  ),
-                  suggestionsCallback: (pattern) async{
-                    if(pattern.length < 2){
-                      return ["NO HAY"];
-                    }
-                    return ServidorLlaves().getLlaveLikeNombre(pattern);
-                  },
-                  noItemsFoundBuilder: (context) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("No se encontro", style: TextStyle(fontSize: 20, color: Colors.black26),),
-                    );
-                  },
-                  hideOnError: false,
-                  itemBuilder: (context, itemData) {
-                    if(itemData == "NO HAY"){
-                      return Container();
-                    }else{
+                    suggestionsCallback: (pattern) async{
+                      if(pattern.length < 2){
+                        return ["NO HAY"];
+                      }
+                      return ServidorLlaves().getLlaveLikeNombre(pattern);
+                    },
+                    noItemsFoundBuilder: (context) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text(itemData.nombre + " - copia " + itemData.copia),
+                        child: Text("No se encontro", style: TextStyle(fontSize: 20, color: Colors.black26),),
                       );
-                    }
-                  },
-                  onSuggestionSelected: (suggestion) {
-                    _typeAheadController.text = suggestion.nombre + " - copia " + suggestion.copia;
-                    nombreLlave = suggestion.nombre;
-                    idLlave = suggestion.id;
-                  },
+                    },
+                    hideOnError: false,
+                    itemBuilder: (context, itemData) {
+                      if(itemData == "NO HAY"){
+                        return Container();
+                      }else{
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(itemData.nombre + " - copia " + itemData.copia),
+                        );
+                      }
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      _typeAheadController.text = suggestion.nombre + " - copia " + suggestion.copia;
+                      nombreLlave = suggestion.nombre;
+                      idLlave = suggestion.id;
+                    },
+                  ),
                 ),
-              ),
-              TextButton(onPressed: ()=> _buscarLlave(context, idLlave), child: Text("Buscar"))
-            ],
+                TextButton(onPressed: ()=> _buscarLlave(context, idLlave), child: Text("Buscar"))
+              ],
+            ),
           ),
         ],
       ),
