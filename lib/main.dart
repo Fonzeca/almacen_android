@@ -10,6 +10,7 @@ import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_grupo_bloc.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_llave_bloc.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_posesion_bloc.dart';
+import 'package:almacen_android/packages/tecnica/bloc/bloc_grupo_equipos_bloc.dart';
 import 'package:almacen_android/packages/tecnica/bloc/bloc_listaEquipos_bloc.dart';
 import 'package:almacen_android/packages/tecnica/bloc/bloc_listaRegistros_bloc.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => NuevoPedidoBloc()),
         BlocProvider(create: (context) => LlaveBloc()),
         BlocProvider(create: (context) => GrupoBloc()),
+        BlocProvider(create: (context) => GrupoEquiposBloc()),
         BlocProvider(create: (context) => ListaEquiposBloc()),
         BlocProvider(create: (context) => ListaRegistrosBloc()),
         BlocProvider(create: (context) => AgregarStockBloc()),

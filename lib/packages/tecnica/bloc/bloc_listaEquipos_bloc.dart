@@ -15,10 +15,9 @@ class ListaEquiposBloc extends Bloc<ListaEquiposEvent, ListaEquiposState>{
     if(event is ListaEquiposEventListarEquipos){
       List<Equipo> equipos = [];
       yield state.copyWith(carga: true);
+        equipos = await _servidorTecnica.listarEquipos();
 
-      equipos = await _servidorTecnica.listarEquipos();
-
-      yield state.copyWith(listaEquipos: equipos, carga: false);
+        yield state.copyWith(listaEquipos: equipos, carga: false);
 
     }else if(event is ListaEquiposEventGetDetalle){
       ListaEquiposEventGetDetalle eventGetDetalle = event as ListaEquiposEventGetDetalle;

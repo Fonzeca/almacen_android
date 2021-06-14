@@ -74,7 +74,7 @@ class ServidorTecnica {
     var url = Uri.parse(ipServer+endpoint+params);
 
     var response = await MindiaHttpClient.instance().get(url);
-
+    print("getGrupoEquipoByIdentificacion/ "+identificacion+" Status: "+response.statusCode.toString()+", body: "+response.body);
     if(response.statusCode == 200){
       var n = json.decode(response.body);
       return GrupoEquipo.fromJson(n);
