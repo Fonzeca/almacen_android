@@ -7,7 +7,7 @@ class Llave extends Equatable{
 
   Llave(this.id, this.copia, this.grupo, this.nombre, this.observaciones, this.estado, this.ubicacion, this.usuario);
   Llave.fromJson(Map<String, dynamic> json):
-      id=json['id'],
+      id=json['llaveId'].toString(),
         nombre=json['nombre'],
         copia=json['copia'],
         grupo=json['grupo'],
