@@ -109,7 +109,7 @@ class ServidorLlaves {
     params = "?identificacion="+identificacionGrupoLlaves;
     var url = Uri.parse(ipServer + endpoint + params);
     var response = await MindiaHttpClient.instance().get(url);
-
+    print("getGrupoLlaveByIdentificacion/"+identificacionGrupoLlaves+"/ Status: "+response.statusCode.toString()+", body: "+response.body);
     if(response.statusCode == 200){
       var n = json.decode(response.body);
       GrupoLlave grupoLlave = GrupoLlave.fromJson(n);

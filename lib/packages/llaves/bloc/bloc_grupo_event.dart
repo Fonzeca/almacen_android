@@ -10,6 +10,11 @@ class GrupoEventCambiarEstado extends GrupoEvent{
 
 }
 class GrupoEventSetGrupo extends GrupoEvent{
-  GrupoLlave grupoLlave;
-  GrupoEventSetGrupo(this.grupoLlave);
+  String nombre, id;
+  GrupoEventSetGrupo(this.id,this.nombre);
+}
+
+class GrupoEventSetLlave extends GrupoEvent{
+  String id;
+  GrupoEventSetLlave(this.id);
 }

@@ -12,7 +12,7 @@ class Llave extends Equatable{
         copia=json['copia'],
         grupo=json['grupo'],
         estado=json['estado'],
-        observaciones=json['observaciones'],
+        observaciones=json['observaciones']??"",
         ubicacion=json['ubicacion'],
         usuario=json['usuario'];
 
