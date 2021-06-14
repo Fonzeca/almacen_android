@@ -146,10 +146,10 @@ class NuevoPedido extends StatelessWidget{
       return ListView.builder(
         itemCount: state.articulosAPedir.length + 1,
         itemBuilder: (context, index) {
-          if(index == state.articulosAPedir.length){
+          if(index == 0){
             return _rowNuevoArticulo(context);
           }else{
-            return _rowArticulo(context, state.articulosAPedir[index]);
+            return _rowArticulo(context, state.articulosAPedir[index-1]);
           }
         },
       );
