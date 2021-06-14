@@ -64,15 +64,34 @@ class ServidorLlaves {
 
 
   Future <List<Llave>> getLlavesEnPosesion() async{
-    String endpoint, params;
+    String endpoint;
     endpoint = "/llave/getPosesion";
     List<Llave> llaves = [];
-    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint+params));
+    var response = await MindiaHttpClient.instance().get(Uri.parse(ipServer+endpoint));
     print("getLlavesPosesion/ Status: "+response.statusCode.toString()+", Body: "+response.body);
 
     if(response.statusCode == 200){
       var jsonData = json.decode(response.body);
       for(var n in jsonData){
+        Llave llave = Llave.fromJson(n);
+        llaves.add(llave);
+      }
+      return llaves;
+    }
+  }
+  Future <List<Llave>> getLlavesEnPosesionDe(String idUser) async {
+    String endpoint, params;
+    endpoint = "/llave/getPosesionDe";
+    params = "?idUser=" + idUser;
+    List<Llave> llaves = [];
+    var response = await MindiaHttpClient.instance().get(
+        Uri.parse(ipServer + endpoint + params));
+    print("getLlavesPosesionDe/ Status: " + response.statusCode.toString() +
+        ", Body: " + response.body);
+
+    if (response.statusCode == 200) {
+      var jsonData = json.decode(response.body);
+      for (var n in jsonData) {
         Llave llave = Llave.fromJson(n);
         llaves.add(llave);
       }
@@ -97,5 +116,6 @@ class ServidorLlaves {
       return grupoLlave;
     }
   }
+
 
 }

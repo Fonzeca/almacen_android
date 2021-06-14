@@ -21,6 +21,11 @@ class PosesionBloc extends Bloc<PosesionEvent, PosesionState> {
       List<Llave> llavesPosesion = await _servidorLlaves.getLlavesEnPosesion();
       yield state.copyWith(carga: false, llaves: llavesPosesion);
 
+    }else if(event is PosesionEventCargarListaPropia){
+      yield state.copyWith(carga: true);
+      List<Llave> llavesPosesionDe = await _servidorLlaves.getLlavesEnPosesionDe(event.idUser);
+      yield state.copyWith(carga: false, llaves: llavesPosesionDe);
+
     }
   }
 }

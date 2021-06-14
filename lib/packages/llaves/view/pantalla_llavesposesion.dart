@@ -8,20 +8,28 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 class LlavesPosesion extends StatelessWidget{
   bool admn;
   LlavesPosesion({Key key, @required this.admn}) : super(key: key);
-  List<Llave> _llavesEnPosesion = null;
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<PosesionBloc, PosesionState>(listener: (context, state) {
-      if(state.carga){
-        EasyLoading.show();
-      }else EasyLoading.dismiss();
-      return BlocBuilder<PosesionBloc, PosesionState>(builder: (context, state) {
-        if(state.llaves == null){
-          BlocProvider.of<PosesionBloc>(context).add(PosesionEventCargarLista());
+    if(admn){
+      BlocProvider.of<PosesionBloc>(context).add(PosesionEventCargarLista());
+    }else{
+      BlocProvider.of<PosesionBloc>(context).add(PosesionEventCargarListaPropia("13"));
+    }
+    return BlocListener<PosesionBloc, PosesionState>(
+      listener: (context, state) {
+        if(state.carga){
+          EasyLoading.show();
+        }else{
+          EasyLoading.dismiss();
+        }
+      },
+      child: BlocBuilder<PosesionBloc, PosesionState>(builder: (context, state) {
+        List<Llave> _llavesEnPosesion = state.llaves;
+        if(_llavesEnPosesion == null){
+          _llavesEnPosesion = state.llaves;
           return Container();
         }else{
-          _llavesEnPosesion = state.llaves;
           return ListView.builder(
               shrinkWrap: true,
               itemCount: _llavesEnPosesion == null ? 1 : _llavesEnPosesion.length+1,
@@ -46,8 +54,8 @@ class LlavesPosesion extends StatelessWidget{
 
               });
         }
-      },);
-    },);
+      },
+      ),);
   }
   Widget _createRow(Llave p, BuildContext context, int index) {
 

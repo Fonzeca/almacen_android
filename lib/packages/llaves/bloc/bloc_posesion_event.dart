@@ -11,3 +11,7 @@ abstract class PosesionEvent extends Equatable {
 class PosesionEventCargarLista extends PosesionEvent{
 
 }
+class PosesionEventCargarListaPropia extends PosesionEvent{
+  String idUser;
+  PosesionEventCargarListaPropia(this.idUser);
+}
