@@ -109,7 +109,7 @@ class GrupoEspecifico extends StatelessWidget {
                   }),
               Divider(color: Colors.deepOrangeAccent, thickness: 1.0,),
               _crearBotones(
-                  context, grupoState.estado, grupoState.grupoId.toString());
+                  context, grupoState.estado, grupoState.grupoId.toString())
               ],
             ),)
           ,
