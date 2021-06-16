@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 class CommonApiCalls {
 
   final String ipServer =
-      "http://vps-1791261-x.dattaweb.com:4455/almacen_api-0.0.1-SNAPSHOT" ;
+      "http://vps-1791261-x.dattaweb.com:4455/almacenapi" ;
   // "http://almacen.eldoce.com.ar";
 
   Future<LoggedUser> getLoggedUser() async {
