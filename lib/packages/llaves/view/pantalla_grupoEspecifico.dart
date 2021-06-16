@@ -16,6 +16,10 @@ class GrupoEspecifico extends StatelessWidget {
 
   GrupoEspecifico({Key key, @required this.grupoLlave}) : super(key: key);
 
+  final TextEditingController _controller = TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<GrupoBloc>(context).add(
@@ -154,7 +158,6 @@ class GrupoEspecifico extends StatelessWidget {
       showModalBottomSheet<void>(
           context: context,
           builder: (BuildContext context) {
-            TextEditingController _controller = TextEditingController();
             return Container(
               height: 400,
               padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
@@ -166,7 +169,7 @@ class GrupoEspecifico extends StatelessWidget {
                     child: TypeAheadField(
                       textFieldConfiguration: TextFieldConfiguration(
                         decoration: InputDecoration(
-                            hintText: "Seleccione un usuario al cual asignar la llave",
+                            hintText: "Usuario al cual asignar la llave",
                             hintStyle: TextStyle(
                               color: Colors.black26,
                             )
@@ -197,8 +200,9 @@ class GrupoEspecifico extends StatelessWidget {
                         }
                       },
                       onSuggestionSelected: (suggestion) {
-                        _controller.text = suggestion.toString();
-                        username = suggestion.toString();
+                        print(suggestion+"<-");
+                        _controller.text = suggestion;
+                        username = suggestion;
                       },
                     ),
                   ),
