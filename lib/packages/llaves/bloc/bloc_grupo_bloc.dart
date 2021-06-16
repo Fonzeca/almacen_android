@@ -24,7 +24,15 @@ class GrupoBloc extends Bloc<GrupoEvent, GrupoState> {
       GrupoLlave grupo = await _servidor.getGrupoLlave(identificacionGrupoLlaves);
       yield state.copyWith(carga: false,grupoLlave: grupo);
     }else if(event is GrupoEventCambiarEstado){
-      //gl
+      yield state.copyWith(carga: true);
+      GrupoEventCambiarEstado _cambiarEstado = event as GrupoEventCambiarEstado;
+      String id, entrada, username;
+      username = _cambiarEstado.username;
+      id= state.grupoLlave.grupoId.toString();
+      entrada = _cambiarEstado.entrada;
+      await _servidor.changeGrupoLlavesStatus(id, entrada, username);
+
+      yield state.copyWith(carga: false);
     }else if(event is GrupoEventSetLlave){
       yield state.copyWith(carga: true);
       Llave llave = await _servidor.getLlaveEspecifica(event.id);

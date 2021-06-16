@@ -7,7 +7,8 @@ abstract class GrupoEvent extends Equatable {
 }
 
 class GrupoEventCambiarEstado extends GrupoEvent{
-
+  String username, entrada;
+  GrupoEventCambiarEstado(this.username, this.entrada);
 }
 class GrupoEventSetGrupo extends GrupoEvent{
   String nombre, id;

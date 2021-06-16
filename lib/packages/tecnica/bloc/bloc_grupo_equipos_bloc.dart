@@ -29,6 +29,13 @@ class GrupoEquiposBloc extends Bloc<GrupoEquiposEvent, GrupoEquiposState> {
       Equipo equipo;
       equipo = await _servidorTecnica.getDetalleEquipo(event.id);
       yield state.copyWith(equipo: equipo, carga: false);
+    }else if(event is GrupoEquiposEventChangeStatus){
+      yield state.copyWith(carga: true);
+      GrupoEquiposEventChangeStatus changeStatus = event as GrupoEquiposEventChangeStatus;
+      String id, entrada;
+      id = state.grupo.grupoId.toString();
+      entrada = changeStatus.entrada;
+      await _servidorTecnica.cambiarEstadoGrupoEquipo(id, entrada);
     }
   }
 }

@@ -125,7 +125,7 @@ class GrupoEspecifico extends StatelessWidget {
     switch (estado) {
       case "Disponible":
         return ElevatedButton.icon(onPressed: () =>
-            _cambiarEstadoGrupo(context, _idGrupo),
+            _cambiarEstadoGrupo(context, "Disponible"),
           label:
           const Text('Retirar'),
           icon: const Icon(Icons.compare_arrows_outlined),
@@ -134,7 +134,7 @@ class GrupoEspecifico extends StatelessWidget {
         break;
       case "En uso":
         return ElevatedButton.icon(onPressed: () =>
-            _cambiarEstadoGrupo(context, _idGrupo),
+            _cambiarEstadoGrupo(context, "En uso"),
           label:
           const Text('Entregar'),
           icon: const Icon(Icons.compare_arrows_outlined),
@@ -145,7 +145,14 @@ class GrupoEspecifico extends StatelessWidget {
     }
   }
 
-  void _cambiarEstadoGrupo(BuildContext context, String idGrupo) {
+  void _cambiarEstadoGrupo(BuildContext context, String entrada) {
+    if(entrada == "Disponible"){
+      String username;
+      BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(username, entrada));
+
+    }else{
+      BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(null, entrada));
+    }
 
 
   }

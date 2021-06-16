@@ -123,7 +123,7 @@ class GrupoEquiposEspecifico extends StatelessWidget{
     switch (estado){
       case "Disponible":
         return ElevatedButton.icon(onPressed: () =>
-                _cambiarEstadoGrupo(context, _idGrupo),
+                _cambiarEstadoGrupo(context, "Disponible"),
               label:
               const Text('Retirar'),
               icon: const Icon(Icons.compare_arrows_outlined),
@@ -132,7 +132,7 @@ class GrupoEquiposEspecifico extends StatelessWidget{
         break;
       case "En uso":
         return ElevatedButton.icon(onPressed: () =>
-            _cambiarEstadoGrupo(context, _idGrupo),
+            _cambiarEstadoGrupo(context, "En uso"),
           label:
           const Text('Entregar'),
           icon: const Icon(Icons.compare_arrows_outlined),
@@ -142,8 +142,8 @@ class GrupoEquiposEspecifico extends StatelessWidget{
       default:
     }
   }
-  void _cambiarEstadoGrupo(BuildContext context, String idGrupo){
-
+  void _cambiarEstadoGrupo(BuildContext context, String entrada){
+    BlocProvider.of<GrupoEquiposBloc>(context).add(GrupoEquiposEventChangeStatus(entrada));
 
   }
   void crearModal(BuildContext context, Equipo detalleView) {

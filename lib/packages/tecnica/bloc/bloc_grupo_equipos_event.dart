@@ -15,3 +15,7 @@ class GrupoEquiposEventSetEquipo extends GrupoEquiposEvent{
   String id;
   GrupoEquiposEventSetEquipo(this.id);
 }
+class GrupoEquiposEventChangeStatus exteds GrupoEquiposEvent{
+  String entrada;
+  GrupoEquiposEventChangeStatus(this.entrada);
+}
