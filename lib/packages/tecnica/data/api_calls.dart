@@ -81,7 +81,13 @@ class ServidorTecnica {
     }
   }
 
-
+  Future<void> cambiarEstadoGrupoEquipo(String id, String entrada) async{
+      String endpoint = "/grupoLlave/status";
+      String params ="?id="+id+"&entrada="+entrada;
+      var url = Uri.parse(ipServer + endpoint + params);
+      var response = await MindiaHttpClient.instance().get(url);
+      print("changeGrupoEquiposStatus/ Status: "+response.statusCode.toString()+", body: "+response.body);
+  }
 
   /**
    * Llamadas respectivas a Registros

@@ -44,7 +44,7 @@ class BuscarLlave extends StatelessWidget{
                     noItemsFoundBuilder: (context) {
                       return Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Text("No se encontro", style: TextStyle(fontSize: 20, color: Colors.black26),),
+                        child: Text("No se encontró", style: TextStyle(fontSize: 20, color: Colors.black26),),
                       );
                     },
                     hideOnError: false,

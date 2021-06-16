@@ -44,4 +44,22 @@ class CommonApiCalls {
     MindiaHttpClient.TOKEN = "";
   }
 
+  Future <List<String>> getUserLikeNombre (String nombre) async{
+    String endpoint;
+    List<String> users = [];
+
+    endpoint="/users/like/" + nombre;
+    String url = ipServer + endpoint;
+
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
+    print("getLlaveLikeNombre/ Status: "+response.statusCode.toString()+" Body: "+response.body);
+
+
+    if(response.statusCode == 200){
+      for(var n in json.decode(response.body)){
+        users.add(n);
+      }
+    }
+    return users;
+  }
 }

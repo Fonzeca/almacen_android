@@ -1,11 +1,14 @@
 
+import 'package:almacen_android/packages/almacen/data/api_calls.dart';
 import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
+import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_grupo_bloc.dart';
 import 'package:almacen_android/packages/llaves/model/grupoLlaves.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class GrupoEspecifico extends StatelessWidget {
 
@@ -44,79 +47,79 @@ class GrupoEspecifico extends StatelessWidget {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
-                  Row(
-                  children: [
-                  Expanded(
-                  child: Text('Nombre:\n' +
-                  grupoState.nombre, textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 18),),
-                ),
-                Expanded(child: Text(
-                  'Estado:\n' + grupoState.estado, textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 18),)),
-                ],
-              ),
-              Divider(color: Colors.deepOrangeAccent, thickness: 1.0,),
-              Text("Llaves",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: grupoState.llaves == null ? 1 : grupoState.llaves
-                      .length + 1,
-                  itemBuilder: (context, index) {
-                    if (index == 0) {
-                      return Card(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Llave", style: TextStyle(
-                                    fontWeight: FontWeight.bold)),
-                                Text("Copia", style: TextStyle(
-                                    fontWeight: FontWeight.bold)),
-                                Text("Estado", style: TextStyle(
-                                    fontWeight: FontWeight.bold))
-                              ],
-                            ),
-                          )
-                      );
-                    }
-                    index -= 1;
-                    return GestureDetector(
-                      onTap: () {
-                        EasyLoading.show();
-                        BlocProvider.of<GrupoBloc>(context).add
-                          (GrupoEventSetLlave(grupoState.llaves[index].id));
-                      },
-                      child: Card(
-                          child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 4.0),
-                              child: Row(
-                                  mainAxisAlignment: MainAxisAlignment
-                                      .spaceBetween,
-                                  children:
-                                  [
-                                    Text(grupoState.llaves[index].nombre),
-                                    Text(grupoState.llaves[index].copia),
-                                    Text(grupoState.llaves[index].estado),
-                                  ]
-                              )
-                          )
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Text('Nombre:\n' +
+                                grupoState.nombre, textAlign: TextAlign.center,
+                              style: TextStyle(fontSize: 18),),
+                          ),
+                          Expanded(child: Text(
+                            'Estado:\n' + grupoState.estado, textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 18),)),
+                        ],
                       ),
-                    );
-                  }),
-              Divider(color: Colors.deepOrangeAccent, thickness: 1.0,),
-              _crearBotones(
-                  context, grupoState.estado, grupoState.grupoId.toString())
-              ],
-            ),)
-          ,
-          )
-          ,
-          );
-        }
+                      Divider(color: Colors.deepOrangeAccent, thickness: 1.0,),
+                      Text("Llaves",
+                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),),
+                      ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: grupoState.llaves == null ? 1 : grupoState.llaves
+                              .length + 1,
+                          itemBuilder: (context, index) {
+                            if (index == 0) {
+                              return Card(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Llave", style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                        Text("Copia", style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                        Text("Estado", style: TextStyle(
+                                            fontWeight: FontWeight.bold))
+                                      ],
+                                    ),
+                                  )
+                              );
+                            }
+                            index -= 1;
+                            return GestureDetector(
+                              onTap: () {
+                                EasyLoading.show();
+                                BlocProvider.of<GrupoBloc>(context).add
+                                  (GrupoEventSetLlave(grupoState.llaves[index].id));
+                              },
+                              child: Card(
+                                  child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8.0, vertical: 4.0),
+                                      child: Row(
+                                          mainAxisAlignment: MainAxisAlignment
+                                              .spaceBetween,
+                                          children:
+                                          [
+                                            Text(grupoState.llaves[index].nombre),
+                                            Text(grupoState.llaves[index].copia),
+                                            Text(grupoState.llaves[index].estado),
+                                          ]
+                                      )
+                                  )
+                              ),
+                            );
+                          }),
+                      Divider(color: Colors.deepOrangeAccent, thickness: 1.0,),
+                      _crearBotones(
+                          context, grupoState.estado, grupoState.grupoId.toString())
+                    ],
+                  ),)
+                ,
+              )
+              ,
+            );
+          }
         },
       ),);
   }
@@ -148,7 +151,68 @@ class GrupoEspecifico extends StatelessWidget {
   void _cambiarEstadoGrupo(BuildContext context, String entrada) {
     if(entrada == "Disponible"){
       String username;
-      BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(username, entrada));
+      showModalBottomSheet<void>(
+          context: context,
+          builder: (BuildContext context) {
+            TextEditingController _controller = TextEditingController();
+            return Container(
+              height: 400,
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              color: Colors.white,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: TypeAheadField(
+                      textFieldConfiguration: TextFieldConfiguration(
+                        decoration: InputDecoration(
+                            hintText: "Seleccione un usuario al cual asignar la llave",
+                            hintStyle: TextStyle(
+                              color: Colors.black26,
+                            )
+                        ),
+                        controller: _controller,
+                      ),
+                      suggestionsCallback: (pattern) async{
+                        if(pattern.length < 2){
+                          return ["NO HAY"];
+                        }
+                        return CommonApiCalls().getUserLikeNombre(pattern);
+                      },
+                      noItemsFoundBuilder: (context) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("No se encontró", style: TextStyle(fontSize: 20, color: Colors.black26),),
+                        );
+                      },
+                      hideOnError: false,
+                      itemBuilder: (context, itemData) {
+                        if(itemData == "NO HAY"){
+                          return Container();
+                        }else{
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(itemData),
+                          );
+                        }
+                      },
+                      onSuggestionSelected: (suggestion) {
+                        _controller.text = suggestion.toString();
+                        username = suggestion.toString();
+                      },
+                    ),
+                  ),
+                  TextButton(onPressed: () {
+                    BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(username, entrada));
+                    Navigator.pop(context);
+
+                  }, child: Text("OK")),
+                ],
+              ) ,
+            );
+          }
+
+      );
 
     }else{
       BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(null, entrada));

@@ -13,7 +13,6 @@ class ModalEquipo{
   ModalEquipo({@required this.context, @required this.detalleView});
 
   void abrirModal({String nombre, String id}){
-    print("se llamó al modal");
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {

@@ -19,3 +19,7 @@ class GrupoEventSetLlave extends GrupoEvent{
   String id;
   GrupoEventSetLlave(this.id);
 }
+
+class GrupoEventListarUsuarios extends GrupoEvent{
+
+}
