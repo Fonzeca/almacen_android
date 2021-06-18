@@ -52,7 +52,7 @@ class CommonApiCalls {
     String url = ipServer + endpoint;
 
     var response = await MindiaHttpClient.instance().get(Uri.parse(url));
-    print("getLlaveLikeNombre/ Status: "+response.statusCode.toString()+" Body: "+response.body);
+    print("getUserLikeNombre/ Status: "+response.statusCode.toString()+" Body: "+response.body);
 
 
     if(response.statusCode == 200){

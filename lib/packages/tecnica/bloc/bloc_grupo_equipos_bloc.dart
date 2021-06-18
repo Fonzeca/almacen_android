@@ -18,30 +18,49 @@ class GrupoEquiposBloc extends Bloc<GrupoEquiposEvent, GrupoEquiposState> {
     GrupoEquiposEvent event,
   ) async* {
     if(event is GrupoEquiposEventSetGrupo){
-      yield state.copyWith(carga: true);
-      GrupoEquiposEventSetGrupo _setGrupo = event as GrupoEquiposEventSetGrupo;
-      String identificacion = _setGrupo.nombre+"-"+_setGrupo.id;
-      GrupoEquipo grupo = await _servidorTecnica.getGrupoEquipoByQr(identificacion);
-      yield state.copyWith(grupo: grupo,carga: false);
-
+      yield* onEventSetGrupo(event);
     }else if(event is GrupoEquiposEventSetEquipo){
-      yield state.copyWith(carga: true);
-      Equipo equipo;
-      equipo = await _servidorTecnica.getDetalleEquipo(event.id);
-      yield state.copyWith(equipo: equipo, carga: false);
-
+      yield* onEventSetEquipo(event);
     }else if(event is GrupoEquiposEventChangeStatus){
-      yield state.copyWith(carga: true);
-      GrupoEquiposEventChangeStatus changeStatus = event as GrupoEquiposEventChangeStatus;
-      String id, entrada, nombre;
-      id = state.grupo.grupoId.toString();
-      nombre = state.grupo.nombre;
-      entrada = changeStatus.entrada;
-      await _servidorTecnica.cambiarEstadoGrupoEquipo(id, entrada);
-      String identificacion = nombre+"-"+id;
-      GrupoEquipo grupo = await _servidorTecnica.getGrupoEquipoByQr(identificacion);
-      yield state.copyWith(grupo: grupo,carga: false);
-
+      yield* onEventChangeStatus(event);
     }
   }
+
+  Stream<GrupoEquiposState> onEventSetGrupo(GrupoEquiposEventSetGrupo event) async*{
+    yield state.copyWith(carga: true);
+
+    String identificacion = event.nombre + "-" + event.id;
+
+    GrupoEquipo grupo = await _servidorTecnica.getGrupoEquipoByQr(identificacion);
+
+    yield state.copyWith(grupo: grupo,carga: false);
+  }
+
+  Stream<GrupoEquiposState> onEventSetEquipo(GrupoEquiposEventSetEquipo event) async*{
+    yield state.copyWith(carga: true);
+
+    Equipo equipo = await _servidorTecnica.getDetalleEquipo(event.id);
+
+    yield state.copyWith(equipo: equipo, carga: false);
+  }
+
+  /// Evento cuando se cambia el estado de un Grupo
+  Stream<GrupoEquiposState> onEventChangeStatus(GrupoEquiposEventChangeStatus event) async*{
+    yield state.copyWith(carga: true);
+
+    String id, entrada, nombre;
+    id = state.grupo.grupoId.toString();
+    nombre = state.grupo.nombre;
+    entrada = event.entrada;
+
+    await _servidorTecnica.cambiarEstadoGrupoEquipo(id, entrada);
+
+    String identificacion = nombre + "-" + id;
+
+    GrupoEquipo grupo = await _servidorTecnica.getGrupoEquipoByQr(identificacion);
+
+    yield state.copyWith(grupo: grupo,carga: false);
+  }
+
+
 }

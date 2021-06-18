@@ -177,9 +177,6 @@ class GrupoEspecifico extends StatelessWidget {
                         controller: _controller,
                       ),
                       suggestionsCallback: (pattern) async{
-                        if(pattern.length < 2){
-                          return ["NO HAY"];
-                        }
                         return CommonApiCalls().getUserLikeNombre(pattern);
                       },
                       noItemsFoundBuilder: (context) {

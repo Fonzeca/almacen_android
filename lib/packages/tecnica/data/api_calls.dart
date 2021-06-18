@@ -82,7 +82,7 @@ class ServidorTecnica {
   }
 
   Future<void> cambiarEstadoGrupoEquipo(String id, String entrada) async{
-      String endpoint = "/grupoLlave/status";
+      String endpoint = "/grupoEquipo/status";
       String params ="?id="+id+"&entrada="+entrada;
       var url = Uri.parse(ipServer + endpoint + params);
       var response = await MindiaHttpClient.instance().get(url);
