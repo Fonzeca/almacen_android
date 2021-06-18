@@ -177,7 +177,6 @@ class MainDrawer extends StatelessWidget{
                       //          Listar Equipos
                       _drawerItem(sections[6], leadingArrow, 10, state.values, context),
                       //          Listar Registros
-                      _drawerItem(sections[7], leadingArrow, 11, state.values, context),
                       Divider(
                         height: 1,
                         thickness: 1,
