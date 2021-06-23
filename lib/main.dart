@@ -314,7 +314,7 @@ class _MyHomePageState extends State<MyHomePage> {
           LoggedUser loggedUser = await _servidor.getLoggedUser();
           EasyLoading.dismiss();
           pressed = false;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, context)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, loggedUser.rol, context)));
         } else {
           EasyLoading.dismiss();
           EasyLoading.showError("Usuario o contraseña incorrectos.");

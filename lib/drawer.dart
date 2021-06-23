@@ -16,6 +16,7 @@ import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart' a
 class MainDrawer extends StatelessWidget{
 
   bool admin;
+  String rol;
   String appTitle;
   Icon leadingArrow;
 
@@ -28,8 +29,9 @@ class MainDrawer extends StatelessWidget{
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  MainDrawer (bool admin, BuildContext context){
+  MainDrawer (bool admin, String rol, BuildContext context){
     this.admin=admin;
+    this.rol=rol;
     BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
   }
 
@@ -162,7 +164,7 @@ class MainDrawer extends StatelessWidget{
                       _drawerItem(sections[0], leadingArrow, 0, state.values, context),
                       //
                       _drawerItem(sections[1], leadingArrow, 1, state.values, context),
-                      admin?_drawerItem("Agregar Stock", leadingArrow, 2, state.values, context)
+                      admin||rol == 'Administrador'?_drawerItem("Agregar Stock", leadingArrow, 2, state.values, context)
                           :SizedBox(),
                       Divider(
                         height: 1,
@@ -176,24 +178,28 @@ class MainDrawer extends StatelessWidget{
                       ),
                       //          Listar Equipos
                       _drawerItem(sections[6], leadingArrow, 10, state.values, context),
-                      //          Listar Registros
                       Divider(
                         height: 1,
                         thickness: 1,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Llaves',
-                        ),
-                      ),
-                      //          Buscar Llave
-                      _drawerItem(sections[12], leadingArrow, 20, state.values, context),
-                      _drawerItem(sections[13], leadingArrow, 23, state.values, context),
-                      Divider(
-                        height: 1,
-                        thickness: 1,
-                      ),
+                      (() {
+                        if(admin || rol == "Administrador Llaves"){
+                          Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Text(
+                              'Llaves',
+                            ),
+                          );
+                          //          Buscar Llave
+                          _drawerItem(sections[12], leadingArrow, 20, state.values, context);
+                          _drawerItem(sections[13], leadingArrow, 23, state.values, context);
+                          Divider(
+                            height: 1,
+                            thickness: 1,
+                          );
+
+                        }
+                      }()),
                       _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
                       SizedBox(height: 20.0,),
                       _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
