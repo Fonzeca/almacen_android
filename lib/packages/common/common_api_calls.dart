@@ -18,6 +18,7 @@ class CommonApiCalls {
 
     http.Response response = await MindiaHttpClient.instance().get(Uri.parse(url));
     var n = json.decode(response.body);
+    print("/getLoggedUser Status:" +response.statusCode.toString()+", body: "+response.body);
 
     LoggedUser loggedUser = new LoggedUser.fromJson(n);
 

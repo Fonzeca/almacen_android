@@ -182,24 +182,8 @@ class MainDrawer extends StatelessWidget{
                         height: 1,
                         thickness: 1,
                       ),
-                      (() {
-                        if(admin || rol == "Administrador Llaves"){
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Text(
-                              'Llaves',
-                            ),
-                          );
-                          //          Buscar Llave
-                          _drawerItem(sections[12], leadingArrow, 20, state.values, context);
-                          _drawerItem(sections[13], leadingArrow, 23, state.values, context);
-                          Divider(
-                            height: 1,
-                            thickness: 1,
-                          );
+                      _crearMenuLlaves(admin, rol, state, context),
 
-                        }
-                      }()),
                       _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
                       SizedBox(height: 20.0,),
                       _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
@@ -224,6 +208,29 @@ class MainDrawer extends StatelessWidget{
         BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value));},
 
     );
+  }
+  Widget _crearMenuLlaves(bool admin, String rol, BlocNavigator.NavigatorState state, BuildContext context){
+      if(admin || rol == "Administrador Llaves"){
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Llaves',
+              ),
+            ),
+            //          Buscar Llave
+            _drawerItem(sections[12], leadingArrow, 20, state.values, context),
+            _drawerItem(sections[13], leadingArrow, 23, state.values, context),
+            Divider(
+              height: 1,
+              thickness: 1,
+            ),
+          ],
+        );
+
+      }
   }
 
 }
