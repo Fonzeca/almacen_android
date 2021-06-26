@@ -299,7 +299,9 @@ class MainDrawer extends StatelessWidget{
         children: [
           _bloqueAlmacen(true, true, false, state, context),
           _divider(),
-          _bloqueLlaves(false, true, state, context),
+          _bloqueTecnica(true, state, context),
+          _divider(),
+          _bloqueLlaves(true, true, state, context),
           _divider(),
           _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
           SizedBox(height: 20.0,),
