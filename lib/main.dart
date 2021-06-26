@@ -119,9 +119,9 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     ],
   );
-  String emailText = "root";
+  String emailText = "";
 
-  String passwordText = "almacen.C12";
+  String passwordText = "";
 
   Widget _buildEmailTF() {
     return Column(

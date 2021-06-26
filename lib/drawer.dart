@@ -23,9 +23,25 @@ class MainDrawer extends StatelessWidget{
 
   /// En la lista de 'sections' se agregaron todas las funcionalidades posibles aunque solo se utilizan algunas, esto es para preveer que se incluyan mas funcionalidades en un futuro.
 
-  List<String> sections =["Nuevo Pedido", "Listar Pedidos", "Listar Artículos", "Listar Proveedores","Nuevo Artículo","Nuevo Proveedor",
-    "Listar Equipos","Listar Registros","Nuevo Equipo","Nuevo Tipo","Nuevo Lugar",
-    "Escanear Llave", "Buscar Llave", "Llaves en posesión","Nueva Llave","Nuevo Grupo"];
+  List<String> sections = [
+    "Nuevo Pedido", //0
+    "Listar Pedidos",
+    "Listar Artículos",
+    "Listar Proveedores",
+    "Nuevo Artículo",
+    "Nuevo Proveedor", //5
+    "Listar Equipos",
+    "Listar Registros",
+    "Nuevo Equipo",
+    "Nuevo Tipo",
+    "Nuevo Lugar", //10
+    "Escanear Llave",
+    "Buscar Llave",
+    "Llaves en posesión",
+    "Nueva Llave",
+    "Nuevo Grupo", //15
+    "Agregar Stock",
+  ];
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -154,40 +170,7 @@ class MainDrawer extends StatelessWidget{
                         height: 1,
                         thickness: 1,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Almacén',
-                        ),
-                      ),
-                      //        Nuevo Pedido
-                      _drawerItem(sections[0], leadingArrow, 0, state.values, context),
-                      //
-                      _drawerItem(sections[1], leadingArrow, 1, state.values, context),
-                      admin||rol == 'Administrador'?_drawerItem("Agregar Stock", leadingArrow, 2, state.values, context)
-                          :SizedBox(),
-                      Divider(
-                        height: 1,
-                        thickness: 1,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          'Técnica',
-                        ),
-                      ),
-                      //          Listar Equipos
-                      _drawerItem(sections[6], leadingArrow, 10, state.values, context),
-                      Divider(
-                        height: 1,
-                        thickness: 1,
-                      ),
-                      _crearMenuLlaves(admin, rol, state, context),
-
-                      _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
-                      SizedBox(height: 20.0,),
-                      _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
-                      //          Listar Llaves
+                      _resolverMenuByRol(state,context),
                     ],
                   )
               )
@@ -198,39 +181,155 @@ class MainDrawer extends StatelessWidget{
     );
 
   }
-  ListTile _drawerItem(String title, Icon leading, int value, List<int> values, BuildContext context){
-    return ListTile(
-      title: Text(title),
-      leading: leading,
-      selected: value == values.last,
-      onTap: (){
-        Navigator.of(context).pop();
-        BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value));},
 
+  Widget _bloqueAlmacen(bool nuevoPedido, bool listarPedido, bool agregarStock, BlocNavigator.NavigatorState state, BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Almacén',
+          ),
+        ),
+        _drawerItem(sections[0], leadingArrow, 0, state.values, context, nuevoPedido),
+        _drawerItem(sections[1], leadingArrow, 1, state.values, context, listarPedido),
+        _drawerItem(sections[16], leadingArrow, 2, state.values, context, agregarStock),
+      ],
     );
   }
-  Widget _crearMenuLlaves(bool admin, String rol, BlocNavigator.NavigatorState state, BuildContext context){
-      if(admin || rol == "Administrador Llaves"){
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                'Llaves',
-              ),
-            ),
-            //          Buscar Llave
-            _drawerItem(sections[12], leadingArrow, 20, state.values, context),
-            _drawerItem(sections[13], leadingArrow, 23, state.values, context),
-            Divider(
-              height: 1,
-              thickness: 1,
-            ),
-          ],
-        );
 
-      }
+  Widget _bloqueTecnica(bool listarEquipos, BlocNavigator.NavigatorState state, BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Técnica',
+          ),
+        ),
+        _drawerItem(sections[6], leadingArrow, 10, state.values, context, listarEquipos),
+      ],
+    );
+  }
+
+  Widget _bloqueLlaves(bool buscarLlave, bool llavesEnPosesion, BlocNavigator.NavigatorState state, BuildContext context){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Text(
+            'Llaves',
+          ),
+        ),
+        _drawerItem(sections[12], leadingArrow, 20, state.values, context, buscarLlave),
+        _drawerItem(sections[13], leadingArrow, 23, state.values, context, llavesEnPosesion),
+      ],
+    );
+  }
+
+  Widget _drawerItem(String title, Icon leading, int value, List<int> values, BuildContext context, [bool esta = true]){
+    if(esta){
+      return ListTile(
+        title: Text(title),
+        leading: leading,
+        selected: value == values.last,
+        onTap: (){
+          Navigator.of(context).pop();
+          BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value));},
+
+      );
+    }else{
+      return Container();
+    }
+  }
+
+  Widget _divider(){
+    return Divider(
+      height: 1,
+      thickness: 1,
+    );
+  }
+
+  Widget _resolverMenuByRol(BlocNavigator.NavigatorState state, BuildContext context){
+    if(rol == "Administrador Llaves"){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _bloqueAlmacen(true, false, false, state, context),
+          _divider(),
+          _bloqueLlaves(true, true, state, context),
+          _divider(),
+          _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
+          SizedBox(height: 20.0,),
+          _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
+        ],
+      );
+    }else if(rol == "Administrador"){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _bloqueAlmacen(true, true, true, state, context),
+          _divider(),
+          _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
+          SizedBox(height: 20.0,),
+          _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
+        ],
+      );
+    }else if(rol == "Administrador Técnica"){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _bloqueAlmacen(true, false, false, state, context),
+          _divider(),
+          _bloqueTecnica(true, state, context),
+          _divider(),
+          _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
+          SizedBox(height: 20.0,),
+          _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
+        ],
+      );
+    }else if(rol == "Solicitante"){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _bloqueAlmacen(true, true, false, state, context),
+          _divider(),
+          _bloqueLlaves(false, true, state, context),
+          _divider(),
+          _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
+          SizedBox(height: 20.0,),
+          _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
+        ],
+      );
+    }else if(rol == "SuperAdmin"){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _bloqueAlmacen(true, true, true, state, context),
+          _divider(),
+          _bloqueTecnica(true, state, context),
+          _divider(),
+          _bloqueLlaves(true, true, state, context),
+          _divider(),
+          _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
+          SizedBox(height: 20.0,),
+          _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
+        ],
+      );
+    }else{
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _bloqueAlmacen(true, false, false, state, context),
+          _divider(),
+          SizedBox(height: 20.0,),
+          _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
+        ],
+      );
+    }
   }
 
 }

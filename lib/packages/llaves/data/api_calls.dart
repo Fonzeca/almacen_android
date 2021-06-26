@@ -53,13 +53,13 @@ class ServidorLlaves {
     return llaves;
   }
 
-  Future <void> changeLlaveEstado(String id, String entrada,String username) async{
+  Future <void> changeLlaveEstado(String id, String entrada, String username) async{
     String endpoint, params;
     endpoint = "/llave/status";
-    if(username!=null){
-    params="?id="+id+"&entrada="+entrada+"&username="+username;
+    if(username != null){
+      params="?id="+id+"&entrada="+entrada+"&username="+username;
     }else{
-      params="?id="+id+"&entrada="+entrada+"&username=null";
+      params="?id="+id+"&entrada="+entrada+"&username=";
     }
     var response = await MindiaHttpClient.instance().put(Uri.parse(ipServer+endpoint+params));
     print("changeLlaveEstado/ Status: "+response.statusCode.toString()+", Body: "+response.body);
