@@ -1,15 +1,17 @@
+import 'package:almacen_android/packages/common/common_api_calls.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_llave_bloc.dart';
 import 'package:almacen_android/packages/llaves/model/modelLlaves.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 
 class LlaveEspecifica extends StatelessWidget{
 
   String id;
   LlaveEspecifica({Key key, @required this.id}):super(key: key);
   Llave llave;
-
+  final TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -126,13 +128,71 @@ class LlaveEspecifica extends StatelessWidget{
   }
 
   registrarSalida(BuildContext context) {
-    EasyLoading.showToast("Salida de la llave.");
-    BlocProvider.of<LlaveBloc>(context).add(LlaveCambiarEstado(id,"En uso"));
+    //agregar modal
+    String username;
+    showModalBottomSheet<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 400,
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+            color: Colors.white,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: TypeAheadField(
+                    textFieldConfiguration: TextFieldConfiguration(
+                      decoration: InputDecoration(
+                          hintText: "Usuario al cual asignar la llave",
+                          hintStyle: TextStyle(
+                            color: Colors.black26,
+                          )
+                      ),
+                      controller: _controller,
+                    ),
+                    suggestionsCallback: (pattern) async{
+                      return CommonApiCalls().getUserLikeNombre(pattern);
+                    },
+                    noItemsFoundBuilder: (context) {
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text("No se encontró", style: TextStyle(fontSize: 20, color: Colors.black26),),
+                      );
+                    },
+                    hideOnError: false,
+                    itemBuilder: (context, itemData) {
+                      if(itemData == "NO HAY"){
+                        return Container();
+                      }else{
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(itemData),
+                        );
+                      }
+                    },
+                    onSuggestionSelected: (suggestion) {
+                      print(suggestion+"<-");
+                      _controller.text = suggestion;
+                      username = suggestion;
+                    },
+                  ),
+                ),
+                TextButton(onPressed: () {
+                  BlocProvider.of<LlaveBloc>(context).add(LlaveCambiarEstado(id,"En uso",username));
+                  Navigator.pop(context);
+
+                }, child: Text("OK")),
+              ],
+            ) ,
+          );
+  });
   }
 
   registrarEntrada(BuildContext context) {
     EasyLoading.showToast("Entrada de la llave.");
-    BlocProvider.of<LlaveBloc>(context).add(LlaveCambiarEstado(id,"Disponible"));
+
+    BlocProvider.of<LlaveBloc>(context).add(LlaveCambiarEstado(id,"Disponible", null));
   }
 }
 
