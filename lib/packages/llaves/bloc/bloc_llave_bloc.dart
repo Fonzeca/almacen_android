@@ -17,7 +17,7 @@ class LlaveBloc extends Bloc<LlaveEvent, LlaveState>{
 
       yield state.copyWith(carga: true);
       LlaveCambiarEstado cambiarEstado = event as LlaveCambiarEstado;
-      await _servidor.changeLlaveEstado(cambiarEstado.identificacion, cambiarEstado.estado);
+      await _servidor.changeLlaveEstado(cambiarEstado.identificacion, cambiarEstado.estado,cambiarEstado.username);
       Llave llave = await _servidor.getLlaveEspecifica(cambiarEstado.identificacion);
       yield state.copyWith(carga: false,llave: llave);
     }else if(event is LlaveCargarLlave){

@@ -8,8 +8,8 @@ abstract class LlaveEvent extends Equatable{
 }
 
 class LlaveCambiarEstado extends LlaveEvent{
-  String identificacion,estado;
-  LlaveCambiarEstado(this.identificacion,this.estado);
+  String identificacion,estado,username;
+  LlaveCambiarEstado(this.identificacion,this.estado, this.username);
 }
 class LlaveCargarLlave extends LlaveEvent{
   String id;

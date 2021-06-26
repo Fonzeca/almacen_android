@@ -53,10 +53,14 @@ class ServidorLlaves {
     return llaves;
   }
 
-  Future <void> changeLlaveEstado(String id, String entrada) async{
+  Future <void> changeLlaveEstado(String id, String entrada,String username) async{
     String endpoint, params;
     endpoint = "/llave/status";
-    params="?id="+id+"&entrada="+entrada;
+    if(username!=null){
+    params="?id="+id+"&entrada="+entrada+"&username="+username;
+    }else{
+      params="?id="+id+"&entrada="+entrada+"&username=null";
+    }
     var response = await MindiaHttpClient.instance().put(Uri.parse(ipServer+endpoint+params));
     print("changeLlaveEstado/ Status: "+response.statusCode.toString()+", Body: "+response.body);
 
@@ -119,7 +123,12 @@ class ServidorLlaves {
 
   Future <void> changeGrupoLlavesStatus(String id, String entrada, String username) async{
     String endpoint = "/grupoLlave/status";
-    String params ="?id="+id+"&entrada="+entrada+"&username="+username;
+    String params;
+    if(username!=null){
+      params ="?id="+id+"&entrada="+entrada+"&username="+username;
+    }else{
+      params ="?id="+id+"&entrada="+entrada;
+    }
     var url = Uri.parse(ipServer + endpoint + params);
     var response = await MindiaHttpClient.instance().get(url);
     print("changeGrupoStatus/ Status: "+response.statusCode.toString()+", body: "+response.body);
