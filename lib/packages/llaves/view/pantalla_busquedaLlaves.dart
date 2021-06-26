@@ -61,7 +61,7 @@ class BuscarLlave extends StatelessWidget{
                     onSuggestionSelected: (suggestion) {
                       _typeAheadController.text = suggestion.nombre + " - copia " + suggestion.copia;
                       nombreLlave = suggestion.nombre;
-                      idLlave = suggestion.id;
+                      idLlave = suggestion.userId;
                     },
                   ),
                 ),

@@ -204,8 +204,12 @@ class GrupoEspecifico extends StatelessWidget {
                     ),
                   ),
                   TextButton(onPressed: () {
-                    BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(username, entrada));
-                    Navigator.pop(context);
+                    if(username != null){
+                      BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(username, "En uso"));
+                      Navigator.pop(context);
+                    }else{
+                      EasyLoading.showToast("Debe seleccionar un usuario");
+                    }
 
                   }, child: Text("OK")),
                 ],
@@ -216,7 +220,7 @@ class GrupoEspecifico extends StatelessWidget {
       );
 
     }else{
-      BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(null, entrada));
+      BlocProvider.of<GrupoBloc>(context).add(GrupoEventCambiarEstado(null, "Disponible"));
     }
 
 

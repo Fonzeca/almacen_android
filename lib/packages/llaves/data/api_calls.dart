@@ -124,10 +124,10 @@ class ServidorLlaves {
   Future <void> changeGrupoLlavesStatus(String id, String entrada, String username) async{
     String endpoint = "/grupoLlave/status";
     String params;
-    if(username!=null){
+    if(username != null){
       params ="?id="+id+"&entrada="+entrada+"&username="+username;
     }else{
-      params ="?id="+id+"&entrada="+entrada;
+      params ="?id="+id+"&entrada="+entrada+"&username=";
     }
     var url = Uri.parse(ipServer + endpoint + params);
     var response = await MindiaHttpClient.instance().get(url);

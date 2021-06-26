@@ -49,7 +49,7 @@ class CommonApiCalls {
     String endpoint;
     List<String> users = [];
 
-    endpoint="/users/like/" + nombre;
+    endpoint = "/users/like/" + nombre;
     String url = ipServer + endpoint;
 
     var response = await MindiaHttpClient.instance().get(Uri.parse(url));

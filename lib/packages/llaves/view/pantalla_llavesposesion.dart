@@ -7,14 +7,15 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class LlavesPosesion extends StatelessWidget{
   bool admn;
-  LlavesPosesion({Key key, @required this.admn}) : super(key: key);
+  String id;
+  LlavesPosesion({Key key, @required this.admn, this.id}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     if(admn){
       BlocProvider.of<PosesionBloc>(context).add(PosesionEventCargarLista());
     }else{
-      BlocProvider.of<PosesionBloc>(context).add(PosesionEventCargarListaPropia("13"));
+      BlocProvider.of<PosesionBloc>(context).add(PosesionEventCargarListaPropia(id));
     }
     return BlocListener<PosesionBloc, PosesionState>(
       listener: (context, state) {

@@ -17,6 +17,7 @@ class MainDrawer extends StatelessWidget{
 
   bool admin;
   String rol;
+  String userId;
   String appTitle;
   Icon leadingArrow;
 
@@ -45,9 +46,10 @@ class MainDrawer extends StatelessWidget{
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  MainDrawer (bool admin, String rol, BuildContext context){
-    this.admin=admin;
-    this.rol=rol;
+  MainDrawer (bool admin, String rol, String id, BuildContext context){
+    this.admin = admin;
+    this.rol = rol;
+    this.userId = id;
     BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
   }
 
@@ -115,7 +117,7 @@ class MainDrawer extends StatelessWidget{
             break;
           case 23:
             appTitle="Llaves en Posesión";
-            body = LlavesPosesion(admn: admin,);
+            body = LlavesPosesion(admn: admin, id: userId,);
             break;
           case 50:
             appTitle="Scannear QR";

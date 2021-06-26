@@ -32,7 +32,6 @@ class GrupoBloc extends Bloc<GrupoEvent, GrupoState> {
     }else if(event is GrupoEventCambiarEstado){
 
       yield state.copyWith(carga: true);
-
       GrupoEventCambiarEstado _cambiarEstado = event as GrupoEventCambiarEstado;
       String id, entrada, username;
       username = _cambiarEstado.username;
@@ -40,8 +39,11 @@ class GrupoBloc extends Bloc<GrupoEvent, GrupoState> {
       entrada = _cambiarEstado.entrada;
       await _servidor.changeGrupoLlavesStatus(id, entrada, username);
 
-      yield state.copyWith(carga: false);
 
+      String identificacionGrupoLlaves = state.grupoLlave.nombre + "-" + state.grupoLlave.grupoId.toString();
+      GrupoLlave grupo = await _servidor.getGrupoLlave(identificacionGrupoLlaves);
+
+      yield state.copyWith(carga: false, grupoLlave: grupo);
     }else if(event is GrupoEventSetLlave){
 
       yield state.copyWith(carga: true);
