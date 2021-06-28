@@ -64,6 +64,22 @@ class ServidorTecnica {
 
   }
 
+  Future<List<Equipo>> listarEquiposPropios() async{
+    String endpoint = "/equipo/propios";
+    String url = ipServer+endpoint;
+    List<Equipo> propios = [];
+    var response = await MindiaHttpClient.instance().get(Uri.parse(url));
+
+    print("/listarEquiposPropios Status: "+response.statusCode.toString()+", Body: "+response.body);
+
+    var jsonData = json.decode(response.body);
+    for(var n in jsonData){
+      Equipo equipo= Equipo.fromJson(n);
+      propios.add(equipo);
+    }
+    return propios;
+  }
+
   /**
    * Llamas respectivas a Grupos de Equipos.
    */

@@ -36,33 +36,53 @@ class ListaEquipos extends StatelessWidget {
       child: BlocBuilder<ListaEquiposBloc, ListaEquiposState>(
           builder: (context, state) {
             List <Equipo> _equipos = state.listaEquipos;
+            if(state.equiposPropios!= null){
+              _equipos = state.equiposPropios;
+            }
             if (_equipos == null) {
-              _equipos = state.listaEquipos;
               return Container();
             } else {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _equipos == null ? 1 : _equipos.length+1,
-                  itemBuilder: (context, index){
-                    if(index == 0){
-                      return Card(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Nombre",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Tipo",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
-                              Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
-                            ],
-                          ),
-                        ),
-                      );
-                    }
-                    index -=1;
-                    return _createRow(_equipos[index], context, index);
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      CheckboxListTile(
+                          title: Text("En Posesión"),
+                          value: false,
+                          onChanged: (value){
+                            if(value){
+                              BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventListarPropios());
+                            }else{
 
-                  });
+                            }
+                          })
+                    ],
+                  ),
+                  ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: _equipos == null ? 1 : _equipos.length+1,
+                      itemBuilder: (context, index){
+                        if(index == 0){
+                          return Card(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("Nombre",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text("Tipo",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                                  Text("Estado",textAlign: TextAlign.right,style: TextStyle(fontWeight: FontWeight.bold)),
+                                ],
+                              ),
+                            ),
+                          );
+                        }
+                        index -=1;
+                        return _createRow(_equipos[index], context, index);
+
+                      }),
+                ],
+              );
             }
           }),
     );

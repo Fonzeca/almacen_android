@@ -24,3 +24,10 @@ class ListaEquipoEventCambiarEstadoEquipo extends ListaEquiposEvent{
   int id;
   ListaEquipoEventCambiarEstadoEquipo(this.id);
 }
+
+class ListaEquipoEventListarPropios extends ListaEquiposEvent{
+
+}
+class ListaEquipoEventLimpiarPropios extends ListaEquiposEvent{
+
+}
