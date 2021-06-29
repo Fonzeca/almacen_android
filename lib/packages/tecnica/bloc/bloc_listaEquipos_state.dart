@@ -9,7 +9,7 @@ class ListaEquiposState extends Equatable{
   ListaEquiposState({this.carga, this.listaEquipos,this.equipo, this.equiposPropios});
 
   @override
-  List<Object> get props => [listaEquipos, equipo, carga];
+  List<Object> get props => [listaEquipos, equipo, carga, equiposPropios];
 
   ListaEquiposState copyWith({bool carga, List<Equipo> listaEquipos, Equipo equipo, List<Equipo> equiposPropios}){
     return ListaEquiposState(

@@ -10,6 +10,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class ListaEquipos extends StatelessWidget {
   Equipo equipo;
+  bool checked = false;
 
   ListaEquipos({Key key,this.equipo}) : super(key: key);
 
@@ -48,14 +49,15 @@ class ListaEquipos extends StatelessWidget {
                     children: [
                       Flexible(
                         child: CheckboxListTile(
-                            title: Text("En Posesión"),
-                            value: false,
+                            title: Text("En posesión"),
+                            value: checked,
                             onChanged: (value){
                               if(value){
                                 BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventListarPropios());
                               }else{
-
+                                BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventLimpiarPropios());
                               }
+                              checked=value;
                             }),
                       )
                     ],

@@ -262,6 +262,8 @@ class MainDrawer extends StatelessWidget{
         children: [
           _bloqueAlmacen(true, false, false, state, context),
           _divider(),
+          _bloqueTecnica(true, state, context),
+          _divider(),
           _bloqueLlaves(true, true, state, context),
           _divider(),
           _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
@@ -280,7 +282,7 @@ class MainDrawer extends StatelessWidget{
           _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
         ],
       );
-    }else if(rol == "Administrador Técnica"){
+    }else if(rol == "Administrador Tecnica"){
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
