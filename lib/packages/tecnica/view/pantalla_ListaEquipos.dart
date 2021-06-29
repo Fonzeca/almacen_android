@@ -46,16 +46,18 @@ class ListaEquipos extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      CheckboxListTile(
-                          title: Text("En Posesión"),
-                          value: false,
-                          onChanged: (value){
-                            if(value){
-                              BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventListarPropios());
-                            }else{
+                      Flexible(
+                        child: CheckboxListTile(
+                            title: Text("En Posesión"),
+                            value: false,
+                            onChanged: (value){
+                              if(value){
+                                BlocProvider.of<ListaEquiposBloc>(context).add(ListaEquipoEventListarPropios());
+                              }else{
 
-                            }
-                          })
+                              }
+                            }),
+                      )
                     ],
                   ),
                   ListView.builder(
