@@ -121,7 +121,7 @@ class MainDrawer extends StatelessWidget{
             break;
           case 50:
             appTitle="Scannear QR";
-            body = ScanScreen();
+            body = ScanScreen(llaves: state.parametro,);
             break;
           case 99:
             appTitle = "";
@@ -235,12 +235,17 @@ class MainDrawer extends StatelessWidget{
   Widget _drawerItem(String title, Icon leading, int value, List<int> values, BuildContext context, [bool esta = true]){
     if(esta){
       return ListTile(
-        title: Text(title),
-        leading: leading,
-        selected: value == values.last,
-        onTap: (){
-          Navigator.of(context).pop();
-          BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value));},
+          title: Text(title),
+          leading: leading,
+          selected: value == values.last,
+          onTap: (){
+            Navigator.of(context).pop();
+            if(value == 50){
+              BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value, parametro: rol=='SuperAdmin' || rol == 'Administrador Llaves'));
+            }else{
+              BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(value));
+            }
+          }
 
       );
     }else{

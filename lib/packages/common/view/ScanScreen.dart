@@ -9,6 +9,9 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 
 class ScanScreen extends StatelessWidget{
+  final bool llaves;
+  ScanScreen({Key key,@required this.llaves}) : super (key : key);
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +42,12 @@ class ScanScreen extends StatelessWidget{
     if(resultado != null) {
       print(resultado);
       if (RegExp("grupoL{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)) {
-        BlocProvider.of<ScanScreenBloc>(context).add(
-            ScanEventGetGrupoLlave(resultado));
+        if(llaves){
+          BlocProvider.of<ScanScreenBloc>(context).add(
+              ScanEventGetGrupoLlave(resultado));
+        }else{
+          EasyLoading.showToast("El usuario actual no posee permisos para visualizar llaves!");
+        }
       } else if (RegExp("grupoE{1}-.{1,}-[0-9]{1,}").hasMatch(resultado)) {
         BlocProvider.of<ScanScreenBloc>(context).add(
             ScanEventGetGrupoEquipo(resultado));
