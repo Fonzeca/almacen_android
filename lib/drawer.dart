@@ -265,7 +265,7 @@ class MainDrawer extends StatelessWidget{
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _bloqueAlmacen(true, false, false, state, context),
+          _bloqueAlmacen(true, true, false, state, context),
           _divider(),
           _bloqueTecnica(true, state, context),
           _divider(),
@@ -291,7 +291,7 @@ class MainDrawer extends StatelessWidget{
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _bloqueAlmacen(true, false, false, state, context),
+          _bloqueAlmacen(true, true, false, state, context),
           _divider(),
           _bloqueTecnica(true, state, context),
           _divider(),

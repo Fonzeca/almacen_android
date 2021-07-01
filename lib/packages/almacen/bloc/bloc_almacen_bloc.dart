@@ -17,7 +17,7 @@ class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
 
   @override
   Stream<AlmacenState> mapEventToState(AlmacenEvent event,) async* {
-    if(event is AlmacenEventBuscarPedidos){
+    if(event is AlmacenEventBuscarPedidos) {
       List<Pedido> pedidos = [];
 
       yield state.copyWith(carga: true);
@@ -45,8 +45,11 @@ class AlmacenBloc extends Bloc<AlmacenEvent, AlmacenState> {
       yield state.copyWith(carga:true);
       AlmacenEventEntregarPedido entregarPedido = event as AlmacenEventEntregarPedido;
 
+      yield state.copyWith(carga: true);
+
       bool entregado = await _servidor.entregarPedido(entregarPedido.id);
       List<Pedido> pedidos = await _servidor.listarPedidos();
+
 
       yield state.copyWith(carga:false, pedidos: pedidos, entregado: entregado);
     }else if(event is AlmacenEventEliminarPedido) {
