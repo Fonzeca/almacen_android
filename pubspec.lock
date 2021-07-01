@@ -35,7 +35,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.6.0"
+    version: "2.6.1"
   auto_size_text:
     dependency: "direct main"
     description:
@@ -348,6 +348,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.1"
+  global_configuration:
+    dependency: "direct main"
+    description:
+      name: global_configuration
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.0.0-nullsafety.1"
   graphs:
     dependency: transitive
     description:

@@ -3,14 +3,13 @@ import 'dart:io';
 import 'package:almacen_android/packages/almacen/model/pojo/loggedUser.dart';
 import 'package:almacen_android/packages/almacen/model/token.dart';
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonApiCalls {
 
-  final String ipServer =
-      "http://vps-1791261-x.dattaweb.com:4455/almacenapi" ;
-  // "http://almacen.eldoce.com.ar";
+  final String ipServer = GlobalConfiguration().get("url_api");
 
   Future<LoggedUser> getLoggedUser() async {
     String endpoint = "/loggedUser";

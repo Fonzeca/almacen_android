@@ -5,13 +5,13 @@ import 'package:almacen_android/packages/tecnica/model/registro.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:global_configuration/global_configuration.dart';
 
 
 
 class ServidorTecnica {
 
-  final String ipServer =
-      "http://vps-1791261-x.dattaweb.com:4455/almacenapi" ;
+  final String ipServer = GlobalConfiguration().get("url_api");
 
 
   /**

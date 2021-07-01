@@ -37,6 +37,7 @@ dependencies:
   flutter_launcher_icons: ^0.9.0
   highlighter_coachmark: ^0.0.3
   auto_size_text: ^2.1.0
+  global_configuration: ^2.0.0-nullsafety.1
 
   freezed_annotation: ^0.14.1
   json_annotation:
@@ -72,6 +73,7 @@ flutter:
   assets:
     - assets/logos/
     - assets/icons/
+    - assets/config/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

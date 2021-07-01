@@ -3,7 +3,6 @@ import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_agregar_stock
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_bloc.dart';
 import 'package:almacen_android/packages/almacen/bloc/bloc_almacen_nuevoPedido_bloc.dart';
 import 'package:almacen_android/packages/almacen/model/pojo/loggedUser.dart';
-import 'package:almacen_android/packages/almacen/view/pantalla_agregarStock.dart';
 import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:almacen_android/packages/common/bloc/scan_screen_bloc.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
@@ -19,8 +18,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:global_configuration/global_configuration.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GlobalConfiguration().loadFromPath("assets/config/app_settings.json");
   runApp(MyApp());
 }
 

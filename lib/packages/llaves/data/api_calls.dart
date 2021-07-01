@@ -2,15 +2,15 @@ import 'dart:convert';
 
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:global_configuration/global_configuration.dart';
 import 'package:http/http.dart' as http;
 import 'package:almacen_android/packages/llaves/model/modelLlaves.dart';
 
 
 class ServidorLlaves {
 
-  final String ipServer =
-  "http://vps-1791261-x.dattaweb.com:4455/almacenapi" ;
-      // "http://almacen.eldoce.com.ar";
+  final String ipServer = GlobalConfiguration().get("url_api");
+
   var client = http.Client();
 
   /**

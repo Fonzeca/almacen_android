@@ -10,7 +10,7 @@ import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class ScanScreen extends StatelessWidget{
   final bool llaves;
-  ScanScreen({Key key,@required this.llaves}) : super (key : key);
+  ScanScreen({Key key, @required this.llaves}) : super (key : key);
 
 
   @override
