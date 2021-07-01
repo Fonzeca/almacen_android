@@ -4,6 +4,7 @@ import 'package:almacen_android/packages/almacen/model/pojo/loggedUser.dart';
 import 'package:almacen_android/packages/almacen/model/token.dart';
 import 'package:almacen_android/packages/common/mindia_http_client.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CommonApiCalls {
 
@@ -25,6 +26,19 @@ class CommonApiCalls {
     return loggedUser;
   }
 
+  Future<bool> validate() async {
+    String endpoint = "/validate";
+
+    var url = ipServer + endpoint;
+
+    http.Response response = await MindiaHttpClient.instance().get(Uri.parse(url));
+    print("/validate Status: "+response.statusCode.toString()+", body: "+response.body);
+    if (response.statusCode == 403){
+      return false;
+    }
+    return true;
+  }
+
   Future<bool> login(String emailText, String passwordText) async {
     String endpoint = "/login";
     String params = "?username=" + emailText + "&password=" + passwordText;
@@ -42,6 +56,8 @@ class CommonApiCalls {
 
   }
   Future<void> logout() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    pref.remove('token');
     MindiaHttpClient.TOKEN = "";
   }
 

@@ -7,6 +7,7 @@ import 'package:almacen_android/packages/almacen/view/pantalla_agregarStock.dart
 import 'package:almacen_android/packages/common/bloc/bloc_navigator_bloc.dart';
 import 'package:almacen_android/packages/common/bloc/scan_screen_bloc.dart';
 import 'package:almacen_android/packages/common/common_api_calls.dart';
+import 'package:almacen_android/packages/common/mindia_http_client.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_grupo_bloc.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_llave_bloc.dart';
 import 'package:almacen_android/packages/llaves/bloc/bloc_posesion_bloc.dart';
@@ -17,15 +18,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
+
     return MultiBlocProvider(
       child: MaterialApp(
         title: 'Sistema Almacén',
@@ -66,6 +68,7 @@ class MyHomePage extends StatefulWidget {
  * En caso de validarse, se llega a la pantalla principal en la que nos deja elegir entre almacen, tecnica y llaves.
  */
 class _MyHomePageState extends State<MyHomePage> {
+  SharedPreferences prefs;
   bool pressed;
   final kHintTextStyle = TextStyle(
     color: Colors.white,
@@ -199,6 +202,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    _comprobarToken().then((value) {
+      if(value){
+        LoggedUser loggedUser;
+        CommonApiCalls().getLoggedUser().then((value) {
+          loggedUser= value;
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, loggedUser.rol, loggedUser.id, context)));
+          });
+
+      }
+    });
     pressed = false;
     return Scaffold(
       body: AnnotatedRegion<SystemUiOverlayStyle>(
@@ -299,6 +312,19 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Future<bool> _comprobarToken() async{
+    EasyLoading.show();
+    bool respuesta = false;
+    prefs = await SharedPreferences.getInstance();
+    if(prefs.containsKey('token')){
+      print(prefs.getString('token')+ "<<< Token!");
+      MindiaHttpClient.TOKEN = prefs.getString('token');
+      respuesta = await CommonApiCalls().validate();
+    }
+    EasyLoading.dismiss();
+    return respuesta;
+  }
+
   /**
    * Método que valida tanto usuario como contraseña con la api.
    */
@@ -312,6 +338,7 @@ class _MyHomePageState extends State<MyHomePage> {
         logeado = await _servidor.login(emailText, passwordText);
         if (logeado) {
           LoggedUser loggedUser = await _servidor.getLoggedUser();
+          prefs.setString('token', MindiaHttpClient.TOKEN);
           EasyLoading.dismiss();
           pressed = false;
           Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, loggedUser.rol, loggedUser.id, context)));
