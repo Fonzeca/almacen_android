@@ -209,7 +209,7 @@ class _MyHomePageState extends State<MyHomePage> {
         LoggedUser loggedUser;
         CommonApiCalls().getLoggedUser().then((value) {
           loggedUser= value;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, loggedUser.rol, loggedUser.id, context)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, loggedUser.rol, loggedUser.id, loggedUser.nombreUsuario, context)));
           });
 
       }
@@ -319,7 +319,6 @@ class _MyHomePageState extends State<MyHomePage> {
     bool respuesta = false;
     prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey('token')){
-      print(prefs.getString('token')+ "<<< Token!");
       MindiaHttpClient.TOKEN = prefs.getString('token');
       respuesta = await CommonApiCalls().validate();
     }
@@ -343,7 +342,7 @@ class _MyHomePageState extends State<MyHomePage> {
           prefs.setString('token', MindiaHttpClient.TOKEN);
           EasyLoading.dismiss();
           pressed = false;
-          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, loggedUser.rol, loggedUser.id, context)));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => MainDrawer(loggedUser.esAdmin, loggedUser.rol, loggedUser.id, loggedUser.nombreUsuario, context)));
         } else {
           EasyLoading.dismiss();
           EasyLoading.showError("Usuario o contraseña incorrectos.");

@@ -17,11 +17,7 @@ class ListaPedidos extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     _context = context;
-    if(admn){
-      BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
-    }else{
-      BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidosPropios());
-    }
+    BlocProvider.of<AlmacenBloc>(context).add(AlmacenEventBuscarPedidos());
     return BlocListener<AlmacenBloc,AlmacenState>(
       listener: (context, state) {
         if (state.carga){

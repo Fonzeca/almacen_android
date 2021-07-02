@@ -11,8 +11,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 class ListaEquipos extends StatelessWidget {
   Equipo equipo;
   bool checked = false;
+  bool admn;
+  String username;
 
-  ListaEquipos({Key key,this.equipo}) : super(key: key);
+  ListaEquipos({Key key,this.equipo, @required this.admn, @required this.username}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +151,8 @@ class ListaEquipos extends StatelessWidget {
 
   void crearModal(BuildContext context, Equipo detalleView) {
     EasyLoading.dismiss();
-    ModalEquipo(context: context,detalleView: detalleView).abrirModal();
+    print("username actual= "+username);
+    ModalEquipo(context: context,detalleView: detalleView).abrirModal(admin: admn, username: username);
   }
 
 

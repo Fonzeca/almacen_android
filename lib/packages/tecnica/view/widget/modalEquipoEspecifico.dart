@@ -12,7 +12,12 @@ class ModalEquipo{
 
   ModalEquipo({@required this.context, @required this.detalleView});
 
-  void abrirModal({String nombre, String id}){
+  void abrirModal({@required bool admin, @required String username, String nombre, String id}){
+    if(!detalleView.enUso){
+      admin = true;
+    }else if(!admin && detalleView.usuario == username){
+      admin = true;
+    }
     showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
@@ -37,7 +42,7 @@ class ModalEquipo{
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      Expanded(child: Text('Usuario:\n' + detalleView.usuario, textAlign: TextAlign.center,)),
+                      Expanded(child: Text('Último usuario:\n' + detalleView.usuario, textAlign: TextAlign.center,)),
 
                       Expanded(child: Text('Lugar:\n' + detalleView.lugar, textAlign: TextAlign.center,)),
                     ],
@@ -61,28 +66,37 @@ class ModalEquipo{
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton.icon(onPressed: () =>
-                            _cambiarEstadoEquipo(context, detalleView.id, nombre: nombre, id: id),
-                          label:
-                          detalleView.enUso?
-                          const Text('Entregar'):
-                          const Text('Retirar'),
-                          icon: const Icon(Icons.compare_arrows_outlined),
-                          style: ElevatedButton.styleFrom(
-                              primary: Colors.blue),),
-                        SizedBox(width: 40.0,),
-                        ElevatedButton(
-                          child: const Text('Cerrar'),
-                          onPressed: () => Navigator.pop(context),
-                        ),
-                      ],
+                      children: _crearBotones(admin, detalleView, nombre, id),
                     ),
                   )
                 ],
               ),
             ),);
         });
+  }
+
+  List<Widget> _crearBotones(bool admin, Equipo detalleView, String nombre, String id){
+    List<Widget> widgets = [];
+    if(admin){
+      widgets.add(ElevatedButton.icon(onPressed: () =>
+          _cambiarEstadoEquipo(context, detalleView.id, nombre: nombre, id: id),
+        label:
+        detalleView.enUso?
+        const Text('Entregar'):
+        const Text('Retirar'),
+        icon: const Icon(Icons.compare_arrows_outlined),
+        style: ElevatedButton.styleFrom(
+            primary: Colors.blue),));
+    widgets.add(
+        SizedBox(width: 40.0,));
+    }
+    widgets.add(
+        ElevatedButton(
+          child: const Text('Cerrar'),
+          onPressed: () => Navigator.pop(context),
+        ));
+    return widgets;
+
   }
   void _cambiarEstadoEquipo(BuildContext context, int idi,{String nombre,String id}) {
     EasyLoading.showToast("Equipo número " + idi.toString() + " se cambió de estado.");

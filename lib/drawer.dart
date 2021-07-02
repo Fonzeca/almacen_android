@@ -18,6 +18,7 @@ class MainDrawer extends StatelessWidget{
   bool admin;
   String rol;
   String userId;
+  String username;
   String appTitle;
   Icon leadingArrow;
 
@@ -46,10 +47,11 @@ class MainDrawer extends StatelessWidget{
 
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  MainDrawer (bool admin, String rol, String id, BuildContext context){
+  MainDrawer (bool admin, String rol, String id, String username, BuildContext context){
     this.admin = admin;
     this.rol = rol;
     this.userId = id;
+    this.username = username;
     BlocProvider.of<NavigatorBloc>(context).add(NavigatorEventPushPage(0));
   }
 
@@ -89,11 +91,15 @@ class MainDrawer extends StatelessWidget{
             break;
           case 10:
             appTitle="Lista de Equipos";
+            bool administrador = false;
+            if(rol == "Administrador Tecnica" || rol == "SuperAdmin"){
+              administrador = true;
+            }
             if(state.parametro != null){
-              body = ListaEquipos(equipo: state.parametro,);
+              body = ListaEquipos(equipo: state.parametro, admn: administrador, username: username);
               break;
             }
-            body = ListaEquipos();
+            body = ListaEquipos(admn: administrador, username: username);
             break;
           case 11:
             appTitle="Lista de Registros";
@@ -273,6 +279,7 @@ class MainDrawer extends StatelessWidget{
           _divider(),
           _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
           SizedBox(height: 20.0,),
+          _divider(),
           _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
         ],
       );
@@ -282,8 +289,10 @@ class MainDrawer extends StatelessWidget{
         children: [
           _bloqueAlmacen(true, true, true, state, context),
           _divider(),
+          _bloqueTecnica(true, state, context),
           _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
           SizedBox(height: 20.0,),
+          _divider(),
           _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
         ],
       );
@@ -297,6 +306,7 @@ class MainDrawer extends StatelessWidget{
           _divider(),
           _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
           SizedBox(height: 20.0,),
+          _divider(),
           _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
         ],
       );
@@ -327,6 +337,7 @@ class MainDrawer extends StatelessWidget{
           _divider(),
           _drawerItem("Scannear", Icon(Icons.qr_code), 50, state.values, context),
           SizedBox(height: 20.0,),
+          _divider(),
           _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
         ],
       );
@@ -337,6 +348,7 @@ class MainDrawer extends StatelessWidget{
           _bloqueAlmacen(true, false, false, state, context),
           _divider(),
           SizedBox(height: 20.0,),
+          _divider(),
           _drawerItem("Cerrar Sesión", Icon(Icons.logout), 99, state.values, context),
         ],
       );
